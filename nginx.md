@@ -92,4 +92,43 @@ http://localhost
 
 * Se aparecer a **página padrão do NGINX**, tudo está certo!
 
+---
+
+# Como o NGINX e o Computador Sabem o que é "localhost"?
+
+## O que é "localhost"?
+
+* **"localhost"** é um **nome** usado para se referir **à própria máquina** onde você está.
+* Quando você acessa `http://localhost`, na verdade está acessando seu próprio computador.
+
+## Como o computador entende isso?
+
+* Todo sistema operacional tem um **arquivo de hosts**.
+* Esse arquivo **faz a ligação** entre **nomes** (como "localhost") e **endereços IP**.
+
+## Onde fica o arquivo de hosts?
+
+* **Linux**: `/etc/hosts`
+* **MacOS**: `/private/etc/hosts`
+* **Windows**: `C:\Windows\System32\Drivers\Etc\hosts`
+
+## O que tem nesse arquivo?
+
+* Dentro desse arquivo, existe uma linha como esta:
+
+  ```
+  127.0.0.1    localhost
+  ```
+
+* Isso significa: **sempre que alguém tentar acessar "localhost", o sistema vai redirecionar para o IP 127.0.0.1** (que é o IP da própria máquina).
+
+## Conclusão
+
+* Quando você digita `http://localhost` no navegador:
+
+  * O sistema olha no arquivo de hosts.
+  * Vê que "localhost" aponta para `127.0.0.1`.
+  * Manda a requisição para `127.0.0.1`, onde o NGINX está rodando e responde com a página HTML padrão.
+
+
 
