@@ -254,111 +254,103 @@ Organizei tudo no mesmo estilo claro e didático que estamos seguindo:
 
 # Passos para configurar seu próprio servidor
 
-### 1. Criar a configuração no `sites-available`
 
-* Crie um novo arquivo:
+**1. Instale o NGINX**
 
 ```bash
-sudo nano /etc/nginx/sites-available/meusite.conf
+sudo apt update
+sudo apt install nginx
 ```
 
-* Escreva a seguinte configuração:
+**2. Crie um diretório para o seu site**
+
+Por padrão, os arquivos ficam em `/var/www/html`, mas você pode criar outro diretório se quiser, por exemplo:
+
+```bash
+sudo mkdir -p /var/www/meusite
+sudo chown -R $USER:$USER /var/www/meusite
+```
+
+**3. Crie sua página HTML**
+
+```bash
+nano /var/www/meusite/index.html
+```
+
+Exemplo de conteúdo:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Site NGINX</title>
+</head>
+<body>
+    <h1>Servidor Web com NGINX no Ubuntu</h1>
+    <p>Funcionando!</p>
+</body>
+</html>
+```
+
+Salve e feche o arquivo (Ctrl+O, Enter, depois Ctrl+X).
+
+**4. Crie um arquivo de configuração para o seu site**
+
+```bash
+sudo nano /etc/nginx/sites-available/meusite
+```
+
+Cole o seguinte conteúdo (ajuste `server_name` se quiser usar um domínio):
 
 ```nginx
 server {
     listen 80;
     server_name localhost;
 
+    root /var/www/meusite;
+    index index.html;
+
     location / {
-        root /var/www/html;
-        index index.html;
+        try_files $uri $uri/ =404;
     }
 }
 ```
 
-> Substitua `/var/www/html` pelo **caminho absoluto** onde estão seus arquivos HTML, se for diferente.
+Salve e feche.
 
----
+**5. Ative a configuração do site**
 
-### 2. Ativar a configuração (link simbólico)
-
-* Ative o site criando um **link simbólico**:
+Crie um link simbólico em `sites-enabled`:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/meusite.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/meusite /etc/nginx/sites-enabled/
 ```
 
-Assim, o NGINX reconhecerá o novo servidor.
+**6. Remova a configuração padrão se não precisar**
 
----
+```bash
+sudo rm /etc/nginx/sites-enabled/default
+```
 
-### 3. Verificar a configuração do NGINX
+(Se não existir, ignore o erro.)
 
-Antes de recarregar o serviço, teste se tudo está certo:
+**7. Teste a configuração**
 
 ```bash
 sudo nginx -t
 ```
 
-* Se aparecer `syntax is ok` e `test is successful`, está tudo certo.
+Se mostrar "syntax is ok", prossiga.
 
----
-
-### 4. Recarregar o NGINX
-
-Agora aplique a nova configuração:
+**8. Reinicie o NGINX**
 
 ```bash
-sudo systemctl reload nginx
+sudo systemctl restart nginx
 ```
 
----
+**9. Acesse seu site**
 
-# Estrutura de Pastas (no seu caso)
-
-```
-/etc/nginx/
-│
-├── nginx.conf (arquivo principal)
-│
-├── sites-available/
-│    └── meusite.conf   ← Onde você cria os novos servidores
-│
-├── sites-enabled/
-│    └── meusite.conf → Link simbólico para sites-available/meusite.conf
-│
-├── conf.d/
-├── snippets/
-└── outros arquivos...
-```
-
----
-
-# Entendendo os Arquivos
-
-| Pasta              | Função                                                                    |
-| :----------------- | :------------------------------------------------------------------------ |
-| `sites-available/` | Onde ficam todas as configurações de sites (ativas ou não).               |
-| `sites-enabled/`   | Contém **links simbólicos** para os sites realmente habilitados no NGINX. |
-| `conf.d/`          | Normalmente usada para configurações globais ou adicionais.               |
-
----
-
-# Observação importante
-
-* Cada novo **servidor (site)** que você criar deve ter um novo arquivo `.conf` em `sites-available/`.
-* **Sempre criar o link simbólico** para `sites-enabled/`.
-* **Nunca** edite diretamente o `nginx.conf`, apenas se precisar alterar algo geral do servidor.
-
----
-
-# Resumo do processo:
-
-1. Criar o arquivo no `/etc/nginx/sites-available/`
-2. Criar o link simbólico para `/etc/nginx/sites-enabled/`
-3. Testar com `sudo nginx -t`
-4. Recarregar com `sudo systemctl reload nginx`
-5. Acessar `http://localhost` no navegador
+Abra o navegador e acesse `http://localhost` ou o IP da máquina.
 
 ---
 
