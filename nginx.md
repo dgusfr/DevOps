@@ -197,6 +197,23 @@ vim /etc/nginx/nginx.conf
   * Define o que fazer quando o navegador pedir `/` (raiz).
   * Indica que deve buscar o arquivo padrão `index.html` ou `index.htm` em uma **pasta HTML** definida no caminho padrão.
 
+
+**Resumo Visual:**
+
+```
+nginx.conf
+│
+├── worker_processes
+├── worker_connections
+├── http {
+│    ├── server {
+│         ├── listen (porta)
+│         ├── server_name (nome)
+│         ├── location / (busca index.html)
+│    }
+│ }
+```
+
 ## Testando a página padrão
 
 1. Localize a pasta HTML (no exemplo: `/usr/local/Cellar/nginx/html/`).
@@ -222,21 +239,7 @@ vim /etc/nginx/nginx.conf
 
 ---
 
-**Resumo Visual:**
 
-```
-nginx.conf
-│
-├── worker_processes
-├── worker_connections
-├── http {
-│    ├── server {
-│         ├── listen (porta)
-│         ├── server_name (nome)
-│         ├── location / (busca index.html)
-│    }
-│ }
-```
 
 ---
 
