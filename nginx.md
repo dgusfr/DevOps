@@ -148,6 +148,7 @@ nginx -h
   * **Opções de uso** disponíveis.
   * **Caminhos importantes**: onde estão as configurações, logs, e arquivos HTML.
 
+![alt text](images/image2.png)
 
 ### Atenção:
 
