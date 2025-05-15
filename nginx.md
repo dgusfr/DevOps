@@ -173,7 +173,7 @@ vim /etc/nginx/nginx.conf
 
     * Define quantos processos trabalhadores o NGINX vai criar.
     * `1` significa um processo só. Se configurado como `auto`, ele cria um worker por núcleo de CPU.
-    
+
   * **worker\_connections**:
 
     * Número máximo de **conexões simultâneas** por worker.
@@ -181,9 +181,7 @@ vim /etc/nginx/nginx.conf
 
 ---
 
-# Configurações de Servidor HTTP no NGINX
-
-## Principais comandos encontrados
+## Configurações de Servidor HTTP no NGINX
 
 * **listen**:
 
@@ -201,9 +199,11 @@ vim /etc/nginx/nginx.conf
 
 ## Testando a página padrão
 
-1. Localize a pasta HTML (no exemplo: `/usr/local/Cellar/nginx/1.19.8/html/`).
+1. Localize a pasta HTML (no exemplo: `/usr/local/Cellar/nginx/html/`).
 2. Edite o arquivo `index.html`.
 3. Faça alterações, salve e atualize o navegador para ver as mudanças.
+
+![alt text](iamges/image3.png)
 
 ---
 
