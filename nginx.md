@@ -203,7 +203,7 @@ vim /etc/nginx/nginx.conf
 2. Edite o arquivo `index.html`.
 3. Faça alterações, salve e atualize o navegador para ver as mudanças.
 
-![alt text](iamges/image3.png)
+![alt text](images/image3.png)
 
 ---
 
