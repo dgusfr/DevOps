@@ -31,9 +31,7 @@
 
 ---
 
-
-
-# Como verificar se o NGINX está instalado no Ubuntu, instalar e configurar
+# Instalando o NGINX 
 
 ### 1. Verificar se o NGINX está instalado
 
