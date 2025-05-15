@@ -31,7 +31,7 @@
 
 ---
 
-Agora, como você pediu também, aqui está o **passo a passo** para:
+
 
 # Como verificar se o NGINX está instalado no Ubuntu, instalar e configurar
 
