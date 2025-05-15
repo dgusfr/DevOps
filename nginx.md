@@ -90,6 +90,7 @@ http://localhost
 
 * Se aparecer a **página padrão do NGINX**, tudo está certo!
 
+![alt text](images/image.png)
 ---
 
 # Como o NGINX e o Computador Sabem o que é "localhost"?
