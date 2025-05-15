@@ -153,13 +153,18 @@ nginx -h
 ### Atenção:
 
 * Cada sistema pode ter caminhos diferentes.
-* No exemplo dado: `/usr/local/etc/nginx/nginx.conf`.
 
 ---
 
 # Analisando o Arquivo Principal de Configuração: `nginx.conf`
 
 ## Estrutura do `nginx.conf`
+
+Usamos o comando a baixo para editar o arquivo principal de configuração do NGINX.
+
+```bash
+vim /etc/nginx/nginx.conf
+```
 
 * Linhas que começam com `#` são **comentários** (não são executadas).
 * Principais pontos do arquivo:
@@ -168,6 +173,7 @@ nginx -h
 
     * Define quantos processos trabalhadores o NGINX vai criar.
     * `1` significa um processo só. Se configurado como `auto`, ele cria um worker por núcleo de CPU.
+    
   * **worker\_connections**:
 
     * Número máximo de **conexões simultâneas** por worker.
