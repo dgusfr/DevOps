@@ -130,4 +130,107 @@ http://localhost
   * Manda a requisição para `127.0.0.1`, onde o NGINX está rodando e responde com a página HTML padrão.
 
 
+---
+
+# Configuração Inicial do NGINX
+
+## Como obter informações sobre o NGINX
+
+* No terminal, rodamos:
+
+```bash
+nginx -h
+```
+
+* Esse comando mostra:
+
+  * A **versão** instalada.
+  * **Opções de uso** disponíveis.
+  * **Caminhos importantes**: onde estão as configurações, logs, e arquivos HTML.
+
+
+### Atenção:
+
+* Cada sistema pode ter caminhos diferentes.
+* No exemplo dado: `/usr/local/etc/nginx/nginx.conf`.
+
+---
+
+# Analisando o Arquivo Principal de Configuração: `nginx.conf`
+
+## Estrutura do `nginx.conf`
+
+* Linhas que começam com `#` são **comentários** (não são executadas).
+* Principais pontos do arquivo:
+
+  * **worker\_processes**:
+
+    * Define quantos processos trabalhadores o NGINX vai criar.
+    * `1` significa um processo só. Se configurado como `auto`, ele cria um worker por núcleo de CPU.
+  * **worker\_connections**:
+
+    * Número máximo de **conexões simultâneas** por worker.
+    * No Linux, tudo é tratado como arquivo: conexões, sockets, pastas etc.
+
+---
+
+# Configurações de Servidor HTTP no NGINX
+
+## Principais comandos encontrados
+
+* **listen**:
+
+  * Define qual **porta** o servidor vai ouvir (exemplo: `8080`).
+* **server\_name**:
+
+  * Define qual **nome de servidor** será aceito (exemplo: `localhost`).
+
+> Em servidores reais, configuramos aqui o **nome de domínio** (ex.: `meusite.com`).
+
+* **location /**:
+
+  * Define o que fazer quando o navegador pedir `/` (raiz).
+  * Indica que deve buscar o arquivo padrão `index.html` ou `index.htm` em uma **pasta HTML** definida no caminho padrão.
+
+## Testando a página padrão
+
+1. Localize a pasta HTML (no exemplo: `/usr/local/Cellar/nginx/1.19.8/html/`).
+2. Edite o arquivo `index.html`.
+3. Faça alterações, salve e atualize o navegador para ver as mudanças.
+
+---
+
+# Boas práticas de configuração
+
+* **Evitar editar diretamente** o `nginx.conf` principal para criar novos servidores.
+* Para novos sites ou servidores:
+
+  * Usar a pasta `servers` (ou `sites-available`/`sites-enabled` em distribuições Linux).
+  * Criar **arquivos de configuração separados** para cada servidor (chamados de "virtual hosts").
+
+## Criação de um novo servidor no próximo passo
+
+* Será configurado para ouvir em uma **porta diferente** (80 ou 8080).
+* Terá um **arquivo HTML próprio** para responder as requisições.
+
+---
+
+**Resumo Visual:**
+
+```
+nginx.conf
+│
+├── worker_processes
+├── worker_connections
+├── http {
+│    ├── server {
+│         ├── listen (porta)
+│         ├── server_name (nome)
+│         ├── location / (busca index.html)
+│    }
+│ }
+```
+
+---
+
 
