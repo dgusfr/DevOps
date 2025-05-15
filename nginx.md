@@ -232,15 +232,122 @@ nginx.conf
   * Usar a pasta `servers` (ou `sites-available`/`sites-enabled` em distribuições Linux).
   * Criar **arquivos de configuração separados** para cada servidor (chamados de "virtual hosts").
 
-## Criação de um novo servidor no próximo passo
-
-* Será configurado para ouvir em uma **porta diferente** (80 ou 8080).
-* Terá um **arquivo HTML próprio** para responder as requisições.
 
 ---
 
-
+Aqui está a transcrição que você mandou organizada como **apostila**, seguindo o mesmo padrão didático e direto que estamos mantendo:
 
 ---
+
+# Configurando um Novo Servidor no NGINX do Zero
+
+## Onde criar a nova configuração
+
+* O arquivo principal do NGINX (`nginx.conf`) normalmente **inclui** configurações adicionais de outro diretório, como:
+
+  * `/etc/nginx/sites-available/`
+  * `/etc/nginx/sites-enabled/`
+  * `/usr/local/etc/nginx/servers/`
+* Em instalações simples, pode existir um único arquivo chamado **`default.conf`**.
+
+## Passos para configurar
+
+### 1. Localizar a pasta de servidores
+
+* Exemplo de caminho encontrado: `/usr/local/etc/nginx/servers/`
+* Verifique com:
+
+```bash
+ls /usr/local/etc/nginx/
+```
+
+ou usando a tecla `Tab` para auto-completar no terminal.
+
+### 2. Criar o arquivo de configuração
+
+* Crie um novo arquivo (exemplo: `default.conf`):
+
+```bash
+sudo vim /usr/local/etc/nginx/servers/default.conf
+```
+
+ou substitua o editor por outro de sua preferência (como `nano`).
+
+* Estrutura básica do novo servidor:
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        root /caminho/absoluto/para/seus/arquivos;
+        index index.html;
+    }
+}
+```
+
+### Explicação:
+
+| Diretiva                  | Significado                                                                                           |
+| :------------------------ | :---------------------------------------------------------------------------------------------------- |
+| `listen 80;`              | O servidor irá ouvir a **porta 80** (HTTP padrão). Se a porta 80 já estiver em uso, altere para 8080. |
+| `server_name localhost;`  | O servidor responde quando acessar **localhost** no navegador.                                        |
+| `location / {}`           | Instruções para requisições que chegam na raiz (`/`).                                                 |
+| `root /caminho/absoluto;` | Pasta onde os **arquivos estáticos** (HTML, imagens, etc.) estarão armazenados.                       |
+| `index index.html;`       | Arquivo que será **carregado automaticamente** ao acessar apenas o domínio, sem rota específica.      |
+
+> Importante: use **caminho absoluto** no `root`, começando por `/` no Linux/Mac ou `C:/` no Windows.
+
+---
+
+# Entendendo as Boas Práticas
+
+* **Evitar caminhos com espaços** no nome das pastas.
+* **Separar** o diretório dos arquivos do diretório de configuração do NGINX.
+* Para cada novo site ou servidor, crie **um novo arquivo de configuração**.
+
+---
+
+# Primeiro Teste no Navegador
+
+* Após salvar o `default.conf`, acesse:
+
+```
+http://localhost
+```
+
+ou
+
+```
+http://localhost:80
+```
+
+* Esperado:
+
+  * Se houver um `index.html` correto na pasta indicada, ele será carregado.
+  * Se não houver, o navegador exibirá erro (como **404 Not Found**).
+
+> Se der erro de conexão recusada, não significa que a configuração está errada — pode ser necessário **reiniciar o NGINX** ou revisar a ativação do novo servidor.
+> Isso será abordado no próximo tópico.
+
+---
+
+**Resumo Visual:**
+
+```
+/usr/local/etc/nginx/
+│
+├── nginx.conf (arquivo principal)
+│    └── include servers/*.conf
+│
+└── servers/
+     └── default.conf (nosso novo servidor criado)
+```
+
+---
+
+Se quiser, eu já deixo preparado o próximo tópico também (corrigindo o erro de conexão e recarregando o NGINX).
+Quer que eu já continue no mesmo formato?
 
 
