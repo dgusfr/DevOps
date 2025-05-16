@@ -112,6 +112,12 @@ A imagem a cima ilustra como um API Gateway gerencia as requisições que chegam
 12. **Cache**
     Respostas a requisições frequentes são armazenadas temporariamente para agilizar futuras chamadas.
 
+## Desvantagens
+
+Uma desvantagem importante do uso de um **API Gateway** é que ele pode se tornar um **ponto único de falha** na arquitetura do sistema. Isso significa que, se o servidor responsável pelo gateway apresentar lentidão, instabilidade ou falhar completamente, toda a aplicação pode ser afetada, já que todas as requisições passam por ele. 
+
+Como o API Gateway centraliza o tráfego e a lógica de encaminhamento das requisições para os microsserviços, qualquer sobrecarga ou falha nesse ponto pode resultar em **downtime generalizado** da aplicação. Por isso, é fundamental monitorar constantemente o desempenho do gateway e adotar estratégias de alta disponibilidade para garantir a resiliência da infraestrutura.
+
 
 ## Resumindo
 
