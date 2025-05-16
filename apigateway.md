@@ -10,7 +10,9 @@ Em vez de o cliente se comunicar diretamente com cada serviço individual, todas
 
 ### Esquema Simplificado:
 
-![alt text](images/image6.png)
+```
+Cliente (App/Web) → API Gateway → Diversos Serviços Internos (APIs)
+```
 
 ## Principais Funções do API Gateway
 
@@ -66,15 +68,52 @@ API Gateway
 * **Proxy Reverso:** Faz apenas o encaminhamento de requisições externas para servidores internos, com funções como balanceamento de carga e cache, mas não entende o contexto das APIs.
 * **API Gateway:** Vai além do proxy reverso, oferecendo funcionalidades específicas para APIs, como autenticação, agregação de respostas, limitação de requisições, transformação de dados, entre outros.
 
-## Vantagens de Usar um API Gateway
+## Arquitetura de uma API Gateway
 
-* Centraliza e padroniza o acesso às APIs
-* Facilita a implementação de políticas de segurança e autenticação
-* Reduz a complexidade do cliente, que precisa se conectar a apenas um ponto
-* Melhora a escalabilidade e a manutenção dos sistemas
+![alt text](images/image6.png)
+
+A imagem a cima ilustra como um API Gateway gerencia as requisições que chegam de diversos clientes (aplicações web, mobile, PCs) até os microsserviços internos de uma aplicação.
+
+### **Fluxo Passo a Passo do API Gateway**
+
+1. **O Cliente faz uma requisição HTTP**
+   Aplicações Web, Mobile ou PC enviam solicitações para o sistema, como `/cadastro`.
+
+2. **Validação de Parâmetros (Parameter Validation)**
+   O API Gateway verifica se os parâmetros da requisição são válidos (formato, obrigatoriedade etc.).
+
+3. **Lista de Permissões/Bloqueios (Allow-list/Deny-list)**
+   Verifica se o cliente tem permissão ou está bloqueado para acessar o recurso.
+
+4. **Autenticação e Autorização (Authentication/Authorization)**
+   Confirma a identidade do cliente e verifica se ele tem permissão para a ação solicitada.
+
+5. **Limitação de Taxa (Rate Limit)**
+   Controla o número de requisições permitidas por cliente em um período de tempo.
+
+6. **Roteamento Dinâmico (Dynamic Routing)**
+   Encaminha a requisição ao microsserviço correto com base na URL ou regras internas.
+
+7. **Descoberta de Serviços (Service Discovery)**
+   Identifica dinamicamente onde os microsserviços estão executando na rede.
+
+8. **Conversão de Protocolo (Protocol Conversion)**
+   Converte o protocolo da requisição, se necessário, para compatibilidade com o serviço interno.
+
+9. **Tratamento de Erros (Error Handling)**
+   Garante que falhas sejam tratadas de forma controlada e com retorno adequado ao cliente.
+
+10. **Circuit Break (Interruptor de Circuito)**
+    Desativa temporariamente o envio de requisições para serviços que estão falhando repetidamente.
+
+11. **Registro e Monitoramento (Logging/Monitoring)**
+    Armazena logs e métricas das requisições para análise e auditoria.
+
+12. **Cache**
+    Respostas a requisições frequentes são armazenadas temporariamente para agilizar futuras chamadas.
+
 
 ## Resumindo
 
 O **API Gateway** é o responsável por gerenciar e proteger o tráfego de dados entre clientes e os serviços internos de uma aplicação. Ele proporciona segurança, organização, escalabilidade e simplifica a comunicação em ambientes complexos, sendo indispensável em arquiteturas modernas como microservices.
 
-Se quiser exemplos de ferramentas populares de API Gateway, exemplos de configuração ou uma comparação mais detalhada com outros componentes de rede, é só pedir!
