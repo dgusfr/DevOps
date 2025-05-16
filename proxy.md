@@ -29,4 +29,3 @@ Em uma empresa, todos os computadores estão configurados para acessar a interne
 
 O **proxy de encaminhamento** é um servidor intermediário voltado para proteger, filtrar e controlar o acesso dos clientes à internet, tornando a navegação mais segura, eficiente e conforme as políticas da organização. Ele é um dos principais componentes de segurança e gerenciamento de redes modernas.
 
-Se quiser, posso acrescentar diagramas em texto, exemplos de configuração ou expandir para outros tipos de proxy. Quer aprofundar em algum ponto?
