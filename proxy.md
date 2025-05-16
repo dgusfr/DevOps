@@ -45,7 +45,7 @@ Em outras palavras, os clientes na internet não interagem diretamente com o ser
 
 ### Esquema simplificado:
 
-![alt text](image.png)
+![alt text](images/image5.png)
 
 Fonte: https://www.cloudflare.com/en-gb/learning/cdn/glossary/reverse-proxy/
 
