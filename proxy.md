@@ -108,17 +108,5 @@ Neste exemplo:
 * As requisições feitas para `exemplo.com/app` são encaminhadas ao servidor interno com IP `192.168.1.10`, na porta `3000`.
 * Requisições feitas para `exemplo.com/api` vão para `192.168.1.11` na porta `4000`.
 
-## Diferença Entre Proxy Reverso e Proxy de Encaminhamento
+---
 
-| Aspecto                  | Proxy de Encaminhamento      | Proxy Reverso                  |
-| ------------------------ | ---------------------------- | ------------------------------ |
-| Finalidade               | Representa clientes internos | Representa servidores internos |
-| Fluxo de Comunicação     | Interno → Externo            | Externo → Interno              |
-| Uso típico               | Privacidade, controle acesso | Segurança, balanceamento carga |
-| Visibilidade na internet | Oculta clientes              | Oculta servidores              |
-
-## Resumindo
-
-O **proxy reverso** é uma solução essencial em redes modernas, permitindo gerenciar o tráfego vindo da internet com segurança, eficiência e confiabilidade. Ao centralizar o controle sobre a comunicação externa, protege a infraestrutura interna, otimiza o desempenho e facilita o gerenciamento de recursos tecnológicos.
-
-Quer complementar com mais detalhes técnicos, outros exemplos práticos ou seguir para o próximo tópico?
