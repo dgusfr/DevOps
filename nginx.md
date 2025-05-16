@@ -352,5 +352,16 @@ sudo systemctl restart nginx
 
 Abra o navegador e acesse `http://localhost` ou o IP da máquina.
 
+### Verifique se o NGINX está rodando
+
+```bash
+sudo systemctl status nginx
+```
+
+Se aparecer "inactive" ou "failed", inicie o serviço:
+
+```bash
+sudo systemctl start nginx
+```
 ---
 
