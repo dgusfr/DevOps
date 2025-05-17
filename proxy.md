@@ -123,6 +123,8 @@ O objetivo é **otimizar o desempenho**, **evitar sobrecarga** em um único serv
 
 ![alt text](images/image7.png)
 
+![alt text](images/image8.png)
+
 ---
 
 ## Como Funciona?
