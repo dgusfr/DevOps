@@ -371,7 +371,7 @@ Abaixo segue o passo a passo ajustado para o servidor que você configurou no Ub
 
 ---
 
-## Configuração de Logs no NGINX no Ubuntu
+# Configuração de Logs no NGINX no Ubuntu
 
 ### 1. Diretório para Logs
 
@@ -490,7 +490,7 @@ Agora que os logs estão habilitados e funcionando, o próximo passo é **person
 
 ---
 
-## Formatando os logs 
+# Formatando os logs 
 
 ### 1. Edite o arquivo principal do NGINX
 
@@ -578,10 +578,88 @@ Remote Addr: 127.0.0.1, Time: [17/May/2025:15:10:12 -0300], Request: "GET / HTTP
 
 ---
 
-### Benefícios de um Log Format Personalizado
+### Adicionando Informações com Cabeçalhos Personalizados no NGINX
 
-* **Clareza visual:** fácil leitura para desenvolvedores e operadores
-* **Remoção de ruído:** sem informações desnecessárias
-* **Foco no essencial:** IP, horário, requisição e status
+Quando usamos **NGINX como load balancer ou proxy reverso**, é comum perdermos informações importantes sobre quem fez a requisição original, já que o IP registrado nos logs dos microsserviços será o do próprio proxy (e não do cliente real). Para resolver esse problema, podemos **adicionar cabeçalhos HTTP personalizados** que carreguem essas informações até os serviços de destino.
 
-Se quiser, posso te ajudar a incluir campos específicos depois, como `X-Forwarded-For`, cookies, ou métricas para análise de tráfego. Deseja seguir com isso?
+---
+
+# Adicionando o Cabeçalho no Proxy 
+
+Abra o arquivo de configuração do seu load balancer, por exemplo:
+
+```bash
+sudo nano /etc/nginx/sites-available/load-balancer
+```
+
+Dentro do bloco `location`, adicione a diretiva `proxy_set_header` com um nome de cabeçalho personalizado:
+
+```nginx
+location / {
+    proxy_pass http://localhost:8001;  # ou o endereço do serviço de destino
+    proxy_set_header X-Real-IP $remote_addr;
+}
+```
+
+### Explicando:
+
+* **`proxy_set_header`**: insere ou substitui um cabeçalho HTTP enviado na requisição.
+* **`X-Real-IP`**: é um nome comum para representar o IP original do cliente.
+* **`$remote_addr`**: variável interna do NGINX que contém o IP do remetente da requisição atual (neste caso, o cliente real).
+
+---
+
+## 📝 Etapa 2: Capturando o Cabeçalho no Log do Serviço
+
+Agora edite o `nginx.conf` (arquivo principal) para alterar o formato do log:
+
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
+
+Substitua `$remote_addr` por `$http_x_real_ip` no `log_format`:
+
+```nginx
+log_format main 'Client IP: $http_x_real_ip, '
+                'Time: [$time_local], '
+                'Request: "$request", '
+                'Status: $status;';
+```
+
+### Por que `$http_x_real_ip`?
+
+* O NGINX converte nomes de cabeçalhos em variáveis usando o padrão:
+  **`$http_` + nome\_do\_cabecalho\_em\_minúsculas\_com\_underscores\`**
+* Exemplo: `X-Real-IP` → `$http_x_real_ip`
+
+---
+
+## 💾 Etapa 3: Aplicando e Testando
+
+### Nos serviços (como `meusite`), aponte para o formato de log `main`:
+
+```nginx
+access_log /var/log/nginx/meusite/access.log main;
+```
+
+### Depois, teste e recarregue o NGINX:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+---
+
+## ✅ Resultado Esperado
+
+Agora, mesmo que a requisição passe por um load balancer ou proxy, os logs dos microsserviços mostrarão o **IP real do cliente**, com entradas como:
+
+```
+Client IP: 192.168.0.57, Time: [17/May/2025:16:04:12 -0300], Request: "GET / HTTP/1.1", Status: 200;
+```
+
+---
+
+
+
