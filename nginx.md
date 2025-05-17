@@ -371,7 +371,7 @@ Abaixo segue o passo a passo ajustado para o servidor que você configurou no Ub
 
 ---
 
-## Passo a Passo: Configuração de Logs no NGINX no Ubuntu
+## Configuração de Logs no NGINX no Ubuntu
 
 ### 1. Diretório para Logs
 
