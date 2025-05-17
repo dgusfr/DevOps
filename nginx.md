@@ -365,3 +365,121 @@ sudo systemctl start nginx
 ```
 ---
 
+### Correção e Adaptação do Passo a Passo de Configuração dos Logs para seu servidor NGINX no Ubuntu
+
+Abaixo segue o passo a passo ajustado para o servidor que você configurou no Ubuntu (considerando o diretório `/var/www/meusite`):
+
+---
+
+## Passo a Passo: Configuração de Logs no NGINX no Ubuntu
+
+### 1. Diretório para Logs
+
+Crie o diretório específico para armazenar os logs do seu site com permissões corretas:
+
+```bash
+sudo mkdir -p /var/log/nginx/meusite
+sudo chown -R www-data:www-data /var/log/nginx/meusite
+```
+
+---
+
+### 2. Configure o Formato do Log no NGINX
+
+Edite o arquivo principal do NGINX para habilitar um formato padrão de logs:
+
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
+
+Verifique ou adicione a linha abaixo dentro do bloco `http {}`:
+
+```nginx
+http {
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+}
+```
+
+Salve (`Ctrl + O`) e feche (`Ctrl + X`).
+
+---
+
+### 3. Configure o `access_log` no site específico
+
+Edite a configuração do seu site já existente (`meusite`):
+
+```bash
+sudo nano /etc/nginx/sites-available/meusite
+```
+
+Modifique o conteúdo adicionando as linhas referentes ao `access_log` e ao `error_log`:
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+
+    root /var/www/meusite;
+    index index.html;
+
+    access_log /var/log/nginx/meusite/access.log main;
+    error_log /var/log/nginx/meusite/error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+Salve e feche o arquivo.
+
+---
+
+### 4. Teste e recarregue a configuração do NGINX
+
+Verifique a sintaxe da sua configuração:
+
+```bash
+sudo nginx -t
+```
+
+Se estiver correto, recarregue as configurações:
+
+```bash
+sudo systemctl reload nginx
+```
+
+---
+
+### 5. Visualize os Logs em tempo real
+
+Agora, você pode monitorar os logs do seu site assim:
+
+```bash
+tail -f /var/log/nginx/meusite/access.log
+```
+
+E para os erros:
+
+```bash
+tail -f /var/log/nginx/meusite/error.log
+```
+
+---
+
+### Observação Importante: IPs reais com Proxy Reverso
+
+Se futuramente você usar o NGINX como proxy reverso, adicione o cabeçalho `X-Forwarded-For` para capturar o IP real do usuário original:
+
+```nginx
+location / {
+    proxy_pass http://IP_SERVICO_INTERNO;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+```
+
+E ajuste o formato do log para capturar o cabeçalho `X-Forwarded-For`, como já mostrado acima.
+
+---
