@@ -172,42 +172,32 @@ O cliente não sabe quantos servidores existem nem com qual está se comunicando
 
 ---
 
-## Load Balancer vs. API Gateway
-
-| Aspecto                 | Load Balancer        | API Gateway                              |
-| ----------------------- | -------------------- | ---------------------------------------- |
-| Função principal        | Distribuir tráfego   | Gerenciar acesso e lógica de APIs        |
-| Camada de atuação       | L4 e L7              | Principalmente L7                        |
-| Inteligência de negócio | Simples (roteamento) | Alta (autenticação, cache, logging etc.) |
-| Conhecimento de APIs    | Não                  | Sim                                      |
-
----
-
 ## Exemplo com NGINX (Load Balancing e Proxy Reverso)
 
 O NGINX pode atuar como **proxy reverso com balanceamento de carga**. Exemplo de configuração simples:
 
 ```nginx
 http {
-    upstream backend {
-        server servidor1.exemplo.com;
-        server servidor2.exemplo.com;
-        server servidor3.exemplo.com;
+    upstream servicos {
+        server localhost:8001;
+        server localhost:8002;
     }
 
     server {
-        listen 80;
+        listen 8000;
         location / {
-            proxy_pass http://backend;
+            proxy_pass http://servicos;
         }
     }
 }
 ```
 
-Nesse exemplo, o NGINX distribui requisições entre os três servidores configurados, funcionando como **load balancer** e **proxy reverso** ao mesmo tempo.
+Nesse exemplo, o NGINX distribui requisições entre os dois servidores configurados, funcionando como **load balancer** e **proxy reverso** ao mesmo tempo.
 
 ---
 
 ## Resumindo
 
 O **load balancer** é um componente crítico para garantir que sistemas web modernos sejam resilientes, rápidos e escaláveis. Ele distribui as requisições entre servidores de maneira eficiente, evitando sobrecargas e mantendo a disponibilidade dos serviços. Quando combinado com outras ferramentas, como API Gateways e proxies reversos, ele forma a base de infraestruturas robustas e modernas.
+
+---
