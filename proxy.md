@@ -110,3 +110,102 @@ Neste exemplo:
 
 ---
 
+# Load Balancer (Balanceador de Carga)
+
+O **Load Balancer**, ou **balanceador de carga**, distribui o tráfego de rede ou de aplicações de forma equilibrada entre múltiplos servidores ou serviços. 
+
+O objetivo é **otimizar o desempenho**, **evitar sobrecarga** em um único servidor e **garantir a continuidade do serviço** mesmo em caso de falha em um dos destinos.
+
+
+## O que é Load Balancing?
+
+**Load balancing** significa **distribuir automaticamente as requisições dos usuários** (como acessos a sites, APIs ou sistemas) entre diversos servidores disponíveis. Essa técnica ajuda a manter o sistema responsivo e confiável, mesmo sob grande volume de tráfego ou quando algum servidor falha.
+
+![alt text](images/image7.png)
+
+---
+
+## Como Funciona?
+
+O **load balancer** fica na frente de um conjunto de servidores e decide **para qual servidor** cada requisição será enviada com base em algoritmos específicos, como:
+
+* **Round Robin**: distribui as requisições em ordem sequencial entre os servidores.
+* **Least Connections**: direciona a requisição para o servidor com menos conexões ativas.
+* **IP Hash**: usa o IP do cliente para determinar qual servidor receberá a requisição, útil para manter sessões persistentes.
+
+---
+
+## Esquema Simplificado
+
+```
+Clientes
+   │
+   ▼
+Load Balancer
+ ┌────┬────┬────┐
+ ▼    ▼    ▼
+S1   S2   S3  (Servidores)
+```
+
+O cliente não sabe quantos servidores existem nem com qual está se comunicando. Toda a lógica de distribuição fica sob responsabilidade do balanceador.
+
+---
+
+## Tipos de Load Balancing
+
+1. **Baseado em Camada 4 (L4)**
+   Atua na camada de transporte (TCP/UDP), roteando o tráfego com base em informações como IP e porta. É mais rápido, mas menos inteligente quanto ao conteúdo das requisições.
+
+2. **Baseado em Camada 7 (L7)**
+   Atua na camada de aplicação (HTTP/HTTPS), permitindo decisões baseadas em conteúdo da requisição, como URL, cookies ou cabeçalhos. É ideal para aplicações web.
+
+---
+
+## Benefícios do Load Balancing
+
+* **Alta disponibilidade**: se um servidor falha, o tráfego é redirecionado para os demais.
+* **Escalabilidade**: permite adicionar ou remover servidores sem afetar os usuários.
+* **Desempenho otimizado**: evita sobrecarga concentrada em um único servidor.
+* **Melhoria na experiência do usuário**: reduz latência e evita quedas.
+
+---
+
+## Load Balancer vs. API Gateway
+
+| Aspecto                 | Load Balancer        | API Gateway                              |
+| ----------------------- | -------------------- | ---------------------------------------- |
+| Função principal        | Distribuir tráfego   | Gerenciar acesso e lógica de APIs        |
+| Camada de atuação       | L4 e L7              | Principalmente L7                        |
+| Inteligência de negócio | Simples (roteamento) | Alta (autenticação, cache, logging etc.) |
+| Conhecimento de APIs    | Não                  | Sim                                      |
+
+---
+
+## Exemplo com NGINX (Load Balancing e Proxy Reverso)
+
+O NGINX pode atuar como **proxy reverso com balanceamento de carga**. Exemplo de configuração simples:
+
+```nginx
+http {
+    upstream backend {
+        server servidor1.exemplo.com;
+        server servidor2.exemplo.com;
+        server servidor3.exemplo.com;
+    }
+
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+}
+```
+
+Nesse exemplo, o NGINX distribui requisições entre os três servidores configurados, funcionando como **load balancer** e **proxy reverso** ao mesmo tempo.
+
+---
+
+## Resumindo
+
+O **load balancer** é um componente crítico para garantir que sistemas web modernos sejam resilientes, rápidos e escaláveis. Ele distribui as requisições entre servidores de maneira eficiente, evitando sobrecargas e mantendo a disponibilidade dos serviços. Quando combinado com outras ferramentas, como API Gateways e proxies reversos, ele forma a base de infraestruturas robustas e modernas.
