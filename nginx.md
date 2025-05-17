@@ -483,3 +483,105 @@ location / {
 E ajuste o formato do log para capturar o cabeçalho `X-Forwarded-For`, como já mostrado acima.
 
 ---
+
+### Personalização do Formato dos Logs no NGINX
+
+Agora que os logs estão habilitados e funcionando, o próximo passo é **personalizar o formato** desses registros para torná-los mais **claros, enxutos e úteis** durante a análise. O NGINX permite isso por meio da diretiva `log_format`.
+
+---
+
+## Formatando os logs 
+
+### 1. Edite o arquivo principal do NGINX
+
+Abra o arquivo `nginx.conf` para definir um formato de log personalizado:
+
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
+
+Localize o bloco `http {}` e defina ou edite a diretiva `log_format` com uma estrutura mais limpa, como abaixo:
+
+```nginx
+http {
+    log_format main 'Remote Addr: $remote_addr, '
+                    'Time: [$time_local], '
+                    'Request: "$request", '
+                    'Status: $status;';
+    
+    # outras diretivas...
+}
+```
+
+### Explicando os campos usados:
+
+* `$remote_addr`: IP de quem fez a requisição
+* `$time_local`: Data e hora da requisição
+* `$request`: Método, URL e versão HTTP
+* `$status`: Código de status HTTP da resposta
+
+### Campos Removidos:
+
+* `$remote_user`: Geralmente não é utilizado e fica sempre vazio
+* `$body_bytes_sent`: Pouco útil em muitos casos simples
+* `$http_user_agent`, `$http_referer`, `$http_x_forwarded_for`: Removidos para simplificar visualmente os logs
+
+---
+
+### 2. Aplique o formato no `access_log` do site
+
+No arquivo do seu site, já criado em:
+
+```bash
+sudo nano /etc/nginx/sites-available/meusite
+```
+
+Inclua o `main` como nome do formato no `access_log`:
+
+```nginx
+access_log /var/log/nginx/meusite/access.log main;
+```
+
+Se você já tiver essa linha, apenas adicione `main` ao final, como acima.
+
+---
+
+### 3. Teste a sintaxe e recarregue o NGINX
+
+Verifique se não há erros de configuração:
+
+```bash
+sudo nginx -t
+```
+
+Se tudo estiver correto, recarregue o NGINX:
+
+```bash
+sudo systemctl reload nginx
+```
+
+---
+
+### 4. Verifique os logs
+
+Com o novo formato em vigor, você pode visualizar os logs com:
+
+```bash
+tail -f /var/log/nginx/meusite/access.log
+```
+
+Você verá entradas no formato:
+
+```
+Remote Addr: 127.0.0.1, Time: [17/May/2025:15:10:12 -0300], Request: "GET / HTTP/1.1", Status: 200;
+```
+
+---
+
+### Benefícios de um Log Format Personalizado
+
+* **Clareza visual:** fácil leitura para desenvolvedores e operadores
+* **Remoção de ruído:** sem informações desnecessárias
+* **Foco no essencial:** IP, horário, requisição e status
+
+Se quiser, posso te ajudar a incluir campos específicos depois, como `X-Forwarded-For`, cookies, ou métricas para análise de tráfego. Deseja seguir com isso?
