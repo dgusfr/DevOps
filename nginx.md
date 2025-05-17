@@ -1,5 +1,46 @@
 # NGINX 
 
+# Sumário Interativo
+
+- [NGINX](#nginx)
+  - [O que é o NGINX?](#o-que-é-o-nginx)
+  - [Função do NGINX](#função-do-nginx)
+  - [Diferença entre NGINX e Apache](#diferença-entre-nginx-e-apache)
+  - [Por que o NGINX é rápido?](#por-que-o-nginx-é-rápido)
+- [Instalando o NGINX](#instalando-o-nginx)
+  - [1. Verificar se o NGINX está instalado](#1-verificar-se-o-nginx-está-instalado)
+  - [2. Instalar o NGINX](#2-instalar-o-nginx)
+  - [3. Verificar se o serviço do NGINX está rodando](#3-verificar-se-o-serviço-do-nginx-está-rodando)
+  - [4. Testar no navegador](#4-testar-no-navegador)
+- [Como o NGINX e o Computador Sabem o que é "localhost"?](#como-o-nginx-e-o-computador-sabem-o-que-é-localhost)
+  - [O que é "localhost"?](#o-que-é-localhost)
+  - [Como o computador entende isso?](#como-o-computador-entende-isso)
+  - [Onde fica o arquivo de hosts?](#onde-fica-o-arquivo-de-hosts)
+  - [O que tem nesse arquivo?](#o-que-tem-nesse-arquivo)
+  - [Conclusão](#conclusão)
+- [Configuração Inicial do NGINX](#configuração-inicial-do-nginx)
+  - [Como obter informações sobre o NGINX](#como-obter-informações-sobre-o-nginx)
+- [Analisando o Arquivo Principal de Configuração: nginx.conf](#analisando-o-arquivo-principal-de-configuração-nginxconf)
+  - [Estrutura do nginx.conf](#estrutura-do-nginxconf)
+  - [Configurações de Servidor HTTP no NGINX](#configurações-de-servidor-http-no-nginx)
+- [Boas práticas de configuração](#boas-práticas-de-configuração)
+- [Configurando um Novo Servidor no NGINX do Zero](#configurando-um-novo-servidor-no-nginx-do-zero)
+  - [Onde criar a nova configuração](#onde-criar-a-nova-configuração)
+  - [Passos para configurar seu próprio servidor](#passos-para-configurar-seu-próprio-servidor)
+- [Configuração de Logs no NGINX no Ubuntu](#configuração-de-logs-no-nginx-no-ubuntu)
+  - [1. Diretório para Logs](#1-diretório-para-logs)
+  - [2. Configure o Formato do Log no NGINX](#2-configure-o-formato-do-log-no-nginx)
+  - [3. Configure o access_log no site específico](#3-configure-o-access_log-no-site-específico)
+  - [4. Teste e recarregue a configuração do NGINX](#4-teste-e-recarregue-a-configuração-do-nginx)
+  - [5. Visualize os Logs em tempo real](#5-visualize-os-logs-em-tempo-real)
+- [Personalização do Formato dos Logs no NGINX](#personalização-do-formato-dos-logs-no-nginx)
+  - [1. Edite o arquivo principal do NGINX](#1-edite-o-arquivo-principal-do-nginx)
+  - [2. Aplique o formato no access_log do site](#2-aplique-o-formato-no-access_log-do-site)
+  - [3. Teste a sintaxe e recarregue o NGINX](#3-teste-a-sintaxe-e-recarregue-o-nginx)
+  - [4. Verifique os logs](#4-verifique-os-logs)
+- [Adicionando Informações com Cabeçalhos Personalizados no NGINX](#adicionando-informações-com-cabeçalhos-personalizados-no-nginx)
+
+
 ## O que é o NGINX?
 
 * É um **servidor web**.
@@ -581,6 +622,9 @@ Remote Addr: 127.0.0.1, Time: [17/May/2025:15:10:12 -0300], Request: "GET / HTTP
 ### Adicionando Informações com Cabeçalhos Personalizados no NGINX
 
 Quando usamos **NGINX como load balancer ou proxy reverso**, é comum perdermos informações importantes sobre quem fez a requisição original, já que o IP registrado nos logs dos microsserviços será o do próprio proxy (e não do cliente real). Para resolver esse problema, podemos **adicionar cabeçalhos HTTP personalizados** que carreguem essas informações até os serviços de destino.
+
+
+[🔝 Voltar ao topo](#sumário-interativo)
 
 ---
 
