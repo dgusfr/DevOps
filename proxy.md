@@ -192,7 +192,7 @@ http {
 }
 ```
 
-Nesse exemplo, o NGINX distribui requisições entre os dois servidores configurados, funcionando como **load balancer** e **proxy reverso** ao mesmo tempo.
+O exemplo a cima usa o algoritmo **Round Robin**, o NGINX distribui requisições entre os dois servidores configurados, funcionando como **load balancer** e **proxy reverso** ao mesmo tempo.
 
 ---
 
