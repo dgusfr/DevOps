@@ -88,3 +88,220 @@ Isolam diferentes aspectos dos contêineres:
 Controlam o uso de recursos (CPU, memória, I/O) de cada contêiner.
 
 Esses mecanismos permitem que os contêineres funcionem como **processos isolados dentro de uma máquina**, proporcionando **segurança e eficiência**.
+
+---
+
+Aqui está o conteúdo convertido para **Markdown**, seguindo o padrão da sua apostila:
+
+---
+
+# Instalação do Docker no Linux
+
+## 1. Pré-requisitos
+
+- **Sistema Operacional**: Distribuições baseadas em Linux como Ubuntu, Debian, Fedora, CentOS, etc.
+- **Acesso de Superusuário**: Permissões para executar comandos com `sudo`.
+
+---
+
+## 2. Atualizar o Sistema
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+````
+
+---
+
+## 3. Instalar Dependências
+
+```bash
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+```
+
+---
+
+## 4. Adicionar a Chave GPG Oficial do Docker
+
+```bash
+sudo mkdir -p /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
+
+---
+
+## 5. Adicionar o Repositório do Docker
+
+```bash
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+---
+
+## 6. Atualizar os Pacotes e Instalar o Docker Engine
+
+```bash
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+---
+
+## 7. Verificar a Instalação
+
+```bash
+sudo docker run hello-world
+```
+
+Esse comando baixa e executa uma imagem de teste para confirmar se o Docker está instalado corretamente.
+
+---
+
+## 8. Usar Docker sem `sudo` (opcional)
+
+Para não precisar usar `sudo` a cada comando Docker, adicione seu usuário ao grupo `docker`.
+
+### Adicione seu usuário ao grupo `docker`:
+
+Substitua `<seu-usuario>` pelo seu nome de usuário, ou use `$USER`:
+
+```bash
+sudo usermod -aG docker <seu-usuario>
+```
+
+Ou:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+---
+
+### Refaça o login ou ative a sessão com `newgrp`:
+
+Você pode reiniciar a sessão, ou aplicar imediatamente:
+
+```bash
+newgrp docker
+```
+
+---
+
+### Teste o Docker sem `sudo`:
+
+```bash
+docker ps
+```
+
+Se funcionar sem erro, a configuração está correta.
+
+---
+
+## ⚠️ Outras distribuições
+
+Se estiver utilizando uma distribuição diferente do Ubuntu, consulte a documentação oficial do Docker:
+
+[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+
+---
+
+# Imagem
+
+No contexto do Docker, uma **imagem** é um arquivo que contém tudo o que é necessário para executar um contêiner: código da aplicação, bibliotecas, dependências, variáveis de ambiente e partes do sistema operacional.  
+Em resumo, a imagem é um **modelo pronto** que define como o contêiner será criado e executado.
+
+As **imagens são estáticas** — uma “fotografia” do ambiente. Ao criar um contêiner a partir de uma imagem, ele se torna um ambiente dinâmico e isolado no qual os processos podem ser executados.
+
+---
+
+## `docker run`
+
+O comando `docker run` cria **e** executa um contêiner a partir de uma imagem. Etapas internas:
+
+1. **Busca pela imagem**  
+   - Se a imagem não existir localmente, o Docker faz download (pull) do Docker Hub ou repositório configurado.
+2. **Criação do contêiner**  
+   - A imagem é instanciada em um contêiner.
+3. **Execução**  
+   - O contêiner inicia e roda o comando definido (na imagem ou via CLI).
+
+Exemplo:
+
+```bash
+docker run hello-world
+````
+
+![dockerhub-hello-world](images/dockerhub-hello-world.png)
+
+O Docker cria um contêiner a partir da imagem `hello-world` e exibe uma mensagem confirmando a instalação.
+
+---
+
+## Principais comandos
+
+| Comando                      | Descrição                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------- |
+| `docker run <nome> sleep 1d` | Cria um contêiner (ou usa imagem já presente) e executa `sleep 1d` dentro dele. |
+| `docker stop <nome>`         | Envia **SIGTERM** para parar o contêiner de forma controlada.                   |
+| `docker start <nome>`        | Inicia um contêiner parado anteriormente.                                       |
+
+---
+
+## Subcomandos úteis do `docker run`
+
+* `--name` / `-–name` — Define um nome amigável para o contêiner.
+* `-d` — Executa em **segundo plano** (detached).
+* `-it` — Modo interativo com terminal.
+* `-p` — Mapeia portas (host\:container).
+* `-v` — Monta **volumes** host ↔ contêiner.
+* `--rm` — Remove o contêiner após saída.
+* `-e`, `--env` — Define variáveis de ambiente.
+* `--network` — Conecta o contêiner a uma rede Docker.
+* `--cpus` — Limita CPU.
+* `--memory` — Limita memória.
+* `--restart` — Políticas de reinício automático.
+* `--detach-keys` — Combinação de teclas para sair sem parar o contêiner.
+* `--entrypoint` — Sobrescreve o comando de entrada.
+* `--log-driver` — Define driver de logs.
+* `--add-host` — Adiciona entradas ao `/etc/hosts` do contêiner.
+* `--link` — Liga contêineres para comunicação direta.
+* `--privileged` — Acesso privilegiado ao host.
+* `--user` — Usuário que executa o comando dentro do contêiner.
+* `--workdir` — Define diretório de trabalho no contêiner.
+* `--health-cmd` — Comando de verificação de saúde.
+
+---
+
+# Docker Hub
+
+O **Docker Hub** é o repositório oficial de imagens Docker, usado como fonte padrão para pulls.
+
+* Hospeda **imagens oficiais** (ex.: `nginx`, `mysql`, `ubuntu`).
+* Permite que usuários **publiquem** suas próprias imagens.
+* O Docker procura imagens aqui por padrão.
+
+### Exemplo de uso
+
+1. Pesquise a imagem **Ubuntu**: [https://hub.docker.com](https://hub.docker.com)
+2. Baixe a imagem:
+
+```bash
+docker pull ubuntu
+```
+
+Isso faz o download da versão mais recente da imagem **Ubuntu**.
+
+
+
+
+
