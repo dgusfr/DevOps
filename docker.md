@@ -304,6 +304,146 @@ Isso faz o download da versão mais recente da imagem **Ubuntu**.
 
 ---
 
+# Criando Contêineres
+
+Ao criar um contêiner a partir de uma imagem, você executa aplicações ou processos de forma isolada.
+
+- Para criar **e** executar um contêiner com a imagem Ubuntu:
+
+```bash
+docker run ubuntu
+````
+
+O Docker verifica se a imagem está disponível localmente; se não, faz download do Docker Hub e cria o contêiner.
+
+* Para **baixar** a imagem sem executá-la:
+
+```bash
+docker pull ubuntu
+```
+
+---
+
+## Verificando Contêineres
+
+| Comando        | Descrição                                              |
+| -------------- | ------------------------------------------------------ |
+| `docker ps`    | Lista apenas contêineres em execução.                  |
+| `docker ps -a` | Lista **todos** os contêineres (ativos e finalizados). |
+
+A saída inclui `CONTAINER ID`, `IMAGE`, `STATUS`, etc.
+
+---
+
+### Exemplo prático — Ubuntu
+
+1. Execute:
+
+   ```bash
+   docker run ubuntu
+   ```
+
+2. Liste os contêineres:
+
+   ```bash
+   docker ps -a
+   ```
+
+O contêiner aparecerá com `STATUS` **Exited**, porque nenhum processo contínuo estava em execução.
+
+---
+
+# Interagindo com Contêineres
+
+## Passo a passo — subindo a imagem Ubuntu
+
+1. **Baixar a imagem**
+
+   ```bash
+   docker pull ubuntu
+   ```
+
+2. **Executar um contêiner em segundo plano**
+
+   ```bash
+   docker run --name meu_ubuntu -d ubuntu sleep 1d
+   ```
+
+3. **Verificar contêineres em execução**
+
+   ```bash
+   docker ps
+   ```
+
+4. **Acessar o terminal do contêiner**
+
+   ```bash
+   docker exec -it meu_ubuntu bash
+   ```
+
+   * `-it` → modo interativo
+   * `bash` → abre shell dentro do contêiner
+
+   Exemplos internos:
+
+   ```bash
+   ls -a            # listar arquivos
+   touch arquivo_teste
+   ```
+
+   Saia com **`Ctrl + D`**.
+
+5. **Parar o contêiner**
+
+   ```bash
+   docker stop meu_ubuntu            # parada controlada (SIGTERM)
+   docker stop -t=0 meu_ubuntu       # parada imediata
+   ```
+
+6. **Reiniciar o contêiner**
+
+   ```bash
+   docker start meu_ubuntu
+   ```
+
+7. **Pausar / retomar processos**
+
+   ```bash
+   docker pause meu_ubuntu
+   docker unpause meu_ubuntu
+   ```
+
+8. **Remover o contêiner**
+
+   ```bash
+   docker rm meu_ubuntu            # contêiner parado
+   docker rm --force meu_ubuntu    # contêiner em execução
+   ```
+
+---
+
+## Persistência e Isolamento
+
+* **Isolamento**: arquivos dentro do contêiner não aparecem no host.
+* **Persistência**: dados desaparecem quando o contêiner é removido, exceto se **volumes** ou **bind mounts** forem configurados.
+
+---
+
+## Tabela de comandos-chave
+
+| Comando                      | Função                        |
+| ---------------------------- | ----------------------------- |
+| `docker exec -it <ctr> bash` | Abre shell interativo.        |
+| `docker stop <ctr>`          | Para de forma controlada.     |
+| `docker stop -t=0 <ctr>`     | Para imediatamente.           |
+| `docker start <ctr>`         | Reinicia contêiner parado.    |
+| `docker pause <ctr>`         | Pausa processos.              |
+| `docker unpause <ctr>`       | Retoma processos.             |
+| `docker rm <ctr>`            | Remove contêiner parado.      |
+| `docker rm --force <ctr>`    | Remove contêiner em execução. |
+
+---
+
 ## 📘 Praticando: Criando Primeira Imagem  com Docker
 
 
@@ -439,6 +579,167 @@ docker image rm meu-nginx-lab:1.0
 ```
 
 ---
+
+# Acessando Aplicações Web com Docker
+
+No Docker, podemos executar aplicações web em contêineres e acessá-las diretamente pelo navegador.  
+Abaixo, detalhamos como criar, gerenciar e acessar essas aplicações utilizando imagens públicas do Docker Hub.
+
+---
+
+## 1. Executando uma Aplicação Web no Contêiner
+
+### Escolhendo a Imagem
+
+Neste exemplo, usaremos a imagem `docker/example-voting-app-vote`, que já contém uma aplicação web de exemplo.
+
+![dockerhub-voting-app](images/dockerhub-voting-app.png)
+
+### Executando o contêiner:
+
+```bash
+docker run -d docker/example-voting-app-vote
+````
+
+---
+
+## 2. Verificando o Contêiner
+
+Após executar o contêiner, verifique se ele está rodando:
+
+```bash
+docker ps
+```
+
+Saída esperada (exemplo):
+
+![docker-ps-output](images/docker-ps-output.png)
+
+---
+
+## 3. Mapeando Portas Externas
+
+Ao acessar `localhost:80`, você pode ver erro de conexão. Isso acontece porque as portas do contêiner estão **isoladas** do host por padrão.
+
+### 🔁 Mapeamento Automático de Portas
+
+Execute com `-P`:
+
+```bash
+docker run -d -P docker/example-voting-app-vote
+```
+
+**O que `-P` faz?**
+
+* Mapeia automaticamente as portas internas do contêiner para portas disponíveis do host.
+
+Verifique com:
+
+```bash
+docker ps
+```
+
+Exemplo de saída:
+
+```
+0.0.0.0:32768->80
+```
+
+Acesse a aplicação no navegador:
+
+```
+http://localhost:32768
+```
+
+---
+
+### 🎯 Mapeamento Manual de Porta
+
+Você pode definir qual porta usar no host com `-p`:
+
+```bash
+docker run -d -p 3000:80 docker/example-voting-app-vote
+```
+
+Verifique com:
+
+```bash
+docker ps
+```
+
+Exemplo de saída:
+
+```
+0.0.0.0:3000->80
+```
+
+Acesse no navegador:
+
+```
+http://localhost:3000
+```
+
+![webapp-navegador](images/webapp-navegador.png)
+
+---
+
+## 4. Gerenciamento de Contêineres
+
+### Parar um Contêiner
+
+```bash
+docker stop <CONTAINER_ID>
+```
+
+### Remover um Contêiner
+
+Primeiro pare:
+
+```bash
+docker stop <CONTAINER_ID>
+```
+
+Depois remova:
+
+```bash
+docker rm <CONTAINER_ID>
+```
+
+Se estiver em execução:
+
+```bash
+docker rm --force <CONTAINER_ID>
+```
+
+### Parar Todos os Contêineres
+
+```bash
+docker stop $(docker container ls -q)
+```
+
+---
+
+## 📋 Resumo dos Comandos Usados
+
+| Comando                                 | Função                                               |
+| --------------------------------------- | ---------------------------------------------------- |
+| `docker run -d <IMAGEM>`                | Executa um contêiner em segundo plano.               |
+| `docker run -d -P <IMAGEM>`             | Executa o contêiner e mapeia portas automaticamente. |
+| `docker run -d -p <HOST>:<CONTAINER>`   | Mapeia portas manualmente.                           |
+| `docker ps`                             | Lista contêineres em execução.                       |
+| `docker stop <ID>`                      | Para um contêiner.                                   |
+| `docker rm <ID>`                        | Remove um contêiner parado.                          |
+| `docker rm --force <ID>`                | Força a remoção de um contêiner em execução.         |
+| `docker stop $(docker container ls -q)` | Para todos os contêineres ativos.                    |
+
+---
+
+Com esses passos, você pode **executar, acessar e gerenciar** aplicações web dentro de contêineres Docker, configurando o mapeamento de portas conforme necessário para acessá-las via navegador.
+
+```
+
+---
+
 
 
 
