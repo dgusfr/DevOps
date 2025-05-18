@@ -302,6 +302,147 @@ docker pull ubuntu
 Isso faz o download da versão mais recente da imagem **Ubuntu**.
 
 
+---
+
+## 📘 Praticando: Criando Primeira Imagem  com Docker
+
+
+Você é responsável por empacotar uma aplicação web estática (um site simples em HTML) utilizando Docker. O objetivo é garantir que essa aplicação funcione exatamente igual em qualquer máquina.
+
+Para isso, você deverá:
+
+1. Criar um diretório de projeto com uma página HTML.
+2. Criar um **Dockerfile** que usa a imagem oficial `nginx` como base.
+3. Copiar o conteúdo da página HTML para dentro da imagem.
+4. Gerar uma imagem com o nome `meu-nginx-lab` e a tag `1.0`.
+5. Executar um contêiner a partir dessa imagem com:
+   - Um nome amigável (`web-lab`)
+   - Porta 8080 mapeada para a porta 80 do contêiner
+   - Montagem de volume em modo somente leitura
+   - Execução em segundo plano (`-d`)
+6. Verificar o funcionamento no navegador (`http://localhost:8080`) ou com `curl`.
+7. Executar comandos extras como `docker ps`, `docker exec`, `docker logs` e `docker stop`.
+
+
+### 🎯 Requisitos técnicos
+
+- Utilizar o comando `docker build` para criar a imagem.
+- Utilizar `docker run` com os parâmetros corretos.
+- Utilizar `volumes` e `portas`.
+- Usar o `nginx` como servidor HTTP.
+
+
+
+### ✅ Entrega esperada
+
+- Um contêiner rodando sua aplicação em `http://localhost:8080`.
+- O código-fonte do seu site visível dentro do contêiner em `/usr/share/nginx/html`.
+- A imagem criada localmente com o nome `meu-nginx-lab:1.0`.
+
+
+
+# Resolução Proposta
+
+
+## 1. Criar a estrutura de diretórios
+
+```bash
+mkdir -p ~/meu-docker-lab/app
+cd ~/meu-docker-lab
+````
+
+
+```bash
+cat > app/index.html <<'EOF'
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Meu Docker Lab</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Funcionando no contêiner!</h1>
+  </body>
+</html>
+EOF
+```
+
+
+
+## 3. Criar o `Dockerfile`
+
+```bash
+cat > Dockerfile <<'EOF'
+FROM nginx:alpine                
+COPY app/ /usr/share/nginx/html  
+EXPOSE 80                       
+EOF
+```
+
+## 4. Construir a imagem
+
+```bash
+docker build -t meu-nginx-lab:1.0 .
+```
+
+> Resultado esperado: *“Successfully tagged meu-nginx-lab:1.0”*
+
+
+## 5. Executar o contêiner
+
+```bash
+docker run -d \
+  --name web-lab \
+  -p 8080:80 \
+  -v ~/meu-docker-lab/app:/usr/share/nginx/html:ro \
+  --rm \
+  meu-nginx-lab:1.0
+```
+
+
+## 6. Testar
+
+```bash
+curl http://localhost:8080
+```
+
+Deve retornar:
+
+```html
+<h1>Funcionando no contêiner!</h1>
+```
+
+
+## 7. Comandos de inspeção
+
+```bash
+docker ps
+docker logs web-lab
+docker exec -it web-lab sh
+```
+
+Saia do shell com `exit`.
+
+
+## 8. Parar (encerra e remove por causa do --rm)
+
+```bash
+docker stop web-lab
+```
+
+
+
+## 9. Limpar a imagem (opcional)
+
+```bash
+docker image rm meu-nginx-lab:1.0
+```
+
+---
+
+
+
+
 
 
 
