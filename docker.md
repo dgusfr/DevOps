@@ -580,12 +580,17 @@ docker image rm meu-nginx-lab:1.0
 
 ---
 
+<br>
+<br>
+<br>
+
+---
+
 # Acessando Aplicações Web com Docker
 
 No Docker, podemos executar aplicações web em contêineres e acessá-las diretamente pelo navegador.  
 Abaixo, detalhamos como criar, gerenciar e acessar essas aplicações utilizando imagens públicas do Docker Hub.
 
----
 
 ## 1. Executando uma Aplicação Web no Contêiner
 
@@ -615,7 +620,6 @@ Saída esperada (exemplo):
 
 ![docker-ps-output](images/docker-ps-output.png)
 
----
 
 ## 3. Mapeando Portas Externas
 
@@ -651,7 +655,6 @@ Acesse a aplicação no navegador:
 http://localhost:32768
 ```
 
----
 
 ### 🎯 Mapeamento Manual de Porta
 
@@ -717,7 +720,7 @@ docker rm --force <CONTAINER_ID>
 docker stop $(docker container ls -q)
 ```
 
----
+
 
 ## 📋 Resumo dos Comandos Usados
 
@@ -732,11 +735,9 @@ docker stop $(docker container ls -q)
 | `docker rm --force <ID>`                | Força a remoção de um contêiner em execução.         |
 | `docker stop $(docker container ls -q)` | Para todos os contêineres ativos.                    |
 
----
+
 
 Com esses passos, você pode **executar, acessar e gerenciar** aplicações web dentro de contêineres Docker, configurando o mapeamento de portas conforme necessário para acessá-las via navegador.
-
-```
 
 ---
 
