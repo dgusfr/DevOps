@@ -604,9 +604,7 @@ Neste exemplo, usaremos a imagem `docker/example-voting-app-vote`, que já cont�
 
 ```bash
 docker run -d docker/example-voting-app-vote
-````
-
----
+```
 
 ## 2. Verificando o Contêiner
 
@@ -740,6 +738,209 @@ docker stop $(docker container ls -q)
 Com esses passos, você pode **executar, acessar e gerenciar** aplicações web dentro de contêineres Docker, configurando o mapeamento de portas conforme necessário para acessá-las via navegador.
 
 ---
+
+<br>
+<br>
+<br>
+
+---
+
+
+# Estrutura de Imagens no Docker
+
+As imagens no Docker são fundamentais para o funcionamento dos contêineres. Elas contêm todos os arquivos, bibliotecas, dependências e configurações necessárias para criar um ambiente isolado. Este conteúdo descreve como as imagens são estruturadas, como interagimos com elas e quais os benefícios dessa estrutura para o uso de contêineres.
+
+## Listando Imagens Localmente
+
+Para listar todas as imagens armazenadas localmente no sistema:
+
+```bash
+docker image ls
+````
+
+Esse comando exibe uma tabela com as seguintes informações:
+
+* **REPOSITORY**: Nome do repositório da imagem.
+* **TAG**: Versão da imagem.
+* **IMAGE ID**: Identificador único da imagem.
+* **CREATED**: Data de criação da imagem.
+* **SIZE**: Tamanho ocupado no disco.
+
+## Camadas das Imagens
+
+As imagens Docker são compostas por múltiplas camadas empilhadas. Essas camadas são:
+
+* Imutáveis (read-only)````markdown
+# Estrutura de Imagens no Docker
+
+As imagens no Docker são fundamentais para o funcionamento dos contêineres. Elas contêm todos os arquivos, bibliotecas, dependências e configurações necessárias para criar um ambiente isolado. Este conteúdo descreve como as imagens são estruturadas, como interagimos com elas e quais os benefícios dessa estrutura para o uso de contêineres.
+
+## Listando Imagens Localmente
+
+Para listar todas as imagens armazenadas localmente no sistema:
+
+```bash
+docker image ls
+````
+
+Esse comando exibe uma tabela com as seguintes informações:
+
+* **REPOSITORY**: Nome do repositório da imagem.
+* **TAG**: Versão da imagem.
+* **IMAGE ID**: Identificador único da imagem.
+* **CREATED**: Data de criação da imagem.
+* **SIZE**: Tamanho ocupado no disco.
+
+## Camadas das Imagens
+
+As imagens Docker são compostas por múltiplas camadas empilhadas. Essas camadas são:
+
+* Imutáveis (read-only)
+* Compartilhadas entre várias imagens e contêineres
+* Otimizadas para reduzir o uso de disco e acelerar operações
+
+## Baixando Imagens do Docker Hub
+
+Para baixar uma imagem pública do Docker Hub, utilize:
+
+```bash
+docker pull nginx
+```
+
+O download ocorre em etapas, cada uma representando uma camada da imagem. Se uma camada já existir localmente, ela será reutilizada, evitando download desnecessário.
+
+## Visualizando as Camadas de uma Imagem
+
+Para inspecionar o histórico de camadas que compõem uma imagem:
+
+```bash
+docker history <IMAGE_ID>
+```
+
+Esse comando mostra o histórico de comandos usados para criar a imagem, além do tamanho de cada camada.
+
+![docker-history-camadas](images/docker-history-camadas.png)
+
+## Estrutura Interna de Contêineres
+
+Ao criar um contêiner a partir de uma imagem, ele herda suas camadas de forma imutável. Entretanto, há uma camada adicional que permite alterações:
+
+| Tipo de Camada | Característica                                           |
+| -------------- | -------------------------------------------------------- |
+| Read-Only      | Camadas herdadas da imagem base, imutáveis               |
+| Read-Write     | Criada ao iniciar o contêiner, permite alterações locais |
+
+## Funcionamento Interno
+
+O cliente Docker envia comandos como `docker build`, `docker pull` e `docker run` para o Docker daemon, que gerencia as imagens e contêineres no host.
+
+As imagens armazenadas no host consistem em camadas read-only. Quando um contêiner é iniciado, o Docker adiciona uma camada read-write no topo da imagem base.
+
+![docker-arquitetura-camadas](images/docker-arquitetura-camadas.png)
+
+Essa camada read-write é usada para armazenar quaisquer alterações feitas durante a execução do contêiner, como criação de arquivos ou instalação de pacotes. A imagem base permanece inalterada, o que garante:
+
+* Consistência entre diferentes contêineres
+* Reutilização eficiente das camadas read-only
+* Isolamento entre contêineres
+
+## Eficiência na Utilização de Camadas
+
+### Compartilhamento de Camadas
+
+Múltiplas imagens e contêineres podem compartilhar camadas read-only comuns, otimizando o uso de espaço em disco.
+
+### Alterações e Persistência
+
+Todas as alterações feitas durante a execução de um contêiner são armazenadas na camada read-write. Quando o contêiner é removido, essas alterações são perdidas, a menos que sejam persistidas por meio de volumes.
+
+## Conclusão
+
+A estrutura de camadas do Docker proporciona:
+
+* Eficiência no armazenamento
+* Rapidez na criação de contêineres
+* Isolamento entre aplicações
+* Reaproveitamento de recursos
+
+Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves e consistentes em diferentes sistemas e fases do desenvolvimento de software.
+
+```
+```
+
+* Compartilhadas entre várias imagens e contêineres
+* Otimizadas para reduzir o uso de disco e acelerar operações
+
+## Baixando Imagens do Docker Hub
+
+Para baixar uma imagem pública do Docker Hub, utilize:
+
+```bash
+docker pull nginx
+```
+
+O download ocorre em etapas, cada uma representando uma camada da imagem. Se uma camada já existir localmente, ela será reutilizada, evitando download desnecessário.
+
+## Visualizando as Camadas de uma Imagem
+
+Para inspecionar o histórico de camadas que compõem uma imagem:
+
+```bash
+docker history <IMAGE_ID>
+```
+
+Esse comando mostra o histórico de comandos usados para criar a imagem, além do tamanho de cada camada.
+
+![docker-history-camadas](images/docker-history-camadas.png)
+
+## Estrutura Interna de Contêineres
+
+Ao criar um contêiner a partir de uma imagem, ele herda suas camadas de forma imutável. Entretanto, há uma camada adicional que permite alterações:
+
+| Tipo de Camada | Característica                                           |
+| -------------- | -------------------------------------------------------- |
+| Read-Only      | Camadas herdadas da imagem base, imutáveis               |
+| Read-Write     | Criada ao iniciar o contêiner, permite alterações locais |
+
+## Funcionamento Interno
+
+O cliente Docker envia comandos como `docker build`, `docker pull` e `docker run` para o Docker daemon, que gerencia as imagens e contêineres no host.
+
+As imagens armazenadas no host consistem em camadas read-only. Quando um contêiner é iniciado, o Docker adiciona uma camada read-write no topo da imagem base.
+
+![docker-arquitetura-camadas](images/docker-arquitetura-camadas.png)
+
+Essa camada read-write é usada para armazenar quaisquer alterações feitas durante a execução do contêiner, como criação de arquivos ou instalação de pacotes. A imagem base permanece inalterada, o que garante:
+
+* Consistência entre diferentes contêineres
+* Reutilização eficiente das camadas read-only
+* Isolamento entre contêineres
+
+## Eficiência na Utilização de Camadas
+
+### Compartilhamento de Camadas
+
+Múltiplas imagens e contêineres podem compartilhar camadas read-only comuns, otimizando o uso de espaço em disco.
+
+### Alterações e Persistência
+
+Todas as alterações feitas durante a execução de um contêiner são armazenadas na camada read-write. Quando o contêiner é removido, essas alterações são perdidas, a menos que sejam persistidas por meio de volumes.
+
+## Conclusão
+
+A estrutura de camadas do Docker proporciona:
+
+* Eficiência no armazenamento
+* Rapidez na criação de contêineres
+* Isolamento entre aplicações
+* Reaproveitamento de recursos
+
+Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves e consistentes em diferentes sistemas e fases do desenvolvimento de software.
+
+
+
+
+
 
 
 
