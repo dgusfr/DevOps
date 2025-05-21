@@ -1,5 +1,42 @@
 # Arquitetura de Microsserviços
 
+## Sumário Interativo
+
+> Clique em um item para ir direto ao tópico correspondente.
+
+* [Arquitetura de Microsserviços](#arquitetura-de-microsserviços)
+
+  * [1. Onde o código roda: Client-Side × Server-Side](#1-onde-o-código-roda-client-side--server-side)
+
+    * [1.2 Client-Side](#12-client-side)
+    * [1.3 Server-Side](#13-server-side)
+  * [2. Como agrupar o sistema: Monolito × Microsserviços](#2-como-agrupar-o-sistema-monolito--microsserviços)
+
+    * [2.1 Arquitetura Monolítica](#21-arquitetura-monolítica)
+    * [2.2 Arquitetura de Microsserviços](#22-arquitetura-de-microsserviços)
+  * [3. Padrões internos em Microsserviços](#3-padrões-internos-em-microsserviços)
+  * [4. Conclusão rápida](#4-conclusão-rápida)
+
+* [Microsserviços: padrões práticos](#microsserviços-padrões-práticos)
+
+  * [1. Strangler Pattern – migração incremental](#1-strangler-pattern--migração-incremental)
+  * [2. Sidecar Pattern – capacidades sem alterar o serviço](#2-sidecar-pattern--capacidades-sem-alterar-o-serviço)
+  * [3. API Gateway – entrada única](#3-api-gateway--entrada-única)
+
+* [Arquitetura Serverless](#arquitetura-serverless)
+
+  * [Visão rápida](#visão-rápida)
+  * [Componentes essenciais](#componentes-essenciais)
+  * [Vantagens](#vantagens)
+  * [Desvantagens](#desvantagens)
+  * [Casos de uso](#casos-de-uso)
+
+* [Escalabilidade](#escalabilidade)
+
+  * [Vertical (scale-up)](#vertical-scale-up)
+  * [Horizontal (scale-out)](#horizontal-scale-out)
+
+
 Arquitetura de software é a **estrutura fundamental** de um sistema, composta pelos seus componentes, pelos relacionamentos entre eles e pelos princípios que orientam sua evolução. Pense nela como o “esqueleto” do sistema: é o que garante que todas as partes se encaixem e cooperem para entregar desempenho, escalabilidade, manutenção e flexibilidade.
 
 ---
