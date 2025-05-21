@@ -871,8 +871,13 @@ Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves 
 * Compartilhadas entre várias imagens e contêineres
 * Otimizadas para reduzir o uso de disco e acelerar operações
 
+---
 
+<br>
+<br>
+<br>
 
+---
 
 
 
