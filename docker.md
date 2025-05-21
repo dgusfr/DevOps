@@ -871,6 +871,8 @@ Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves 
 * Compartilhadas entre várias imagens e contêineres
 * Otimizadas para reduzir o uso de disco e acelerar operações
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
 ---
 
 <br>
@@ -878,6 +880,149 @@ Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves 
 <br>
 
 ---
+
+
+# Criando Imagens Docker Personalizadas
+
+Para contêinerizar uma aplicação como o front-end do projeto AllBooks, seguimos um processo estruturado que envolve a criação de uma imagem personalizada utilizando um arquivo `Dockerfile`. Abaixo estão as etapas detalhadas.
+
+## 1. Clonando o Repositório do Projeto
+
+Utilize o comando `git clone` para obter os arquivos da aplicação localmente:
+
+```bash
+git clone https://github.com/alura-cursos/curso-react-alurabooks/
+cd ./curso-react-alurabooks/
+```
+
+## 2. Criando o Arquivo Dockerfile
+
+O `Dockerfile` define as instruções para construir a imagem. Crie o arquivo com:
+
+```bash
+nano Dockerfile
+```
+
+Conteúdo do arquivo:
+
+```dockerfile
+FROM node:20
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+ENTRYPOINT ["npm", "start"]
+```
+
+Salve com `Ctrl + X`, `Y`, e `Enter`.
+
+![dockerfile-nano](images/dockerfile-nano.png)
+
+## 3. Construindo a Imagem
+
+Com o `Dockerfile` criado e no diretório correto, execute:
+
+```bash
+docker build -t diego-franco/allbooks:1.1 .
+```
+
+Este comando executa:
+
+* Download da imagem base (`node:20`)
+* Cópia dos arquivos
+* Instalação de dependências com `npm install`
+* Criação da nova imagem
+
+Após a construção, visualize com:
+
+```bash
+docker image ls
+```
+
+![docker-build-output](images/docker-build-output.png)
+
+## 4. Criando e Executando o Contêiner
+
+Execute a imagem com o seguinte comando:
+
+```bash
+docker run -d -p 8080:3000 diego-franco/allbooks:1.1
+```
+
+Explicação:
+
+* `-d`: Executa em segundo plano
+* `-p 8080:3000`: Mapeia porta 8080 do host para 3000 do contêiner
+
+Verifique se o contêiner está ativo:
+
+```bash
+docker ps
+```
+
+![docker-run-ps](images/docker-run-ps.png)
+
+## 5. Testando a Aplicação no Navegador
+
+Abra o navegador e acesse:
+
+```
+http://localhost:8080
+```
+
+Se a porta estiver corretamente mapeada, a aplicação AllBooks será exibida.
+
+![allbooks-navegador](images/allbooks-navegador.png)
+
+## 6. Publicando a Imagem no Docker Hub
+
+Autentique-se no Docker Hub:
+
+```bash
+docker login
+```
+
+Publique a imagem:
+
+```bash
+docker push diego-franco/allbooks:1.1
+```
+
+A imagem agora está disponível publicamente no seu repositório no Docker Hub.
+
+## 7. Inspecionando a Estrutura Interna de uma Imagem
+
+Use o comando abaixo para obter informações detalhadas da imagem:
+
+```bash
+docker inspect <IMAGE_ID>
+```
+
+Informações exibidas:
+
+* **Id**: Identificador único da imagem
+* **RepoTags**: Tags associadas
+* **Created**: Data de criação
+* **Configurações**: Variáveis de ambiente, entrypoint, etc.
+* **Digest**: Hash da imagem
+
+Exemplo de retorno resumido:
+
+```json
+{
+  "Id": "sha256:fd1d8f58e8aedc22...",
+  "RepoTags": ["ubuntu:latest"],
+  "Created": "2024-01-25T17:54:41Z",
+  "ContainerConfig": {
+    "Hostname": "fa818c501516",
+    "Cmd": ["/bin/bash"],
+    "Env": ["PATH=/usr/local/sbin:/usr/local/bin"]
+  }
+}
+```
+
+
+
 
 
 
