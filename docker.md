@@ -838,6 +838,8 @@ As imagens armazenadas no host consistem em camadas read-only. Quando um contêi
 
 ![docker-arquitetura-camadas](images/docker-arquitetura-camadas.png)
 
+Fonte: https://www.gta.ufrj.br/ensino/eel879/trabalhos_v1_2017_2/docker/components.html
+
 Essa camada read-write é usada para armazenar quaisquer alterações feitas durante a execução do contêiner, como criação de arquivos ou instalação de pacotes. A imagem base permanece inalterada, o que garante:
 
 * Consistência entre diferentes contêineres
@@ -865,77 +867,10 @@ A estrutura de camadas do Docker proporciona:
 
 Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves e consistentes em diferentes sistemas e fases do desenvolvimento de software.
 
-```
-```
 
 * Compartilhadas entre várias imagens e contêineres
 * Otimizadas para reduzir o uso de disco e acelerar operações
 
-## Baixando Imagens do Docker Hub
-
-Para baixar uma imagem pública do Docker Hub, utilize:
-
-```bash
-docker pull nginx
-```
-
-O download ocorre em etapas, cada uma representando uma camada da imagem. Se uma camada já existir localmente, ela será reutilizada, evitando download desnecessário.
-
-## Visualizando as Camadas de uma Imagem
-
-Para inspecionar o histórico de camadas que compõem uma imagem:
-
-```bash
-docker history <IMAGE_ID>
-```
-
-Esse comando mostra o histórico de comandos usados para criar a imagem, além do tamanho de cada camada.
-
-![docker-history-camadas](images/docker-history-camadas.png)
-
-## Estrutura Interna de Contêineres
-
-Ao criar um contêiner a partir de uma imagem, ele herda suas camadas de forma imutável. Entretanto, há uma camada adicional que permite alterações:
-
-| Tipo de Camada | Característica                                           |
-| -------------- | -------------------------------------------------------- |
-| Read-Only      | Camadas herdadas da imagem base, imutáveis               |
-| Read-Write     | Criada ao iniciar o contêiner, permite alterações locais |
-
-## Funcionamento Interno
-
-O cliente Docker envia comandos como `docker build`, `docker pull` e `docker run` para o Docker daemon, que gerencia as imagens e contêineres no host.
-
-As imagens armazenadas no host consistem em camadas read-only. Quando um contêiner é iniciado, o Docker adiciona uma camada read-write no topo da imagem base.
-
-![docker-arquitetura-camadas](images/docker-arquitetura-camadas.png)
-
-Essa camada read-write é usada para armazenar quaisquer alterações feitas durante a execução do contêiner, como criação de arquivos ou instalação de pacotes. A imagem base permanece inalterada, o que garante:
-
-* Consistência entre diferentes contêineres
-* Reutilização eficiente das camadas read-only
-* Isolamento entre contêineres
-
-## Eficiência na Utilização de Camadas
-
-### Compartilhamento de Camadas
-
-Múltiplas imagens e contêineres podem compartilhar camadas read-only comuns, otimizando o uso de espaço em disco.
-
-### Alterações e Persistência
-
-Todas as alterações feitas durante a execução de um contêiner são armazenadas na camada read-write. Quando o contêiner é removido, essas alterações são perdidas, a menos que sejam persistidas por meio de volumes.
-
-## Conclusão
-
-A estrutura de camadas do Docker proporciona:
-
-* Eficiência no armazenamento
-* Rapidez na criação de contêineres
-* Isolamento entre aplicações
-* Reaproveitamento de recursos
-
-Esse modelo é essencial para que o Docker ofereça ambientes portáteis, leves e consistentes em diferentes sistemas e fases do desenvolvimento de software.
 
 
 
