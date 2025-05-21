@@ -1250,6 +1250,211 @@ O TMPFS é ideal para:
 
 O TMPFS complementa os volumes e bind mounts como uma opção leve e segura para armazenamento temporário, oferecendo uma solução eficiente para casos onde a persistência dos dados não é necessária ou é indesejável.
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
+
+# Cloud
+
+Para que a aplicação AllBooks funcione de maneira eficiente, segura e escalável, é fundamental compreender a infraestrutura necessária. Isso inclui componentes essenciais como:
+
+- Hospedagem para o front-end, back-end e banco de dados.
+- Estratégias de rede para garantir o acesso, como DNS.
+- Segurança com firewalls, monitoramento e backups.
+- Práticas de DevOps, como integração contínua e gerenciamento da infraestrutura como código.
+
+## Cloud Computing e a AWS
+
+A computação em nuvem, ou cloud computing, é uma solução amplamente adotada para projetos que exigem flexibilidade, escalabilidade e monitoramento. Entre os principais provedores de serviços de nuvem estão:
+
+- AWS (Amazon Web Services)
+- Google Cloud
+- Microsoft Azure
+
+No caso do AllBooks, utilizaremos o ambiente da AWS para demonstrar como implementar uma aplicação containerizada na nuvem. O serviço específico que será usado é o **Elastic Beanstalk**, que simplifica o processo de implantação e gerenciamento de aplicações na AWS.
+
+## Criando e Configurando uma Conta AWS
+
+**Criar Conta:**
+
+- Acesse o site da AWS e clique em "Crie uma conta AWS".
+- Forneça informações como e-mail e cartão de crédito (necessário para acesso à cota gratuita e recursos básicos).
+
+**Acesso ao Console:**
+
+- Após o login, acesse o console AWS, onde os serviços estarão listados.
+
+## Usando o Elastic Beanstalk para Implantação
+
+**Acessar o Elastic Beanstalk:**
+
+- No menu "Serviços", busque por Elastic Beanstalk.
+- Clique em "Criar aplicação" para iniciar o processo.
+
+### Etapas de Configuração
+
+**Etapa 1: Configurar o Ambiente**
+
+- Nível do Ambiente: Selecione *Ambiente de Serviço Web* para permitir acesso via web.
+- Informações da Aplicação: Nomeie como `"allbooks"`.
+- Plataforma: Escolha *Docker*, usando a versão recomendada.
+- Mantenha a opção *instância única* para cota gratuita.
+
+**Etapa 2: Configurar o Acesso ao Serviço**
+
+- Escolha um perfil de serviço existente, como `Permission_elastic_beanstalk`.
+- Verifique as permissões de criação de instâncias e outras configurações associadas ao IAM.
+
+**Etapa 3: Definir Redes e Sub-redes**
+
+- Configure a VPC (Virtual Private Cloud) padrão e habilite endereços IP públicos.
+- Escolha as sub-redes: `us-east-2a`, `us-east-2b`, `us-east-2c`.
+
+**Etapa 4: Configurar Tráfego e Escalabilidade**
+
+- Defina os grupos de segurança do EC2. Por exemplo, crie um grupo `devops4` com:
+  - Regras de entrada: Permita tráfego TCP de `0.0.0.0/0`.
+  - Regras de saída: Permita todo o tráfego.
+- Escolha uma instância compatível com a cota gratuita, como `t3.micro`.
+
+**Etapa 5: Configurar Monitoramento e Logs**
+
+- Mantenha as configurações padrão de monitoramento e relatórios de integridade.
+- Escolha o Nginx como servidor de proxy.
+
+**Etapa 6: Revisão Final**
+
+- Revise todas as configurações, como nome da aplicação, perfis de serviço, sub-redes e IP público.
+- Clique em **Enviar** para criar o ambiente.
+
+## Ajustando a Imagem Docker e Subindo na AWS
+
+### Expondo a Porta do Contêiner
+
+Navegue até o diretório do projeto:
+
+```bash
+cd ./curso-react-alurabooks/
+````
+
+Abra o arquivo `Dockerfile`:
+
+```bash
+nano Dockerfile
+```
+
+Insira a linha abaixo entre o `RUN npm install` e o `COPY`:
+
+```dockerfile
+EXPOSE 3000
+```
+
+Salve e feche o arquivo (`Ctrl + X`, depois `Y` e `Enter`).
+
+### Gerando um Novo Build da Imagem
+
+```bash
+docker build -t lcsrm/allbooks:1.2 .
+```
+
+* `-t`: Nomeia e versiona a imagem.
+* `lcsrm/allbooks:1.2`: Nome da imagem e versão.
+* O ponto (`.`) indica o diretório atual.
+
+### Atualizando a Imagem no Docker Hub
+
+```bash
+docker push lcsrm/allbooks:1.2
+```
+
+O Docker enviará as camadas da imagem para o repositório.
+
+## Criando o Arquivo Dockerrun.aws.json
+
+O arquivo `Dockerrun.aws.json` informa ao Elastic Beanstalk qual imagem usar.
+
+Crie o arquivo:
+
+```bash
+nano Dockerrun.aws.json
+```
+
+Conteúdo:
+
+```json
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "lcsrm/allbooks:1.2",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 3000
+    }
+  ]
+}
+```
+
+Salve e feche o arquivo.
+
+## Verificando no Docker Hub
+
+* Acesse o [Docker Hub](https://hub.docker.com).
+* Pesquise por `lcsrm/allbooks` e verifique a presença da tag `1.2`.
+
+## Próximo Passo
+
+Com o `Dockerrun.aws.json` criado e a imagem publicada, o ambiente está pronto para ser implantado no Elastic Beanstalk.
+
+## Subindo a Aplicação na Nuvem
+
+### Passo 1: Fazer Upload e Implantar
+
+* Acesse o Elastic Beanstalk na AWS.
+* Clique no botão **Fazer Upload e Implantar**.
+* Escolha o arquivo `Dockerrun.aws.json`.
+* Confirme o nome da versão (ex: `allbooks-version-1`).
+* Clique em **Implantar**.
+
+### Passo 2: Acompanhar o Processo de Implantação
+
+* Acompanhe os logs e eventos para verificar o progresso.
+* Se necessário, clique em **Ações** para:
+
+  * Reconstruir o ambiente.
+  * Encerrar o ambiente (para evitar custos).
+
+### Passo 3: Testar a Aplicação
+
+Após a implantação, será exibido um link de acesso como:
+
+```
+http://teste-env.eba-5whbwxbp.us-east-2.elasticbeanstalk.com
+```
+
+* Acesse o link no navegador.
+* Verifique se a aplicação AllBooks está funcionando e exibindo os livros corretamente.
+
+## Reflexão e Próximos Passos
+
+A aplicação AllBooks agora está containerizada e funcionando na nuvem, acessível via web.
+
+### Conceitos Avançados a Explorar
+
+* **Docker Compose**:
+  Facilita o gerenciamento de múltiplos containers (front-end, back-end, banco de dados), evitando comandos manuais.
+
+* **Kubernetes**:
+  Plataforma para orquestração de containers em larga escala, oferecendo alta disponibilidade e escalabilidade.
+
+
 
 
 
