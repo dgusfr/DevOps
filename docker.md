@@ -1021,6 +1021,236 @@ Exemplo de retorno resumido:
 }
 ```
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
+
+# Persistência de Dados
+
+Persistência de dados é uma funcionalidade essencial em containers, pois permite que informações importantes sejam armazenadas e recuperadas mesmo após a interrupção ou remoção de um container. No Docker, existem três mecanismos principais para persistir dados: **volumes**, **bind mounts** e **tmpfs mounts**. A seguir, detalhamos cada um, com foco inicial no bind mount.
+
+## Bind Mount
+
+O bind mount cria uma ligação direta entre um diretório do sistema de arquivos do host e um diretório específico dentro de um container. Isso permite que dados armazenados no container sejam acessados diretamente pelo host e vice-versa. Esse mecanismo é útil para compartilhar arquivos entre o host e o container.
+
+### Exemplo Prático
+
+**Criar um Diretório no Host**
+
+```bash
+mkdir volume-docker
+````
+
+**Criar um Container com Bind Mount**
+
+```bash
+docker run -it --mount type=bind,source=/home/alura/volume-docker,target=/app ubuntu bash
+```
+
+* `type=bind`: Define o tipo de montagem como bind mount.
+* `source`: Especifica o diretório do host (`/home/alura/volume-docker`).
+* `target`: Especifica o diretório no container (`/app`).
+
+**Criar um Arquivo no Container**
+
+```bash
+cd /app
+touch teste_arquivo
+ls
+```
+
+O arquivo `teste_arquivo` será exibido dentro do diretório `/app` no container.
+
+**Verificar a Persistência no Host**
+
+Saia do container (Ctrl + D ou `exit`) e verifique o conteúdo no host:
+
+```bash
+cd volume-docker
+ls
+```
+
+O arquivo `teste_arquivo` estará disponível no diretório `volume-docker` no host, confirmando a persistência.
+
+**Recriar o Container**
+
+```bash
+docker run -it --mount type=bind,source=/home/alura/volume-docker,target=/app ubuntu bash
+```
+
+O arquivo `teste_arquivo` continuará acessível dentro do diretório `/app`.
+
+### Desvantagem do Bind Mount
+
+Embora o bind mount seja simples e eficiente, ele apresenta um ponto fraco: o Docker **não gerencia** o diretório do host. Isso significa que:
+
+* Se o diretório for alterado ou excluído manualmente no host, os dados serão perdidos.
+* A segurança e consistência dos dados dependem diretamente do cuidado no gerenciamento do sistema de arquivos do host.
+
+---
+
+## Volumes
+
+Volumes são o mecanismo de persistência de dados mais recomendado pelo Docker, especialmente para ambientes de produção. Ao contrário dos bind mounts, onde a persistência depende de um diretório do sistema de arquivos do host, os volumes utilizam uma área especial dentro do Docker, proporcionando maior segurança e controle.
+
+### Por que usar volumes?
+
+**Segurança:**
+Os dados são armazenados em uma área reservada do Docker, reduzindo a exposição a alterações acidentais ou maliciosas no sistema de arquivos do host.
+
+**Gerenciamento Centralizado:**
+O Docker controla todo o ciclo de vida dos volumes, garantindo que os dados sejam gerenciados de forma eficiente.
+
+**Recomendado para Produção:**
+Em ambientes onde a integridade dos dados é crítica, volumes são a escolha ideal.
+
+### Criando e Usando Volumes
+
+**1. Listando Volumes Existentes**
+
+```bash
+docker volume ls
+```
+
+Se nenhum volume foi criado, a lista estará vazia.
+
+**2. Criando um Volume**
+
+```bash
+docker volume create novo-volume
+```
+
+Verifique novamente com:
+
+```bash
+docker volume ls
+```
+
+**3. Criando um Container com Volume**
+
+```bash
+docker run -it --mount source=novo-volume,target=/app ubuntu bash
+```
+
+* `source=novo-volume`: Nome do volume criado.
+* `target=/app`: Diretório no container mapeado para o volume.
+* `ubuntu`: Imagem usada.
+* `bash`: Comando de terminal interativo.
+
+**4. Testando a Persistência**
+
+```bash
+cd /app
+touch teste_volume
+ls
+```
+
+O arquivo `teste_volume` será exibido no diretório. Saia do container com Ctrl + D.
+
+**5. Recuperando Dados de um Volume**
+
+```bash
+docker run -it --mount source=novo-volume,target=/app ubuntu bash
+cd /app
+ls
+```
+
+O arquivo `teste_volume` estará presente, provando que o volume manteve a persistência dos dados.
+
+**Inspecionando um Volume**
+
+```bash
+docker volume inspect novo-volume
+```
+
+Esse comando fornece informações detalhadas sobre o volume, como sua localização e configurações.
+
+---
+
+## TMPFS
+
+O TMPFS é um mecanismo de persistência temporária no Docker, ideal para armazenar dados sensíveis como senhas, informações pessoais ou outros dados que não devem ser compartilhados ou persistidos entre containers. Diferente dos volumes e dos bind mounts, o TMPFS armazena os dados **apenas em memória**, e eles desaparecem assim que o container é encerrado.
+
+### Características do TMPFS
+
+* **Armazenamento Temporário:**
+  Os dados são armazenados na memória volátil do sistema e não persistem após o término do container.
+
+* **Maior Segurança:**
+  Como os dados não são gravados no disco, o TMPFS é indicado para dados sensíveis que precisam ser protegidos contra acessos externos.
+
+* **Dependência do Ambiente:**
+  Funciona melhor em ambientes Linux, aproveitando o sistema de arquivos temporários nativo do kernel.
+
+* **Não indicado para Produção de Longo Prazo:**
+  Por ser temporário, o TMPFS não deve ser usado para armazenar dados que precisam ser recuperados posteriormente.
+
+### Como Criar um Container com TMPFS
+
+```bash
+docker run -it --tmpfs=/app ubuntu bash
+```
+
+* `-it`: Cria o container de forma interativa.
+* `--tmpfs=/app`: Define o diretório `/app` como temporário.
+* `ubuntu`: Imagem utilizada.
+* `bash`: Comando executado ao iniciar o container.
+
+**Verificar diretórios temporários**
+
+```bash
+ls
+```
+
+Diretórios como `/app` e `/tmp` estarão destacados como temporários.
+
+**Criar um arquivo no diretório TMPFS**
+
+```bash
+cd /app
+touch tesetetmpfs.txt
+ls
+```
+
+O arquivo estará visível no diretório.
+
+**Saia do container** com `Ctrl + D`.
+
+### Testando a Persistência Temporária
+
+Verifique se o container ainda está ativo:
+
+```bash
+docker ps
+```
+
+Recrie o container:
+
+```bash
+docker run -it --tmpfs=/app ubuntu bash
+cd /app
+ls
+```
+
+O arquivo criado anteriormente (`tesetetmpfs.txt`) **não estará mais presente**, confirmando que os dados armazenados com TMPFS são temporários.
+
+### Por que Usar TMPFS?
+
+O TMPFS é ideal para:
+
+* **Dados Sensíveis**: Como senhas e tokens.
+* **Processamento Temporário**: Dados que só precisam existir durante a execução.
+* **Ambientes Seguros**: Impede a gravação de dados confidenciais em disco.
+
+O TMPFS complementa os volumes e bind mounts como uma opção leve e segura para armazenamento temporário, oferecendo uma solução eficiente para casos onde a persistência dos dados não é necessária ou é indesejável.
+
+
 
 
 
