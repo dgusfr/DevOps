@@ -17,7 +17,7 @@
 - [Criando Contêineres](#criando-contêineres)
   - [Verificando Contêineres](#verificando-contêineres)
   - [Interagindo com Contêineres](#interagindo-com-contêineres)
-- [Praticando: Criando Primeira Imagem com Docker](#-praticando-criando-primeira-imagem--com-docker)
+- [Praticando: Criando Primeira Imagem com Docker](#praticando-criando-primeira-imagem-com-docker)
 - [Acessando Aplicações Web com Docker](#acessando-aplicações-web-com-docker)
 - [Estrutura de Imagens no Docker](#estrutura-de-imagens-no-docker)
 - [Criando Imagens Docker Personalizadas](#criando-imagens-docker-personalizadas)
@@ -303,7 +303,7 @@ Exemplo:
 
 ```bash
 docker run hello-world
-````
+```
 
 ![dockerhub-hello-world](images/dockerhub-hello-world.png)
 
@@ -343,6 +343,16 @@ O Docker cria um contêiner a partir da imagem `hello-world` e exibe uma mensage
 * `--user` — Usuário que executa o comando dentro do contêiner.
 * `--workdir` — Define diretório de trabalho no contêiner.
 * `--health-cmd` — Comando de verificação de saúde.
+
+---
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
@@ -528,7 +538,7 @@ O contêiner aparecerá com `STATUS` **Exited**, porque nenhum processo contínu
 
 ---
 
-## 📘 Praticando: Criando Primeira Imagem  com Docker
+## Praticando: Criando Primeira Imagem com Docker
 
 
 Você é responsável por empacotar uma aplicação web estática (um site simples em HTML) utilizando Docker. O objetivo é garantir que essa aplicação funcione exatamente igual em qualquer máquina.
@@ -1543,6 +1553,9 @@ A aplicação AllBooks agora está containerizada e funcionando na nuvem, acess�
   Plataforma para orquestração de containers em larga escala, oferecendo alta disponibilidade e escalabilidade.
 
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
 
 
 
