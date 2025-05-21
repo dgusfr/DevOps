@@ -2,8 +2,6 @@
 
 ## Sumário Interativo
 
-> Clique em um item para ir direto ao tópico correspondente.
-
 * [Arquitetura de Microsserviços](#arquitetura-de-microsserviços)
 
   * [1. Onde o código roda: Client-Side × Server-Side](#1-onde-o-código-roda-client-side--server-side)
