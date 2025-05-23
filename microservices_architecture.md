@@ -106,7 +106,7 @@ Fonte: https://medium.com/totvsdevelopers/seguran%C3%A7a-das-apis-como-proteger-
 
 * **Desvantagens**
 
-  * Configuração inicial mais trabalhosa (orquestração, deployment, observabilidade).
+  * Configuração inicial mais trabalhosa devido a orquestração (Configuração de loadBalancer por exemplo), deployment e monitoramento.
   * Comunicação distribuída sujeita a latência e falhas.
   * Consistência de dados mais complexa (transações cruzando serviços).
 
