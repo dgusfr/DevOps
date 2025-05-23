@@ -35,8 +35,6 @@
   * [Horizontal (scale-out)](#horizontal-scale-out)
 
 
-Arquitetura de software é a **estrutura fundamental** de um sistema, composta pelos seus componentes, pelos relacionamentos entre eles e pelos princípios que orientam sua evolução. Pense nela como o “esqueleto” do sistema: é o que garante que todas as partes se encaixem e cooperem para entregar desempenho, escalabilidade, manutenção e flexibilidade.
-
 ---
 
 ## 1. Onde o código roda: Client-Side × Server-Side
