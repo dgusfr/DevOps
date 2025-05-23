@@ -503,7 +503,10 @@ Essa separação permite:
 
 # Componentes de um Microsserviço
 
-UM microserviço é é responsavel por gereniar seus propiors dados, será que um microswrviço pe um uncoo processo/aplicação rodando em um unico servidor?
+Um microsserviço é responsável por gerenciar seus próprios dados, será que um microsserviço é um único processo/aplicação rodando em um único servidor?
+
+Não, um microsserviço não é necessariamente um único processo rodando em um único servidor. Ele é uma unidade lógica de negócio que pode ser composta por múltiplas instâncias da API, banco de dados, tarefas agendadas e processadores de mensagens, distribuídos em diferentes servidores ou containers. Essa arquitetura permite escalabilidade, resiliência e independência entre os serviços.
+
 
 ## Código da Aplicação (API)
 
@@ -555,31 +558,9 @@ UM microserviço é é responsavel por gereniar seus propiors dados, será que u
 - **Banco de Dados**: Armazena os detalhes dos pedidos.
 - **Processador de Mensagens**: Notifica o microsserviço de "Entrega" assim que um pedido é registrado.
 
----
+![alt text](images/ecommerce.png)
 
-## Microsserviços vs. Aplicações Tradicionais
 
-| Característica           | Aplicação Tradicional       | Microsserviços                  |
-|--------------------------|-----------------------------|----------------------------------|
-| Estrutura                | Tudo em um só sistema       | Módulos independentes           |
-| Escalabilidade           | Limitada                    | Por componente                  |
-| Manutenção               | Pode afetar todo o sistema  | Afeta apenas o serviço isolado |
-| Tecnologias              | Geralmente unificadas       | Podem variar por serviço        |
-
----
-
-## Importante
-
-Implementar **microsserviços** exige conhecimento em múltiplas áreas:
-
-- **APIs**
-- **Bancos de dados**
-- **Mensageria e filas**
-- **Orquestração e infraestrutura**
-- **Sistemas operacionais**
-- **Segurança e monitoramento**
-
-Eles trazem **grande flexibilidade** e **robustez**, mas também exigem **boa arquitetura** e **gestão técnica cuidadosa**.
 
 ---
 
