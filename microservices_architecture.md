@@ -501,11 +501,13 @@ Essa separação permite:
 
 ---
 
-# Componentes de um Microsserviço
+# Arquitetando Microsserviços
+
+## Componentes de um Microsserviço
 
 Um microsserviço é responsável por gerenciar seus próprios dados, será que um microsserviço é um único processo/aplicação rodando em um único servidor?
 
-Não, um microsserviço não é necessariamente um único processo rodando em um único servidor. Ele é uma unidade lógica de negócio que pode ser composta por múltiplas instâncias da API, banco de dados, tarefas agendadas e processadores de mensagens, distribuídos em diferentes servidores ou containers. Essa arquitetura permite escalabilidade, resiliência e independência entre os serviços.
+Não, um microsserviço não é necessariamente um único processo rodando em um único servidor. Ele é uma unidade lógica de negócio que pode ser composta por múltiplos componentes da API, banco de dados, tarefas agendadas e processadores de mensagens, distribuídos em diferentes servidores ou containers. Essa arquitetura permite escalabilidade, resiliência e independência entre os serviços.
 
 
 ## Código da Aplicação (API)
