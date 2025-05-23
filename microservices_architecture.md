@@ -101,8 +101,9 @@ Fonte: https://medium.com/totvsdevelopers/seguran%C3%A7a-das-apis-como-proteger-
 
   * Escala seletiva: cada serviço cresce conforme a demanda.
   * Atualizações isoladas: altera-se um serviço sem parar o resto.
-  * Stack flexível: cada serviço usa a tecnologia mais adequada.
+  * Stack flexível: cada serviço usa a tecnologia (Linguagem de Programação e Frameworks) mais adequada.
   * Resiliência: falha em um serviço não derruba o sistema todo.
+  
 * **Desvantagens**
 
   * Configuração inicial mais trabalhosa (orquestração, deployment, observabilidade).
