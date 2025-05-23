@@ -111,7 +111,7 @@ Fonte: https://medium.com/totvsdevelopers/seguran%C3%A7a-das-apis-como-proteger-
   * Consistência de dados mais complexa (transações cruzando serviços).
 
 
-## 3. Padrões internos em Microsserviços
+## 3. Tipos de Microsserviços e seus padrões
 
 | Papel do serviço        | Função principal                | Exemplo rápido                                                 |
 | ----------------------- | ------------------------------- | -------------------------------------------------------------- |
@@ -128,16 +128,6 @@ Fonte: https://medium.com/totvsdevelopers/seguran%C3%A7a-das-apis-como-proteger-
 4. Se necessário, **Translation Service** adapta formatos antes de responder.
 
 Essa divisão mantém cada responsabilidade clara, facilita testes e permite evoluir partes específicas sem impactar o todo.
-
-## 4. Conclusão rápida
-
-* **Arquitetura** determina qualidade do software a longo prazo.
-* **Client-/Server-side** define *onde* o código executa.
-* **Monolito** é simples de começar, mas rígido na evolução.
-* **Microsserviços** dão flexibilidade e resiliência, ao preço de mais complexidade inicial.
-* **Tipificação de serviços** (Data, Business, Translation, Edge) ajuda a manter ordem em ecossistemas distribuídos.
-
-Com esses fundamentos, você já consegue avaliar qual abordagem se alinha melhor às necessidades de um projeto e planejar a evolução de forma consciente e estruturada.
 
 ---
 
