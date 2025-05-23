@@ -135,6 +135,102 @@ Essa divisão mantém cada responsabilidade clara, facilita testes e permite evo
 
 ---
 
+# Separação de Serviços em Microsserviços
+
+## Monolito por Padrão
+
+A abordagem "Monolito por padrão" de Martin Fowler sugere que, ao iniciar um projeto, é mais sensato começar com uma arquitetura monolítica. Isso permite que a equipe compreenda o domínio do problema, implemente as regras de negócio e construa uma base sólida. Somente quando partes específicas da aplicação se tornam complexas ou exigem maior escalabilidade, elas devem ser separadas em microsserviços, evoluindo gradualmente para uma arquitetura mais distribuída e flexível.
+
+## Introdução à Separação de Serviços
+
+Em microsserviços, é crucial saber como dividir uma aplicação grande em partes menores e independentes. Nesta aula, vamos focar em como identificar e separar os chamados "serviços de domínio".
+
+### O que são Serviços de Domínio?
+
+- São serviços que cuidam de uma parte específica do seu negócio (o "domínio").
+- Eles garantem que as regras do negócio sejam seguidas.
+- **Exemplo**: Um serviço de domínio para "Estudantes" na Alura cuidaria de matrículas, informações e regras específicas para estudantes.
+
+### Domain-driven Design (DDD): O Guia para Encontrar Domínios
+
+- DDD é uma forma de pensar que ajuda a entender bem o seu negócio.
+- Com DDD, fica mais fácil identificar os domínios e separá-los em serviços.
+
+### Mão na Massa: Modelando o Domínio
+
+- **Pense no Domínio, Não na Persistência**: Imagine que você está criando um serviço para estudantes. Comece pensando nas regras e ações importantes (matrícula, atualização de dados, etc.), sem se preocupar onde os dados serão guardados.
+- **Conheça o Negócio**: Entenda profundamente como as coisas funcionam no seu negócio. Quais são as regras para matricular um estudante? O que pode ser alterado depois da matrícula?
+- **Decida as Ações**: Quais ações o serviço vai permitir? Matricular, atualizar dados, consultar informações?
+
+### Construindo o Serviço
+
+- **Contrato Primeiro**: Defina como as ações serão expostas (matrícula, atualização, etc.).
+- **Implementação Depois**: Escreva o código que faz as ações funcionarem.
+- **Escolha os Verbos HTTP**: Use `PUT` para atualizar tudo e `PATCH` para atualizar partes.
+
+### REST e RPC: Amigos ou Inimigos?
+
+- **REST**: Representa recursos (ex: dados de um estudante).
+- **RPC**: Chama ações (ex: "matricular estudante").
+- **Eles podem coexistir**: Você pode usar os dois para expor seu serviço.
+
+### REST ou RPC? Eis a Questão:
+
+- **REST**: Libera todos os dados do recurso.
+- **RPC**: Permite expor apenas operações específicas.
+- Pense bem no que você quer que seu serviço faça e escolha a melhor opção.
+
+### Conclusão
+
+Separar serviços de domínio é essencial para criar microsserviços bem definidos e fáceis de manter. Use o DDD para entender seu negócio, modele o domínio com cuidado e escolha a melhor forma de expor seu serviço (REST, RPC ou ambos).
+
+---
+
+## Serviços de Negócio
+
+Imagine que você está montando uma banda. Cada músico (microsserviço) é especialista em um instrumento (domínio). O serviço de negócio é o maestro que coordena todos esses músicos para criar uma sinfonia (processo de negócio) completa e harmoniosa.
+
+### O Que São Serviços de Negócio?
+
+- **União de Talentos**: Juntam vários serviços de domínio (os especialistas em dados) para realizar tarefas complexas.
+- **Visão Estratégica**: Enxergam o "quadro geral" do negócio, coordenando ações entre diferentes áreas.
+- **Encapsulamento**: Escondem a complexidade dos processos, oferecendo uma interface simples para o cliente.
+
+### Por Que Usar Serviços de Negócio?
+
+- **Simplificação**: Facilitam a criação de processos complexos, como "matricular um aluno", que envolve várias áreas (cadastro, financeiro, etc.).
+- **Organização**: Mantêm o código limpo e fácil de entender, separando responsabilidades.
+- **Flexibilidade**: Permitem mudar partes do processo sem afetar o todo.
+
+### Como Criar um Serviço de Negócio?
+
+1. **Identifique o Processo**: Descubra qual tarefa complexa você precisa realizar (ex: "aprovar um pedido").
+2. **Reúna os Domínios**: Liste quais áreas (serviços de domínio) são necessárias para completar a tarefa (ex: "estoque", "pagamento", "entrega").
+3. **Defina a Orquestração**: Crie um "fluxo de trabalho" que coordene os serviços de domínio, definindo quem faz o quê e quando.
+4. **Crie a API**: Desenvolva uma interface simples para o cliente usar o serviço de negócio, escondendo a complexidade interna.
+
+### Exemplo Prático: Matrícula de Aluno
+
+- **Processo**: "Matricular Aluno"
+- **Domínios**:
+  - Serviço de Estudantes (cadastro)
+  - Serviço Financeiro (pagamento)
+  - Serviço de Gamificação (recompensas)
+- **Orquestração**:
+  1. Recebe dados do aluno
+  2. Valida dados no Serviço de Estudantes
+  3. Cria registro financeiro no Serviço Financeiro
+  4. Ativa recompensas no Serviço de Gamificação
+  5. Envia confirmação ao aluno
+- **API**: Um endpoint simples para receber os dados do aluno e iniciar o processo de matrícula.
+
+### Em Resumo
+
+Serviços de negócio são como maestros que orquestram microsserviços para realizar tarefas complexas. Eles simplificam o desenvolvimento, organizam o código e tornam sua aplicação mais flexível.
+
+
+---
+
 # Microsserviços: padrões práticos
 
 ## 1. Strangler Pattern – migração incremental
