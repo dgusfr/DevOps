@@ -563,6 +563,202 @@ Não, um microsserviço não é necessariamente um único processo rodando em um
 ![alt text](images/ecommerce.png)
 
 
+## Contratos em Microsserviços
+
+## O que são Contratos de Microsserviços?
+
+- **Exposição de API**: Quando um microsserviço expõe uma API, ele está **assinando um contrato**.
+- **Compromisso**: O microsserviço se compromete a fornecer funcionalidades de uma forma **específica e estável**.
+- **Responsabilidade**: Manter a API funcionando, **mesmo que o código interno mude** (linguagem, banco, etc.).
+
+
+## Mantendo a API Atualizada sem Quebrar o Contrato
+
+Como **evoluir a API** sem **quebrar** a compatibilidade com os clientes já existentes?
+
+### Técnicas:
+
+#### ✅ Transparência de Atualizações Técnicas
+- Atualizações internas **não devem afetar a API** externa.
+- **Exemplo**: Atualizar o Node.js no back-end sem mudar os endpoints ou formatos de resposta.
+
+#### ✅ Modificações Aditivas
+- **Adicionar**, nunca **modificar ou remover** diretamente.
+- Criar **novos endpoints** em vez de alterar os existentes.
+- Adicionar **campos opcionais**.
+
+**Exemplos:**
+- Inicial: `POST /pedidos` (cria um pedido)
+- Novo endpoint: `GET /pedidos/{id}/status` (consulta o status)
+- Novo campo: `"desconto"` no JSON, mas opcional
+
+#### ✅ Versionamento de APIs
+- Criar novas versões da API:
+  - `/v1/pedidos` (versão antiga)
+  - `/v2/pedidos` (nova versão com mudanças estruturais)
+- O cliente **escolhe quando migrar**.
+
+---
+
+## Versionamento de APIs na Prática
+
+### Como funciona:
+- Ao invés de `/pedidos`, usar `/v1/pedidos`
+- Quando necessário mudar o contrato: `/v2/pedidos`
+
+### Vantagens:
+- **Flexibilidade para o cliente**
+- Permite **mudanças grandes** sem quebrar serviços existentes
+
+### Desvantagens:
+- Mais trabalho: Manter **múltiplas versões**
+- **Manutenção duplicada**
+
+---
+
+## Desafios na Comunicação e Boas Práticas
+
+Modificar microsserviço **e cliente** ao mesmo tempo → cliente em produção quebra.
+
+### Boas Práticas:
+
+- Equipes **dedicadas** por microsserviço
+- **Solicitações formais** entre equipes para novas funcionalidades
+
+**Exemplo**:
+Se o **catálogo** precisa de uma nova funcionalidade do **carrinho**, deve fazer uma **solicitação oficial** para a equipe responsável.
+
+---
+
+## Independência dos Microsserviços
+
+### Objetivo:
+Microsserviços devem ser **independentes entre si**.
+
+### Significa:
+
+- Poder fazer **deploys individuais**
+- Mudar **linguagens**, **bancos**, ou **infraestrutura**
+- **Sem afetar outros serviços**
+
+🔔 Mas: **Os contratos devem ser mantidos!**
+
+---
+---
+---
+
+## Host em Microsserviços
+
+O **host** é o ambiente, físico ou virtual, onde os microsserviços **residem**.  
+Inclui:
+
+- Servidores de aplicação
+- Bancos de dados
+- Sistemas de mensageria
+- Agendadores de tarefas
+
+🔧 Cuidar do host exige **conhecimento sólido** em infraestrutura e sistemas operacionais como **Linux** (mais comum) ou **Windows Server**.
+
+
+
+## O que Significa "Cuidar do Host"?
+
+- **Organização**: Garantir que cada componente tenha um local definido e consiga se comunicar com os demais.
+- **Facilidade de Desenvolvimento**: Configuração rápida e simples para novos membros da equipe.
+- **Implantação Simplificada**: Facilidade no processo de colocar o sistema em produção.
+
+
+
+## Opções para Gerenciar o Host
+
+### 1. Máquinas Virtuais (VMs)
+
+**Como funciona**: Cada microsserviço roda em sua própria máquina virtual.
+
+**Vantagens**:
+- Isolamento total entre serviços
+- Automação do provisionamento com ferramentas como **Vagrant** e **Puppet**
+
+**Desvantagens**:
+- Alto consumo de recursos (CPU, RAM)
+- Menos eficiente para muitos microsserviços
+
+**Cenário ideal**: Projetos pequenos, monolitos ou ambientes com poucos microsserviços.
+
+**Exemplo**:
+Ambiente de desenvolvimento com 3 microsserviços:
+- Autenticação
+- Catálogo
+- Carrinho de compras  
+
+→ Requer 3 VMs separadas, com alto consumo de recursos.
+
+
+
+### 2. Sistemas em Cloud (AWS, Azure, GCP)
+
+**Como funciona**: Utilização de serviços de nuvem para provisionar e gerenciar a infraestrutura.
+
+**Vantagens**:
+- Alta escalabilidade
+- Serviços especializados (DNS, balanceamento, cache, mensageria)
+- Alta disponibilidade
+
+**Desvantagens**:
+- Custo elevado, especialmente em ambientes de desenvolvimento
+- Curva de aprendizado para configurar e gerenciar recursos
+
+**Cenário ideal**: Ambientes de produção **robustos e escaláveis**
+
+**Exemplo**:
+- **EC2**: Hospedagem dos microsserviços
+- **RDS**: Banco de dados
+- **SQS**: Filas de mensagens
+
+---
+
+### 3. Contêineres (Docker)
+
+**Como funciona**: Cada microsserviço e suas dependências são empacotados em um contêiner isolado.
+
+**Vantagens**:
+- Leveza e agilidade no consumo de recursos
+- Portabilidade entre ambientes
+- Facilidade de provisionamento com **Docker Compose** ou **Kubernetes**
+
+**Desvantagens**:
+- Necessidade de aprender orquestração de contêineres (**Kubernetes**, **Swarm**)
+
+**Cenário ideal**: Ambientes de **desenvolvimento** e **produção** com múltiplos microsserviços.
+
+**Exemplo**:
+Contêineres Docker para:
+- Autenticação
+- Catálogo
+- Carrinho  
+
+→ Gerenciados com `docker-compose.yml`
+
+---
+
+## Por que Contêineres são Ideais para Microsserviços?
+
+- **Ambientes de Desenvolvimento**: Rápida configuração e consistência.
+- **Escalabilidade**: Facilidade para escalar usando orquestradores.
+- **Portabilidade**: Funciona em qualquer ambiente.
+- **Eficiência**: Menor consumo de recursos comparado a VMs.
+
+---
+
+
+
+
+
+
+
+
+
+
 
 ---
 
