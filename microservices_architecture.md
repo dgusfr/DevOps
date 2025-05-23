@@ -110,6 +110,10 @@ Fonte: https://medium.com/totvsdevelopers/seguran%C3%A7a-das-apis-como-proteger-
   * Comunicação distribuída sujeita a latência e falhas.
   * Consistência de dados mais complexa (transações cruzando serviços).
 
+### Exemplo
+
+Em um sistema de vendas online, cada parte da loja (catálogo, pedidos, pagamento) é uma aplicação independente, um microsserviço. Cada um tem sua responsabilidade bem definida e seu próprio banco de dados. Se um serviço falha, os outros continuam funcionando, oferecendo flexibilidade e permitindo que os usuários continuem navegando e comprando, mesmo que algumas funcionalidades estejam temporariamente indisponíveis
+
 
 ## 3. Tipos de Microsserviços e seus padrões
 
