@@ -228,6 +228,51 @@ Imagine que você está montando uma banda. Cada músico (microsserviço) é esp
 
 Serviços de negócio são como maestros que orquestram microsserviços para realizar tarefas complexas. Eles simplificam o desenvolvimento, organizam o código e tornam sua aplicação mais flexível.
 
+# Agregação de Processos em Microsserviços
+
+## O que é um Agregador de Processos?
+
+Imagine que você tem várias pecinhas de Lego (serviços de domínio) que juntas formam pequenos brinquedos (serviços de negócio). Agora, imagine que você quer construir um castelo enorme (um processo complexo). Para isso, você precisa de um "super Lego" que junta vários brinquedos menores. Esse "super Lego" é o **agregador de processos**!
+
+### Em termos técnicos:
+
+- **Serviço de Domínio**: Uma pecinha básica que faz uma tarefa específica.
+- **Serviço de Negócio**: Um conjunto de pecinhas que realizam um processo completo.
+- **Agregador de Processos**: Um serviço que junta vários serviços de negócio para realizar um processo ainda maior e mais complexo.
+
+## Por que usar um Agregador de Processos?
+
+Quando temos processos muito complexos que dependem de vários outros processos, o **agregador de processos** entra em ação para organizar tudo.
+
+### Exemplo Prático: Renovação de Matrícula na Alura
+
+Pense na renovação de matrícula de um estudante na Alura. Esse processo envolve várias etapas:
+
+- **Matrícula**: Verificar cadastro, inserir ou atualizar dados, realizar pagamento.
+- **Análise de Dados**: Coletar dados do estudante, gerar relatórios e métricas do ano anterior.
+
+O **agregador de processos** coordena esses dois processos complexos (matrícula e análise de dados) para realizar a renovação completa.
+
+## Como Funciona o Agregador de Processos?
+
+1. **Recebe a Requisição**: O agregador recebe o pedido de renovação de matrícula com o ID do estudante.
+2. **Chama os Serviços**: Ele chama os serviços de matrícula e análise de dados.
+3. **Processa as Respostas**: Ele recebe as respostas de cada serviço e as processa. Por exemplo, remove mensagens desnecessárias e formata a resposta final.
+4. **Entrega a Resposta**: Ele entrega uma resposta unificada e relevante para o usuário.
+
+## O Novo Modelo de Domínio
+
+Ao criar um agregador, você está essencialmente definindo um **novo modelo para o sistema**, como se fosse um subdomínio.  
+No exemplo da renovação de matrícula, criamos um domínio específico para esse processo, com sua própria API (por exemplo, `api.alura.com.br/renovacao-de-matriculas`).
+
+## Em Resumo
+
+- O **agregador de processos** é um serviço de alto nível que coordena múltiplos serviços de negócio.
+- Ele é usado para **processos complexos** que envolvem várias etapas.
+- Ele **processa as respostas** dos serviços para entregar uma resposta unificada e relevante.
+- Ele **cria um novo modelo de domínio** para representar o processo agregado.
+
+
 
 ---
 
