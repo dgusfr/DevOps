@@ -501,6 +501,119 @@ Essa separação permite:
 
 ---
 
+# Componentes de um Microsserviço
+
+UM microserviço é é responsavel por gereniar seus propiors dados, será que um microswrviço pe um uncoo processo/aplicação rodando em um unico servidor?
+
+## Código da Aplicação (API)
+
+- É a **"cara" do microsserviço**, a parte que se comunica com o mundo exterior.
+- Pode ter **várias instâncias rodando simultaneamente** para suportar grande volume de acessos (**load balancing**).
+
+## Banco de Dados
+
+- Onde o microsserviço **guarda seus dados**.
+- Pode ter **replicação**, ou seja, várias cópias dos dados, para garantir **segurança** e **rapidez**.
+
+![alt text](images/components.png)
+
+## Tarefas Agendadas
+
+- **Processos automáticos**, executados de tempos em tempos sem interação externa.
+- Exemplo: otimizar imagens durante a madrugada, enviar e-mails periódicos, fazer backups.
+
+## Processador de Mensagens
+
+- Monitora eventos e **reage automaticamente** quando algo acontece.
+- Exemplo: ao receber um novo pedido, o processador envia uma mensagem ao serviço de entrega.
+
+![alt text](images/componentsmicro.png)
+
+---
+
+## Por que Tantos Componentes?
+
+### Escalabilidade
+- Se a **API ficar sobrecarregada**, basta **adicionar mais servidores** só para ela.
+
+### Otimização
+- Cada componente pode ser **alocado em um servidor ideal** para sua função:
+  - API: mais CPU
+  - Banco de dados: mais armazenamento
+  - Tarefas agendadas: menos prioridade
+
+### Resiliência
+- Se um banco de dados principal falhar, **a réplica assume automaticamente**, mantendo o sistema estável.
+
+---
+
+## Exemplo Prático: Loja Online (E-commerce)
+
+### Microsserviço de "Pedidos"
+
+- **API**: Recebe os pedidos feitos pelo site.
+- **Banco de Dados**: Armazena os detalhes dos pedidos.
+- **Processador de Mensagens**: Notifica o microsserviço de "Entrega" assim que um pedido é registrado.
+
+---
+
+## Microsserviços vs. Aplicações Tradicionais
+
+| Característica           | Aplicação Tradicional       | Microsserviços                  |
+|--------------------------|-----------------------------|----------------------------------|
+| Estrutura                | Tudo em um só sistema       | Módulos independentes           |
+| Escalabilidade           | Limitada                    | Por componente                  |
+| Manutenção               | Pode afetar todo o sistema  | Afeta apenas o serviço isolado |
+| Tecnologias              | Geralmente unificadas       | Podem variar por serviço        |
+
+---
+
+## Importante
+
+Implementar **microsserviços** exige conhecimento em múltiplas áreas:
+
+- **APIs**
+- **Bancos de dados**
+- **Mensageria e filas**
+- **Orquestração e infraestrutura**
+- **Sistemas operacionais**
+- **Segurança e monitoramento**
+
+Eles trazem **grande flexibilidade** e **robustez**, mas também exigem **boa arquitetura** e **gestão técnica cuidadosa**.
+
+---
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
 # Arquitetura Serverless
 
 A arquitetura **serverless** delega todo o gerenciamento de servidores ao provedor de nuvem. O desenvolvedor escreve apenas **funções**; o provedor cuida de provisionar, escalar e manter os recursos.
