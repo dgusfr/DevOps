@@ -376,7 +376,117 @@ Kong, Nginx, AWS API Gateway, Netflix Zuul, Traefik.
 
 ---
 
+# Banco de Dados em Microsserviços
 
+## Introdução
+
+Em microsserviços, a forma como lidamos com os dados é crucial. A decisão entre ter um banco de dados exclusivo para cada serviço ou compartilhar um banco de dados entre vários serviços pode impactar a **escalabilidade**, a **independência** e a **manutenção** do sistema.
+
+---
+
+## 1. Single Service Database (Banco de Dados de Serviço Único)
+
+### O que é:
+Cada microsserviço tem seu **próprio banco de dados**.
+
+### Por que usar:
+- **Escalabilidade**: Permite ajustar os recursos do banco de dados de acordo com a necessidade de cada serviço.
+- **Independência**: Cada serviço opera de forma isolada, evitando gargalos e facilitando a manutenção.
+
+### Exemplo:
+Imagine uma loja online com microsserviços para gerenciar:
+- **Produtos**
+- **Clientes**
+- **Pedidos**
+
+Cada serviço tem seu **próprio banco de dados**:
+- O serviço de produtos, que recebe muitas requisições, pode ter um banco robusto.
+- O serviço de clientes, com menos tráfego, pode usar um banco mais simples.
+
+---
+
+## 2. Shared Service Database (Banco de Dados de Serviço Compartilhado)
+
+### O que é:
+Vários microsserviços **compartilham o mesmo banco de dados**.
+
+### Quando usar:
+- Exigências contratuais.
+- Necessidade de centralizar os dados.
+
+### Como usar:
+- Trate o banco de dados compartilhado como se fossem bancos separados em termos de **acesso e operação**.
+- Cada serviço deve interagir com o banco de forma **independente**.
+
+### Exemplo:
+Por questões contratuais, todos os dados da loja online precisam estar em **um único banco**.  
+Mesmo assim, os serviços de produtos, clientes e pedidos devem acessar esse banco:
+- Como se fossem separados
+- Com suas próprias regras e permissões
+
+---
+
+## Resumo
+
+| Abordagem               | Vantagens                              | Quando Usar                           |
+|-------------------------|----------------------------------------|----------------------------------------|
+| **Single Service DB**   | Escalabilidade, independência          | Ideal para microsserviços             |
+| **Shared Service DB**   | Centralização de dados (quando necessário) | Quando há restrições ou exigências externas |
+
+---
+
+# Padrões de Codificação
+
+Padrões são como "receitas" que seguimos ao escrever código, garantindo que ele seja **organizado**, **fácil de entender** e **manter**.
+
+---
+
+## CQRS (Command Query Responsibility Segregation)
+
+### O que é:
+Um padrão que **separa modelos para escrita e leitura de dados**:
+
+- **Escrita**: Inserção e atualização de dados
+- **Leitura**: Consulta e exibição de informações
+
+### Metáfora:
+Imagine que você tem duas "salas":
+- Uma sala só para **escrever**
+- Outra sala só para **ler**
+
+Cada sala é **otimizada** para sua função.
+
+### Exemplo:
+Em um sistema com:
+- **Muitos acessos (leituras)**
+- **Poucas alterações (escritas)**
+
+Pode-se usar:
+- Um banco **rápido** para leitura
+- Um banco separado para escrita
+- Ambos são **sincronizados** posteriormente
+
+---
+
+## Vantagens do CQRS
+
+- **Otimização**: Cada modelo pode ser ajustado para desempenho ideal
+- **Flexibilidade**: Possibilidade de combinar dados de múltiplas fontes na leitura
+- **Organização**: Código mais limpo e com responsabilidades separadas
+
+> ⚠️ **Atenção**: CQRS aumenta a **complexidade** do sistema. Avalie se realmente há necessidade antes de adotá-lo.
+
+---
+
+## Na Prática
+
+- **Modelo de Escrita**: Classe que representa como os dados serão inseridos/atualizados
+- **Modelo de Leitura**: Classe que representa como os dados serão lidos/exibidos
+
+Essa separação permite:
+- Gerar novos dados
+- Combinar informações de diferentes lugares
+- Organizar melhor a estrutura do sistema
 
 
 ---
