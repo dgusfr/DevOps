@@ -366,6 +366,31 @@ Kong, Nginx, AWS API Gateway, Netflix Zuul, Traefik.
 
 ---
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
+
+
+
+
+---
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
+
 # Arquitetura Serverless
 
 A arquitetura **serverless** delega todo o gerenciamento de servidores ao provedor de nuvem. O desenvolvedor escreve apenas **funções**; o provedor cuida de provisionar, escalar e manter os recursos.
