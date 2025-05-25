@@ -1214,7 +1214,7 @@ Este diagrama mostra uma aplicação dividida em três microsserviços principai
 
 
 
-
+---
 
 
 
