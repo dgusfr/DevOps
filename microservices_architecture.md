@@ -971,6 +971,120 @@ Imagine um serviço de **cancelamento de pedidos**:
 - A combinação das duas técnicas permite criar sistemas **eficientes**, **escaláveis** e **resilientes**.
 
 ---
+---
+
+
+## Lidando com Falhas em Microsserviços
+
+Falhas acontecem. Em microsserviços, isso é ainda mais comum porque tudo depende de comunicação entre diferentes partes, geralmente por rede, que pode cair a qualquer momento. Por isso, precisamos preparar o sistema para ser resiliente e sobreviver a problemas sem afetar o usuário final.
+
+
+### Falhas na Comunicação Síncrona
+
+### Problema
+Quando um serviço depende do outro e algo falha, tudo para.  
+Exemplo: Se o microsserviço de carrinho está fora do ar, não é possível adicionar produtos e a compra é bloqueada.
+
+### Soluções
+
+#### Circuit Breaker (Disjuntor)
+- Um proxy (como o Nginx) fica entre os serviços.
+- Se muitos erros acontecem, o circuito "abre" e bloqueia novas tentativas por um tempo.
+- Depois, testa se o serviço voltou e reativa se estiver ok.
+- **Exemplo:** Se o carrinho falha, o proxy para de enviar requisições para não sobrecarregar ainda mais.
+
+#### Cache
+- Armazena respostas já processadas para reduzir o número de acessos ao serviço original.
+- Se o serviço cair, o cache ainda consegue entregar dados antigos.
+- **Exemplo:** O catálogo pode mostrar produtos salvos em cache, mesmo se o serviço principal estiver fora do ar.
+- **Atenção:** Não funciona para dados que mudam toda hora, como carrinho de compras de cada usuário.
+
+---
+
+### Falhas na Comunicação Assíncrona
+
+Aqui, a mensagem é enviada para uma fila, e o serviço que deveria processá-la pode estar indisponível.
+
+### Soluções
+
+#### Retry (Tentativa de novo)
+- Se a entrega da mensagem falhar, tenta de novo depois de alguns segundos.
+- Útil quando o serviço está temporariamente fora.
+
+#### Retry com Back-off
+- A cada nova falha, aumenta o tempo de espera entre as tentativas.
+- Evita sobrecarregar o sistema com tentativas repetidas.
+
+#### Dead Letter Queue (Fila de mensagens mortas)
+- Se a mensagem falhar muitas vezes, é enviada para uma fila separada.
+- Permite analisar depois o que deu errado sem travar o sistema principal.
+
+**Dica:** Ferramentas de mensageria como RabbitMQ e Kafka já oferecem essas funções prontas.
+
+---
+
+## Service Discovery (Descoberta de Serviços)
+
+Em sistemas com vários microsserviços, não faz sentido usar IPs fixos para cada serviço. Eles mudam toda hora. Precisamos de um jeito para os serviços encontrarem uns aos outros automaticamente.
+
+
+## Solução 1: DNS Interno
+
+- Configure um servidor DNS dentro da rede.
+- Dê nomes para os serviços, como `catalogo.local` ou `carrinho.local`.
+- Assim, qualquer serviço pode acessar outro pelo nome, não pelo IP.
+
+**Exemplo:**  
+Na sua rede doméstica, você pode acessar um serviço em outro computador pelo nome em vez do IP, se configurar o DNS do roteador.
+
+---
+
+## Solução 2: Service Registry
+
+Ferramentas especializadas (Consul, etcd, Eureka) cuidam disso:
+
+- Serviços se registram quando sobem.
+- Outros serviços consultam o registro para saber onde encontrar quem precisam.
+- Oferecem recursos de health-check (verificam se está no ar), balanceamento e failover automático.
+
+**Exemplo:**  
+O Nginx pode funcionar como balanceador, recebendo tráfego em um único endereço e distribuindo entre instâncias do microsserviço que estiverem disponíveis.
+
+---
+
+## Kubernetes e Docker Compose
+
+Orquestradores modernos já cuidam de service discovery automaticamente.
+
+- **Kubernetes:** Cada serviço recebe um nome DNS automático, pronto para uso.
+- **Docker Compose:** Containers se comunicam entre si usando o nome do serviço definido no arquivo `docker-compose.yml`.
+
+```yaml
+version: "3.9"
+services:
+  servico-a:
+    image: servico-a-image
+    ports:
+      - "8080:8080"
+  servico-b:
+    image: servico-b-image
+    depends_on:
+      - servico-a
+    environment:
+      - SERVICO_A_URL=http://servico-a:8080
+```
+
+No exemplo acima, `servico-b` consegue acessar `servico-a` usando `http://servico-a:8080`.
+
+---
+
+## Conclusão
+
+* Falhas vão acontecer — seu sistema precisa estar preparado.
+* Use circuit breaker, cache e retry para garantir que as falhas não afetem o usuário final.
+* Para facilitar a comunicação entre microsserviços, use DNS interno ou um service registry.
+* Ferramentas modernas como Docker Compose e Kubernetes já facilitam esse trabalho.
+
 
 ---
 
