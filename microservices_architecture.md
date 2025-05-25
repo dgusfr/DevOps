@@ -970,7 +970,19 @@ Imagine um serviço de **cancelamento de pedidos**:
 - **Assíncrono**: requisição → retorna rápido → processa em background.  
 - A combinação das duas técnicas permite criar sistemas **eficientes**, **escaláveis** e **resilientes**.
 
+---
 
+---
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
 
 
 
