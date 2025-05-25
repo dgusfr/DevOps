@@ -1206,7 +1206,7 @@ Este diagrama mostra uma aplicação dividida em três microsserviços principai
 > Um **API Gateway** centraliza chamadas, cada microsserviço é responsável por um domínio de negócio e o **RabbitMQ** garante comunicação assíncrona confiável. Juntos, eles formam uma aplicação modular, escalável e resistente a falhas.
 
 
-
+---
 
 
 
