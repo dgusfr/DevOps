@@ -1099,6 +1099,112 @@ No exemplo acima, `servico-b` consegue acessar `servico-a` usando `http://servic
 ---
 
 
+# Microsserviços na Prática – Entendendo a Arquitetura
+
+Este diagrama mostra uma aplicação dividida em três microsserviços principais (Marketing, Financeiro e Acadêmico), um **API Gateway** e um **front-end** em Angular. Todas as mensagens assíncronas passam por um **RabbitMQ**.
+
+![alt text](images/microservices_architecture.png)
+
+## 1. Front-end (Angular)
+
+- **Tecnologia:** Angular (pode ser React, Vue, etc.)  
+- **Função:**  
+  - Coletar informações do usuário (formulário de matrícula, dados de pagamento, etc.)  
+  - Exibir feedback e telas dinâmicas.
+- **Comunicação:**  
+  - Envia requisições HTTP ao **API Gateway**.  
+  - Recebe respostas formatadas para a interface.
+
+---
+
+## 2. API Gateway (Nginx)
+
+- **Função principal:**  
+  - **Roteamento**: Encaminha cada requisição para o microsserviço correto (Marketing, Financeiro ou Acadêmico).  
+  - **Segurança e padronização**: Pode implementar autenticação, logs e limites de taxa (rate-limit).  
+- **Como ajuda:**  
+  - Você nunca chama diretamente o IP de um microsserviço. Basta chamar `https://api.suaapp.com/marketing` ou `/financeiro`, e o Gateway redireciona.
+
+---
+
+## 3. Microsserviço de Marketing
+
+- **Stack:** Node.js + TypeScript + Express  
+- **Componentes:**  
+  1. **API Marketing** – recebe dados do lead (nome, e-mail).  
+  2. **Consumidor de Filas** – processa leads pendentes e dispara campanhas.  
+- **Banco de Dados:** MongoDB (document-oriented)  
+- **Fluxo prático:**  
+  1. Usuário preenche formulário de interesse → `POST /marketing/leads`.  
+  2. API grava lead no MongoDB e retorna `201 Created`.  
+  3. Se o lead não completar matrícula, o consumidor lê da fila e envia e-mails de lembrete.
+
+---
+
+## 4. Microsserviço Financeiro
+
+- **Stack:** PHP + Swoole (servidor assíncrono)  
+- **Componentes:**  
+  1. **API Financeira** – recebe dados de pagamento (cartão, valor).  
+  2. **Tarefas de Background** – validam fraude, interfacing com gateway de pagamento.  
+- **Banco de Dados:** SQLite (para desenvolvimento; poderia ser MySQL, PostgreSQL, etc.)  
+- **Fluxo prático:**  
+  1. Front-end envia `POST /financeiro/pagamento` com os dados do cartão.  
+  2. API grava transação inicial e retorna `202 Accepted`.  
+  3. Tarefa de background processa pagamento:  
+     - Verifica fraude  
+     - Confirma a cobrança  
+     - Publica evento **`PagamentoProcessado`** no RabbitMQ
+
+---
+
+## 5. RabbitMQ (Mensageria)
+
+- **Função:** Barramento de mensageria **publish/subscribe**  
+- **Por que usar:**  
+  - **Desacoplamento**: O serviço emissor não depende de quem irá consumir.  
+  - **Resiliência**: Se um consumidor estiver fora do ar, a mensagem fica na fila até ser processada.  
+  - **Escalabilidade**: Vários consumidores podem ler a mesma fila em paralelo.
+
+---
+
+## 6. Microsserviço Acadêmico
+
+- **Stack:** PHP (ou outra linguagem de backend)  
+- **Componentes:**  
+  1. **API Acadêmica** – fornece rotas para detalhes de aluno e cursos.  
+  2. **Consumidor de Filas** – escuta eventos de pagamento e cria aluno.  
+- **Banco de Dados:** PostgreSQL (relacional)  
+- **Fluxo prático:**  
+  1. **Evento** `PagamentoProcessado` chega do RabbitMQ.  
+  2. Consumidor lê a mensagem, cria um registro de **Aluno** no PostgreSQL.  
+  3. Gera senha, envia e-mail de boas-vindas.  
+  4. API Acadêmica disponibiliza rota `GET /academico/alunos/{id}` para consulta.
+
+---
+
+## 7. Conectando Tudo
+
+1. **Usuário interage** no Angular → chama o **API Gateway**.  
+2. Gateway **autentica** e **rotea** para o microsserviço certo.  
+3. Microsserviço (**sync**): Marketing e Financeiro respondem direto ao Gateway.  
+4. Microsserviço Financeiro **publica** evento no RabbitMQ.  
+5. Microsserviço Acadêmico **consome** esse evento e executa tarefas em **background**.  
+
+---
+
+## 8. Benefícios Desta Arquitetura
+
+- **Independência:** Cada equipe pode escolher sua stack e banco.  
+- **Escalabilidade:** Só escalo o serviço com maior demanda (ex.: Marketing em promoções).  
+- **Resiliência:** Falha no Financeiro não derruba o Marketing; mensagens ficam na fila.  
+- **Evolução:** Posso atualizar um microsserviço sem parar todo o sistema.
+
+---
+
+> **Resumo final:**  
+> Um **API Gateway** centraliza chamadas, cada microsserviço é responsável por um domínio de negócio e o **RabbitMQ** garante comunicação assíncrona confiável. Juntos, eles formam uma aplicação modular, escalável e resistente a falhas.
+
 
 
 
