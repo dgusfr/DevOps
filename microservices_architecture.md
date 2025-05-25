@@ -554,13 +554,110 @@ Não, um microsserviço não é necessariamente um único processo rodando em um
 
 ## Exemplo Prático: Loja Online (E-commerce)
 
-### Microsserviço de "Pedidos"
-
-- **API**: Recebe os pedidos feitos pelo site.
-- **Banco de Dados**: Armazena os detalhes dos pedidos.
-- **Processador de Mensagens**: Notifica o microsserviço de "Entrega" assim que um pedido é registrado.
-
 ![alt text](images/ecommerce.png)
+
+## Visão geral da arquitetura
+
+O diagrama mostra a referência **eShopOnContainers**, um e-commerce demo composto por diversos microsserviços **empacotados como contêineres Docker** que rodam em um único host durante o desenvolvimento.
+Toda a comunicação é feita por **HTTP** (síncrona) ou por um **Event Bus** (RabbitMQ ou Azure Service Bus) para mensagens assíncronas.
+
+## 1 – Camada de clientes
+
+| Cliente             | Tecnologia             | Como se conecta                         |
+| ------------------- | ---------------------- | --------------------------------------- |
+| **Mobile app**      | Xamarin.Forms (C#)     | Chama o *API Gateway* “Mobile-Shopping” |
+| **Web tradicional** | ASP.NET Core MVC       | Chama o *API Gateway* “Web-Shopping”    |
+| **SPA Web**         | Angular 2 + TypeScript | Também passa pelo *API Gateway*         |
+
+Esses Back-ends-for-Frontend (BFF) alojam lógica específica da experiência de cada cliente e encaminham as requisições para os microsserviços adequados.
+
+## 2 – API Gateways / BFF
+
+Dois contêineres (Mobile-Shopping e Web-Shopping) atuam como **gateways**:
+
+* Autenticam a requisição junto ao serviço **Identity**
+* Concentram lógica de roteamento, *caching* e composição de respostas
+* Simplificam o domínio exposto aos diversos apps
+
+## 3 – Microsserviços de domínio
+
+| Serviço                      | Responsabilidade principal                                          | Persistência  |
+| ---------------------------- | ------------------------------------------------------------------- | ------------- |
+| **Identity**                 | Autenticação, autorização, gestão de usuários (STS)                 | SQL Server    |
+| **Catalog**                  | Listagem de produtos, preços, estoque estático                      | SQL Server    |
+| **Basket**                   | Carrinho de compras por usuário                                     | Redis (cache) |
+| **Ordering.API**             | Recebe requisição de criação de pedido                              | SQL Server    |
+| **Ordering.BackgroundTasks** | Processa pedidos em segundo plano (pagamento, estoque, notificação) | SQL Server    |
+
+Cada serviço sobe em seu próprio contêiner, publica/consome **eventos** e expõe APIs REST independentes.
+
+### Separação de responsabilidades
+
+* **Ordering** possui dois contêineres distintos:
+  *API* (recebe o *checkout*) e **BackgroundTasks** (trabalhos demorados), garantindo que o endpoint de criação de pedidos fique leve.
+
+## 4 – Event Bus (Publish/Subscribe)
+
+* Canal assíncrono onde os microsserviços trocam **Integration Events**.
+* Implementado por **RabbitMQ** (desenvolvimento local) ou **Azure Service Bus** (produção).
+* Evita acoplamento direto: cada serviço apenas publica eventos ou assina aqueles de que precisa.
+
+Exemplos de eventos:
+
+* `OrderStartedIntegrationEvent` (Ordering → Catalog / Basket)
+* `ProductPriceChangedIntegrationEvent` (Catalog → Basket)
+
+## 5 – Serviços transversais
+
+* **Seq Logging** Centraliza logs estruturados; cada contêiner escreve nele.
+* **Web Status** Painel de saúde dos microsserviços via *Health-checks*.
+* **Webhooks API** Mecanismo para que sistemas externos recebam eventos.
+* **Admin Services** Contêineres auxiliares (migrações, seed de dados etc.).
+
+## 6 – Fluxo de uso passo a passo
+
+1. **Login**
+   App → API Gateway → Identity → Token JWT.
+
+2. **Navegação no catálogo**
+   App → API Gateway → Catalog → Retorna lista de produtos.
+
+3. **Adicionar ao carrinho**
+   App → API Gateway → Basket (Redis) grava item.
+
+4. **Checkout**
+   App → API Gateway → Ordering.API cria o pedido, gera `OrderStartedIntegrationEvent`.
+
+5. **Processamento assíncrono**
+   Ordering.BackgroundTasks consome o evento, confirma pagamento, reserva estoque, publica `OrderStatusChangedIntegrationEvent`.
+
+6. **Atualização em tempo real**
+   Basket ou apps inscritos recebem o evento e atualizam interface.
+
+7. **Observabilidade**
+   Todos os contêineres enviam logs ao Seq; *Web Status* exibe *health*; métricas podem ser coletadas por Prometheus/Grafana.
+
+## 7 – Benefícios da abordagem
+
+* **Escalabilidade independente** (ex.: escalar apenas Basket em época de promoções).
+* **Isolamento de falhas** — um defeito no Catalog não derruba Ordering.
+* **Evolução autônoma** — cada equipe pode alterar tecnologia interna mantendo o contrato da API.
+* **Desenvolvimento mais simples** — contêineres permitem subir tudo com `docker-compose up`.
+
+## 8 – Resumo
+
+O **eShopOnContainers** demonstra um e-commerce moderno onde:
+
+* Aplicações cliente consomem APIs via Gateways/BFF
+* Cada contexto de negócio roda em microsserviço próprio com base de dados independente
+* Um **Event Bus** garante comunicação desacoplada e consistência eventual
+* Logs, *health-checks* e webhooks oferecem observabilidade e integração externa
+* Tudo pode ser orquestrado localmente em um único Docker host ou escalado na nuvem com Kubernetes/Service Fabric.
+
+Essa arquitetura evidencia práticas essenciais para microsserviços: **BFF, banco por serviço, mensageria, contêineres, automação de infraestrutura** e observabilidade centralizada.
+
+
+---
 
 
 ## Contratos em Microsserviços
@@ -747,6 +844,7 @@ Contêineres Docker para:
 - **Escalabilidade**: Facilidade para escalar usando orquestradores.
 - **Portabilidade**: Funciona em qualquer ambiente.
 - **Eficiência**: Menor consumo de recursos comparado a VMs.
+
 
 ---
 
