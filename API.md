@@ -31,8 +31,6 @@ Uma API é um conjunto de regras que define como diferentes sistemas podem conve
 - **Cliente:** sistema que faz a solicitação (ex.: navegador).  
 - **Servidor:** sistema que recebe a solicitação e devolve dados (ex.: vídeos do YouTube).
 
-clientserverside.png
-
 ![clientserverside](images/clientserverside.png)
 *Fonte: [https://www.cloudflare.com/learning/serverless/glossary/client-side-vs-server-side/](https://www.cloudflare.com/learning/serverless/glossary/client-side-vs-server-side/)*
 
