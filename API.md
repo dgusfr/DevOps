@@ -33,6 +33,9 @@ Uma API é um conjunto de regras que define como diferentes sistemas podem conve
 
 clientserverside.png
 
+![clientserverside](images/clientserverside.png)
+*Fonte: [https://www.cloudflare.com/learning/serverless/glossary/client-side-vs-server-side/](https://www.cloudflare.com/learning/serverless/glossary/client-side-vs-server-side/)*
+
 Exemplo de fluxo:
 1. Cliente solicita um vídeo ao servidor do YouTube.  
 2. Servidor processa e envia o vídeo.  
