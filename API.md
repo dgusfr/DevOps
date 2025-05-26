@@ -294,7 +294,7 @@ Fluxo básico:
 
 ---
 
-## Padrões de Integração
+# Padrões de Integração
 
 ## Polling
 
