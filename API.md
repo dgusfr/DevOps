@@ -31,10 +31,13 @@ Uma API é um conjunto de regras que define como diferentes sistemas podem conve
 - **Cliente:** sistema que faz a solicitação (ex.: navegador).  
 - **Servidor:** sistema que recebe a solicitação e devolve dados (ex.: vídeos do YouTube).
 
+clientserverside.png
+
 Exemplo de fluxo:
 1. Cliente solicita um vídeo ao servidor do YouTube.  
 2. Servidor processa e envia o vídeo.  
 3. Cliente exibe o vídeo ao usuário.
+
 
 ---
 
