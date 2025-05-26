@@ -32,6 +32,7 @@ Uma API é um conjunto de regras que define como diferentes sistemas podem conve
 - **Servidor:** sistema que recebe a solicitação e devolve dados (ex.: vídeos do YouTube).
 
 ![clientserverside](images/clientserverside.png)
+<br>
 *Fonte: [https://www.cloudflare.com/learning/serverless/glossary/client-side-vs-server-side/](https://www.cloudflare.com/learning/serverless/glossary/client-side-vs-server-side/)*
 
 Exemplo de fluxo:
@@ -179,6 +180,7 @@ Ferramenta de linha de comando para consumir APIs HTTP.
 ### JWT (JSON Web Token)
 
 ![jwt-token](images/jwt-token.png)
+<br>
 *Fonte: [https://jwt.io/](https://jwt.io/)*
 
 * Três partes: header · payload · signature.
@@ -188,15 +190,53 @@ Ferramenta de linha de comando para consumir APIs HTTP.
 Fluxo básico:
 
 ![jwt-flow](images/jwt-flow.png)
+<br>
 *Fonte: [https://roadmap.sh/guides/jwt-authentication](https://roadmap.sh/guides/jwt-authentication)*
 
 ---
 
 ## Padrões de Integração
 
+## Polling
+
+No polling, o cliente faz requisições periódicas para a API para saber se há dados novos ou atualizações. Esse método é simples, mas pode sobrecarregar o servidor com requisições desnecessárias, principalmente se a frequência for alta. É mais adequado quando a atualização em tempo real não é essencial ou quando o servidor não suporta notificações automáticas.
+
+---
+
+## Webhooks
+
+Webhooks são uma solução baseada em **pushing**. Nesse modelo, o servidor envia uma requisição HTTP automaticamente para um endpoint do cliente assim que um evento ocorre. O cliente precisa disponibilizar uma URL pública para receber essas notificações. Esse mecanismo reduz o tráfego desnecessário, fornece atualizações em tempo real e é ideal para integrações que precisam de notificações automáticas, como sistemas de pagamento ou notificações de status.
+
+---
+
+## Pushing
+
+O termo **pushing**, no contexto de APIs, se refere ao servidor enviando informações de forma ativa para o cliente, sem que o cliente precise perguntar repetidamente. Webhooks são a forma mais comum de implementar pushing em APIs HTTP.
+
+---
+
 ![webhook-vs-polling](images/webhookpolling.gif)
+<br>
 *Fonte: [https://x.com/LevelUpCoding\_/status/1809118819966988592](https://x.com/LevelUpCoding_/status/1809118819966988592)*
 
+---
+
+## Exemplo Prático
+
+Imagine um sistema de e-commerce que deseja saber quando o pagamento de um pedido foi aprovado:
+
+- **Polling:** O sistema de e-commerce faz requisições constantes para a API do gateway de pagamentos perguntando se o pagamento do pedido foi aprovado.
+
+- **Webhook (Pushing):** Assim que o pagamento é aprovado, o gateway de pagamentos faz uma requisição HTTP (POST) automaticamente para uma URL do sistema de e-commerce, enviando os dados da aprovação. Não é necessário que o sistema de e-commerce faça verificações repetidas.
+
+---
+
+## Resumo das diferenças
+
+- **Polling:** O cliente pergunta várias vezes ao servidor por novidades.
+- **Pushing (Webhooks):** O servidor avisa o cliente automaticamente quando há novidades.
+
+A escolha entre polling e pushing (webhooks) depende da necessidade de atualização em tempo real, da infraestrutura e dos requisitos do sistema.
 
 
 ---
