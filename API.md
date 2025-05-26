@@ -152,7 +152,7 @@ cURL é uma ferramenta de linha de comando para testar e consumir APIs HTTP.
 
   ```bash
   curl https://api.github.com/users/username/repos
-````
+```
 
 * **GET explícito:**
 
@@ -202,17 +202,54 @@ cURL é uma ferramenta de linha de comando para testar e consumir APIs HTTP.
   curl -X DELETE https://jsonplaceholder.typicode.com/posts/5
   ```
 
-
-
 ---
 
-## CORS
+## CORS (Cross-Origin Resource Sharing)
 
-**CORS (Cross-Origin Resource Sharing)** controla acesso entre origens diferentes.
+CORS é um mecanismo de segurança dos navegadores que controla o acesso a recursos entre diferentes origens (combinação de protocolo, domínio e porta).
 
-* Navegadores bloqueiam requisições cross-origin por padrão.
-* Servidor deve liberar com cabeçalhos `Access-Control-Allow-*`.
-* Requisições complexas disparam pré-requisição `OPTIONS`.
+
+### Origem
+
+Diferença em protocolo, domínio ou porta já define origens diferentes.
+
+
+### Restrição
+
+Navegadores bloqueiam por padrão requisições AJAX (fetch, XMLHttpRequest) de uma origem para outra, exceto se o servidor responder com os cabeçalhos CORS corretos.
+
+
+### Cabeçalhos CORS
+
+O servidor deve liberar explicitamente acesso, usando cabeçalhos como:
+
+- **Access-Control-Allow-Origin:** Domínios permitidos.
+- **Access-Control-Allow-Methods:** Métodos HTTP liberados.
+- **Access-Control-Allow-Headers:** Cabeçalhos aceitos.
+- **Access-Control-Allow-Credentials:** Permite cookies/autenticação.
+
+
+### Tipos de Requisições
+
+- **Simples:** Usam métodos GET, HEAD ou POST com cabeçalhos padrões. Só funcionam se o servidor liberar a origem.
+- **Complexas:** Usam outros métodos (PUT, DELETE, etc.) ou cabeçalhos personalizados. O navegador faz uma pré-requisição (OPTIONS) antes da requisição real. O servidor deve liberar métodos e cabeçalhos via resposta OPTIONS.
+
+
+### Importância
+
+- **Segurança:** Bloqueia requisições não autorizadas de outros sites.
+- **Controle:** Permite liberar acesso somente para origens confiáveis.
+
+
+### Implementação
+
+Configuração é feita no backend (ex: ExpressJS usa o middleware `cors`).
+
+
+### Observação
+
+Ferramentas como **Postman** ou **curl** não aplicam CORS, por isso testes nelas não refletem a segurança do navegador.
+
 
 ---
 
