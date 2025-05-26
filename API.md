@@ -194,28 +194,9 @@ Fluxo básico:
 
 ## Padrões de Integração
 
-![webhook-vs-polling](images/webhook-vs-polling.gif)
+![webhook-vs-polling](images/webhookpolling.gif)
 *Fonte: [https://x.com/LevelUpCoding\_/status/1809118819966988592](https://x.com/LevelUpCoding_/status/1809118819966988592)*
 
-### Polling
 
-* Cliente envia requisições periódicas verificando atualizações.
-* Simples, porém causa tráfego desnecessário.
 
-### Webhooks (Pushing)
-
-* Servidor envia requisição automaticamente quando evento ocorre.
-* Requer endpoint público no cliente.
-* Oferece atualizações em tempo real e reduz tráfego.
-
-| Característica | Polling   | Webhook            |
-| -------------- | --------- | ------------------ |
-| Iniciação      | Cliente   | Servidor           |
-| Tráfego        | Constante | Somente em eventos |
-| Tempo real     | Não       | Sim                |
-
-Exemplo e-commerce:
-
-* Polling: sistema consulta gateway de pagamento repetidamente.
-* Webhook: gateway notifica sistema ao aprovar pagamento.
-
+---
