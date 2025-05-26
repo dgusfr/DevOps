@@ -142,16 +142,67 @@ Content-Type: application/json
 
 ## cURL
 
-Ferramenta de linha de comando para consumir APIs HTTP.
+cURL é uma ferramenta de linha de comando para testar e consumir APIs HTTP.
 
-| Método                 | Exemplo                                                                                                                                   |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **GET**                | `curl https://api.github.com/users/username/repos`                                                                                        |
-| **POST (form)**        | `curl -X POST -d "userId=5&title=PostTitle" https://jsonplaceholder.typicode.com/posts`                                                   |
-| **POST (JSON + Auth)** | `curl -X POST https://some-url/api/users -H "Authorization: Bearer TOKEN" -H "Content-Type: application/json" -d '{"username":"myuser"}'` |
-| **PUT**                | `curl -X PUT -H "Content-Type: application/json" -d '{"title":"New"}' https://jsonplaceholder.typicode.com/posts/5`                       |
-| **PATCH**              | `curl -X PATCH -H "Content-Type: application/json" -d '{"title":"Updated"}' https://jsonplaceholder.typicode.com/posts/5`                 |
-| **DELETE**             | `curl -X DELETE https://jsonplaceholder.typicode.com/posts/5`                                                                             |
+---
+
+### Principais comandos
+
+- **GET:** Obtém dados.
+
+  ```bash
+  curl https://api.github.com/users/username/repos
+````
+
+* **GET explícito:**
+
+  ```bash
+  curl -X GET https://api.example.com/resource
+  ```
+
+* **POST:** Envia dados para criar um recurso.
+
+  ```bash
+  curl -X POST -d "userId=5&title=PostTitle&body=PostContent" https://jsonplaceholder.typicode.com/posts
+  ```
+
+* **POST com autenticação e JSON:**
+
+  ```bash
+  curl -X POST https://some-web-url/api/v1/users \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {ACCESS_TOKEN}' \
+  -d '{
+    "username": "myusername",
+    "email": "myusername@gmail.com",
+    "password": "PasswOrd123!"
+  }'
+  ```
+
+* **PUT:** Atualiza um recurso por completo.
+
+  ```bash
+  curl -X PUT -H "Content-Type: application/json" \
+  -d '{"userId": 5, "title": "New Post Title", "body": "New post content."}' \
+  https://jsonplaceholder.typicode.com/posts/5
+  ```
+
+* **PATCH:** Atualiza parte de um recurso.
+
+  ```bash
+  curl -X PATCH -H "Content-Type: application/json" \
+  -d '{"title": "Updated Title"}' \
+  https://jsonplaceholder.typicode.com/posts/5
+  ```
+
+* **DELETE:** Remove um recurso.
+
+  ```bash
+  curl -X DELETE https://jsonplaceholder.typicode.com/posts/5
+  ```
+
+
 
 ---
 
@@ -179,11 +230,14 @@ Ferramenta de linha de comando para consumir APIs HTTP.
 
 ### JWT (JSON Web Token)
 
+Token compacto que carrega informações do usuário e permissões. Muito usado em APIs REST por permitir autenticação sem estado (stateless).
+
+
 ![jwt-token](images/jwt-token.png)
 <br>
 *Fonte: [https://jwt.io/](https://jwt.io/)*
 
-* Três partes: header · payload · signature.
+* Token composto por três partes: cabeçalho, payload (dados/claims) e assinatura.
 * Enviado em `Authorization: Bearer <token>`.
 * Assinado digitalmente; tokens expiram.
 
@@ -192,6 +246,14 @@ Fluxo básico:
 ![jwt-flow](images/jwt-flow.png)
 <br>
 *Fonte: [https://roadmap.sh/guides/jwt-authentication](https://roadmap.sh/guides/jwt-authentication)*
+
+1. Cliente faz login enviando credenciais.
+
+2. Servidor valida e gera um JWT.
+
+3. Cliente armazena o JWT e envia nas próximas requisições.
+
+4. Servidor valida o JWT a cada requisição protegida.
 
 ---
 
