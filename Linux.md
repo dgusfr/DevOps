@@ -683,8 +683,6 @@ esac
 ---
 ---
 
-
-````markdown
 # Monitoramento
 
 Abaixo, apresento um resumo dos tópicos explicados, os comandos utilizados, exemplos de saídas e explicações detalhadas de como interpretar os logs e os dados apresentados.
