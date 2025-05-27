@@ -2,6 +2,7 @@
 
 # Sumário Interativo
 
+- [Servidores](#servidores)
 - [NGINX](#nginx)
   - [O que é o NGINX?](#o-que-é-o-nginx)
   - [Função do NGINX](#função-do-nginx)
@@ -40,6 +41,39 @@
   - [4. Verifique os logs](#4-verifique-os-logs)
 - [Adicionando Informações com Cabeçalhos Personalizados no NGINX](#adicionando-informações-com-cabeçalhos-personalizados-no-nginx)
 
+
+## Servidores
+
+Um servidor é um computador ou sistema configurado para fornecer serviços, dados ou recursos a outros dispositivos conectados a uma rede.  
+Esses dispositivos que solicitam informações são chamados de **clientes**. Um servidor pode ser tanto um **hardware dedicado** quanto um **software especializado** que executa funções específicas.  
+Os servidores desempenham um papel crucial em diversos contextos, como hospedagem de websites, armazenamento de arquivos, banco de dados, envio de e-mails, entre outros.
+
+
+## Tipos de servidores e seus usos
+
+- **Servidor Web**  
+  Hospeda e serve páginas da web para navegadores de clientes usando o protocolo HTTP ou HTTPS.  
+  Exemplo: acessar um site como Alura ou Google.  
+  Exemplos de servidores web: Apache, Nginx, IIS (Windows).
+
+- **Servidor de Arquivos**  
+  Gerencia e armazena arquivos que podem ser acessados remotamente por usuários.
+
+- **Servidor de Banco de Dados**  
+  Hospeda sistemas de gerenciamento de bancos de dados para armazenar e processar dados estruturados.  
+  Exemplo: MySQL, PostgreSQL.
+
+- **Servidor de E-mails**  
+  Gerencia o envio e recebimento de e-mails.  
+  Exemplo: SMTP, IMAP.
+
+- **Servidor de Aplicações**  
+  Hospeda e executa aplicações específicas usadas por clientes.
+
+- **Servidor de Streaming**  
+  Fornece acesso a conteúdos de vídeo e áudio sob demanda ou ao vivo.
+
+---
 
 ## O que é o NGINX?
 
