@@ -437,7 +437,7 @@ Save modified buffer? (Answering "No" will DISCARD changes)
 
 ---
 
-# Script de Backup
+## Script de Backup
 
 Este script automatiza o processo de criação de backups de um diretório específico no sistema Linux. Ele faz isso ao compactar todos os arquivos de um diretório e nomear o arquivo de backup com base na data e hora em que foi criado.
 
@@ -473,7 +473,7 @@ echo "Backup concluído em $nome_arquivo"
 ```
 
 ![Imagem nano backup.sh](images/nano-backup-sh.png)
-Fonte: *[https://www.gnu.org/software/nano/](https://www.gnu.org/software/nano/)*
+Fonte: *[Autor](Autor)*
 
 Salvar e sair do editor: Pressione `Ctrl + X`, digite `Y` e pressione `Enter`.
 
@@ -526,7 +526,7 @@ Salve e saia. Agora o script será executado automaticamente no horário especif
 
 ---
 
-# Script de Compactação
+## Script de Compactação
 
 ## Criação do Script
 
@@ -592,7 +592,7 @@ tar -tf saida.tar.gz
 
 ---
 
-# Script de Mensagem
+## Script de Mensagem
 
 ```bash
 #!/bin/bash
@@ -601,7 +601,7 @@ echo "Olá, mundo!"
 
 ---
 
-# Script de Criação de Diretório
+## Script de Criação de Diretório
 
 ```bash
 #!/bin/bash
@@ -613,7 +613,7 @@ echo "Diretório '$nome_diretorio' criado com sucesso!"
 
 ---
 
-# Script de Verificação de Diretório
+## Script de Verificação de Diretório
 
 ```bash
 #!/bin/bash
@@ -628,7 +628,7 @@ fi
 
 ---
 
-# Script de Múltiplas Tarefas
+## Script de Múltiplas Tarefas
 
 ```bash
 #!/bin/bash
@@ -678,5 +678,233 @@ esac
   ```bash
   ./compedescomp.sh
   ```
+
+---
+---
+---
+
+
+````markdown
+# Monitoramento
+
+Abaixo, apresento um resumo dos tópicos explicados, os comandos utilizados, exemplos de saídas e explicações detalhadas de como interpretar os logs e os dados apresentados.
+
+---
+
+## Monitorando Processos com o Comando top
+
+Exibe uma visão dinâmica e em tempo real dos processos em execução no sistema.  
+Mostra o consumo de recursos (CPU, memória) e o estado dos processos.
+
+### Exemplo de Saída:
+
+| PID  | USER   | PR | NI | VIRT | RES  | SHR  | S | %CPU | %MEM | TIME+   | COMMAND  |
+|------|--------|----|----|------|------|------|---|------|------|----------|----------|
+| 1    | root   | 20 | 0  | 1015 | 1286 | 8456 | S | 0.0  | 0.3  | 0:01.29  | systemd  |
+| 2    | root   | 20 | 0  | 0    | 0    | 0    | S | 0.0  | 0.0  | 0:00.01  | kthreadd |
+| 2527 | diego  | 20 | 0  | 1730 | 8100 | 5704 | S | 0.1  | 0.2  | 0:00.07  | sshd     |
+
+### Como Interpretar:
+
+- **PID**: Identificador único do processo.
+- **USER**: Usuário que iniciou o processo.
+- **PR (Priority)**: Prioridade do processo.
+- **%CPU**: Percentual de uso da CPU pelo processo.
+- **%MEM**: Percentual de uso da memória pelo processo.
+- **TIME+**: Tempo total de CPU consumido.
+- **COMMAND**: Nome ou comando associado ao processo.
+
+### Filtrando por Usuário:
+
+Durante o uso do top, digite `u` e insira o nome do usuário para visualizar processos apenas daquele usuário.
+
+---
+
+## Listando Processos com ps
+
+**Comando:**
+
+```bash
+ps aux
+````
+
+Exibe uma lista detalhada de processos no sistema.
+
+### Exemplo de Saída:
+
+| USER     | PID | %CPU | %MEM | VSZ    | RSS   | TTY | STAT | START | TIME  | COMMAND               |
+| -------- | --- | ---- | ---- | ------ | ----- | --- | ---- | ----- | ----- | --------------------- |
+| root     | 1   | 0.0  | 0.3  | 101584 | 12864 | ?   | Ss   | 08:12 | 00:01 | /sbin/init            |
+| root     | 2   | 0.0  | 0.0  | 0      | 0     | ?   | S    | 08:12 | 00:00 | \[kthreadd]           |
+| www-data | 225 | 0.0  | 0.1  | 5585   | 5796  | ?   | S    | 12:27 | 00:00 | nginx: worker process |
+
+### Como Interpretar:
+
+* **USER**: Usuário dono do processo.
+* **%CPU**: Percentual de uso da CPU.
+* **%MEM**: Percentual de uso da memória.
+* **VSZ**: Tamanho virtual do processo em KB.
+* **RSS**: Tamanho da memória residente em KB.
+* **STAT**: Estado do processo (S para sleeping, R para running, etc.).
+* **COMMAND**: Comando que iniciou o processo.
+
+---
+
+## Filtrando Processos com Pipe e Grep
+
+**Comando:**
+
+```bash
+ps aux | grep nginx
+```
+
+Filtra os processos listados pelo comando `ps aux` para mostrar apenas os relacionados ao Nginx.
+
+### Exemplo de Saída:
+
+| USER     | PID  | %CPU | %MEM | VSZ   | RSS   | TTY | STAT | START | TIME  | COMMAND                               |
+| -------- | ---- | ---- | ---- | ----- | ----- | --- | ---- | ----- | ----- | ------------------------------------- |
+| root     | 2255 | 0.0  | 0.3  | 55180 | 12044 | ?   | S    | 12:27 | 00:00 | nginx: master process /usr/sbin/nginx |
+| www-data | 2258 | 0.0  | 0.1  | 55852 | 5796  | ?   | S    | 12:27 | 00:00 | nginx: worker process                 |
+| www-data | 2259 | 0.0  | 0.1  | 55852 | 5796  | ?   | S    | 12:27 | 00:00 | nginx: worker process                 |
+
+### Explicação:
+
+Lista os processos relacionados ao Nginx.
+O último processo listado pode ser o próprio comando de busca (`grep`). Para evitar isso, usamos:
+
+```bash
+ps aux | grep -v grep | grep nginx
+```
+
+---
+
+## Verificando Processos com pgrep
+
+**Comando:**
+
+```bash
+pgrep nginx
+```
+
+### O Que Faz:
+
+Exibe os PID dos processos relacionados ao Nginx de forma direta.
+
+**Exemplo de Saída:**
+
+```
+2255
+2258
+2259
+```
+
+### Redirecionando Saídas para Descarte
+
+```bash
+pgrep nginx > /dev/null
+```
+
+Redireciona a saída do comando para o dispositivo `/dev/null` (uma "lixeira" do sistema), evitando exibir qualquer informação no terminal.
+
+**Comando com Redireção de Erros:**
+
+```bash
+pgrep nginx &> /dev/null
+```
+
+Redireciona tanto as saídas padrão quanto os erros para o descarte.
+
+---
+
+## Script de Monitoramento
+
+**Comando para Criar o Script:**
+
+```bash
+nano monitoramento.sh
+```
+
+**Conteúdo do Script:**
+
+```bash
+#!/bin/bash
+
+if pgrep nginx &> /dev/null
+then
+    echo "Nginx está operando $(date +"%Y-%m-%d %H:%M:%S")"
+else
+    echo "Nginx fora de operação $(date +"%Y-%m-%d %H:%M:%S")"
+fi
+```
+
+**Salvar e Tornar o Script Executável:**
+
+* Pressione `Ctrl + X`, depois `Y` e `Enter`.
+* Conceder permissão de execução:
+
+```bash
+chmod +x monitoramento.sh
+```
+
+**Executando o Script:**
+
+```bash
+./monitoramento.sh
+```
+
+---
+
+## Parando e Reiniciando o Nginx para Testar
+
+**Parar o Nginx:**
+
+```bash
+sudo service nginx stop
+```
+
+**Executar o Script:**
+
+```bash
+./monitoramento.sh
+```
+
+**Exemplo de Saída:**
+
+```
+Nginx fora de operação 2023-11-23 12:59:37
+```
+
+**Reiniciar o Nginx:**
+
+```bash
+sudo service nginx start
+```
+
+**Executar o Script Novamente:**
+
+```bash
+./monitoramento.sh
+```
+
+**Exemplo de Saída:**
+
+```
+Nginx está operando 2023-11-23 13:01:15
+```
+
+---
+
+## Resumo
+
+* Você pode monitorar processos ativos no sistema.
+* O comando `top` oferece uma visão geral e dinâmica do uso de recursos.
+* `ps`, combinado com `grep`, permite filtrar processos específicos.
+* `pgrep` simplifica o processo de busca.
+* O script automatiza a verificação de status de serviços como o Nginx, exibindo mensagens claras para o usuário.
+
+---
+
+*Conteúdo completo convertido em markdown, mantendo todas as informações fornecidas.*
 
 
