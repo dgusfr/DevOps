@@ -397,7 +397,7 @@ nano config.txt
 Quando você abre o Nano, verá:
 
 ![Imagem GNU Nano acima](images/nano-interface.png)
-Fonte: *[https://www.gnu.org/software/nano/](https://www.gnu.org/software/nano/)*
+Fonte: *[Autor](Autor)*
 
 * **Conteúdo do arquivo**: A parte superior e central da tela mostra o texto do arquivo.
 * **Linha de Status**: Abaixo do conteúdo, há informações como o nome do arquivo e o número da linha.
