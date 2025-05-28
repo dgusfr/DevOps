@@ -16,10 +16,10 @@ $ ls
 documento.txt  imagens/  projeto/
 ```
 
-* **cd**: Acessa um diretório.
+* **cd**: Change Directory, Acessa um diretório.
 
 ```bash
-$ cd Downloads  # Entra no diretório Downloads
+$ cd Downloads  
 $ cd ..         # Retorna ao diretório anterior
 ```
 
@@ -82,6 +82,10 @@ $ chown usuario:grupo arquivo.txt
 
 ---
 
+Perfeito! Aqui está o texto formatado no mesmo modelo, já integrado ao final do bloco:
+
+---
+
 ## 3. Controle e Acesso ao Sistema
 
 * **exit**: Termina a sessão no terminal.
@@ -107,6 +111,64 @@ $ passwd
 ```bash
 $ ssh usuario@servidor.com
 ```
+
+### sudo ("super user do")
+
+* **Descrição**: O `sudo` é usado para executar comandos como superusuário, permitindo realizar ações que exigem privilégios administrativos.
+
+> **Importante:** Use o `sudo` com cuidado, pois ele permite modificar arquivos de configuração e afetar a integridade do sistema.
+
+* **Listar conteúdo do diretório root**:
+  Para listar o conteúdo do diretório root com privilégios elevados:
+
+```bash
+sudo ls /root
+```
+
+O sistema solicitará a senha configurada durante a instalação do Ubuntu. Dentro do diretório root, encontraremos o diretório `snap`, que é uma biblioteca.
+
+* **Comandos internos do shell**:
+  O `sudo` funciona apenas para comandos externos do shell. Comandos internos, como o `cd`, que alteram o estado do shell, não podem ser usados diretamente com o `sudo`.
+
+**Exemplo:**
+
+```bash
+sudo cd ./root
+```
+
+Isso retorna um erro porque `cd` é um comando interno do shell.
+
+* **Iniciar uma sessão como superusuário**:
+  Para acessar o diretório `/root`, precisamos iniciar uma sessão como superusuário usando:
+
+```bash
+sudo -i
+```
+
+Esse comando inicia uma sessão com privilégios administrativos com o usuário root, permitindo acessar e modificar qualquer parte do sistema.
+
+> **Aviso:** Tenha cuidado ao usar essa sessão, pois você tem permissão para realizar qualquer ação no sistema.
+
+* **Acessar o arquivo de configuração sudoers**:
+  O arquivo `sudoers` configura e define as permissões para que os usuários possam executar ações administrativas no sistema. Para acessar o conteúdo desse arquivo:
+
+```bash
+cat /etc/sudoers
+```
+
+O arquivo lista os usuários com permissão para usar o `sudo`.
+
+* **Saindo do modo superusuário**:
+  Após realizar alterações ou acessar diretórios restritos como superusuário, é importante sair desse modo:
+
+```bash
+exit
+```
+
+Isso retorna à navegação como usuário normal, sem permissões administrativas.
+
+> **Aviso:** Use o modo de superusuário apenas quando necessário para evitar erros que possam impactar o sistema.
+
 
 ---
 
