@@ -407,6 +407,154 @@ A AWS organiza seus datacenters em três níveis principais:
 
 ---
 
+Segue o conteúdo reestruturado em **formato de apostila em Markdown**, didático e completo, conforme solicitado:
+
+---
+
+# Lançando uma Instância do EC2
+
+## Acessando o Console do EC2
+
+1️⃣ No console da AWS, digite **"EC2"** na barra de pesquisa e clique no primeiro resultado.
+2️⃣ Cada serviço possui seu próprio console, com dashboards e configurações específicas.
+
+---
+
+## Tipos de Instância
+
+Na seção de **"Instâncias"** do menu lateral, clique em **"Tipos de instância"**.
+Cada tipo tem uma configuração distinta de:
+✅ CPU
+✅ Memória
+✅ Arquitetura
+
+💡 **Por que isso importa?**
+Cada aplicação demanda recursos específicos. A instância deve ser escolhida conforme a necessidade do serviço.
+
+---
+
+## O que é uma Instância?
+
+➡️ É uma **máquina virtual** hospedada na infraestrutura do provedor de nuvem.
+No nosso exemplo, usamos a **t2.micro**, que está coberta no nível gratuito.
+
+No painel inferior (aba **"Detalhes"**), vemos:
+
+* Capacidade de processamento
+* Armazenamento
+
+---
+
+## Processo de Criação da Instância
+
+1️⃣ Clique em **"Ações"** > **"Launch Instance"**
+2️⃣ Você será redirecionado para a página de configuração.
+
+---
+
+### 1️⃣ Nome e Tags
+
+* Defina um nome: ex: `servidor_web`.
+
+### 2️⃣ Imagem de Aplicação e Sistema Operacional
+
+* A instância precisa de um **sistema operacional**.
+* Usaremos o **Amazon Linux** (qualificado para o nível gratuito).
+
+💡 O **hipervisor** gerencia o hardware e permite criar várias máquinas virtuais (instâncias) com diferentes configurações.
+
+---
+
+### 3️⃣ Tipo de Instância
+
+* Exemplo: **t2.micro** (coberta no nível gratuito).
+* Adequada para aplicações básicas.
+
+![alt text](images/.png)
+
+---
+
+### 4️⃣ Par de Chaves
+
+* **Pular** o par de chaves por ora (não recomendado em produção).
+
+---
+
+### 5️⃣ Configurações de Rede
+
+* Permite definir quem pode acessar a instância.
+* Selecionaremos **"Criar um grupo de segurança"** para permitir tráfego SSH de qualquer lugar.
+
+---
+
+### 6️⃣ Armazenamento
+
+* **Padrão**: `1x8 GiB gp3`.
+
+---
+
+### 7️⃣ Resumo e Criação
+
+* Revise as configurações:
+
+  * Tipo de instância
+  * Imagem (SO)
+  * Armazenamento
+  * Custos (atenção ao **nível gratuito**)
+* Clique em **"Executar Instância"**.
+
+---
+
+## Verificando a Execução
+
+* Veja o log de execução para confirmar o sucesso.
+* Na página de instâncias, a `servidor_web` aparecerá **pendente** com um **IP público**.
+
+---
+
+## Entendendo a Virtualização de Recursos
+
+Criar uma máquina virtual na AWS é **rápido e flexível**.
+💡 Usos típicos:
+✅ Hospedagem de sites
+✅ Processamento pesado (ex: redes neurais, IA)
+
+Exemplo:
+➡️ Rodar um processamento complexo por alguns dias, depois **desprovisionar** e parar de pagar.
+➡️ Assim, sempre usamos o melhor hardware disponível sem altos custos iniciais.
+
+---
+
+## Modelos de Serviço: On-Premises x Nuvem
+
+![alt text](images/on-premises.png)
+
+Abaixo, um diagrama comparativo:
+
+```plaintext
++-----------------+---------+---------+---------+---------+
+| Camada          | On-Prem | IaaS    | PaaS    | SaaS    |
++-----------------+---------+---------+---------+---------+
+| Aplicações      | Cliente | Cliente | Cliente | Provedor|
+| Dados           | Cliente | Cliente | Cliente | Provedor|
+| Runtime         | Cliente | Cliente | Provedor| Provedor|
+| Middleware      | Cliente | Cliente | Provedor| Provedor|
+| Sistema Op.     | Cliente | Cliente | Provedor| Provedor|
+| Virtualização   | Cliente | Provedor| Provedor| Provedor|
+| Servidores      | Cliente | Provedor| Provedor| Provedor|
+| Armazenamento   | Cliente | Provedor| Provedor| Provedor|
+| Rede            | Cliente | Provedor| Provedor| Provedor|
++-----------------+---------+---------+---------+---------+
+```
+
+✅ **On-Premises**: Tudo sob nossa responsabilidade (do hardware à aplicação).
+✅ **IaaS**: Cuidamos do sistema operacional para cima.
+✅ **PaaS**: Cuidamos só dos dados e da aplicação.
+✅ **SaaS**: Tudo gerenciado pelo provedor (ex: Google Docs).
+
+---
+
+
 
 
 
