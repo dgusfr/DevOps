@@ -470,7 +470,7 @@ No painel inferior (aba **"Detalhes"**), vemos:
 * Exemplo: **t2.micro** (coberta no nível gratuito).
 * Adequada para aplicações básicas.
 
-![alt text](images/.png)
+![alt text](images/instance_types.png)
 
 ---
 
