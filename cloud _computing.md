@@ -407,13 +407,6 @@ A AWS organiza seus datacenters em três níveis principais:
 
 ---
 
-💡 **Resumo Final:**
-
-* A hospedagem de websites depende da escolha correta de **região, AZ e zonas locais**.
-* O objetivo é oferecer **baixa latência, alta disponibilidade e conformidade regulatória**.
-* Com a AWS e suas zonas de disponibilidade, podemos criar **infraestruturas resilientes e eficientes**, melhorando a experiência do usuário final!
-
----
 
 
 
