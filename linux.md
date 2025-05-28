@@ -1,40 +1,6 @@
 # Comandos Linux
 
-## 1. Navegação entre Diretórios
-
-- **pwd**: Exibe o diretório atual.
-
-```bash
-$ pwd
-/home/usuario
-````
-
-* **ls**: Lista arquivos e pastas do diretório atual.
-
-```bash
-$ ls
-documento.txt  imagens/  projeto/
-```
-
-* **cd**: Change Directory, Acessa um diretório.
-
-```bash
-$ cd Downloads  
-$ cd ..         # Retorna ao diretório anterior
-```
-
-* **find**: Busca arquivos e diretórios.
-
-```bash
-$ find /caminho -name "arquivo.txt"  # Busca por nome
-$ find /caminho -type f -size +1M     # Busca arquivos maiores que 1MB
-$ find /caminho -type f -atime +7     # Arquivos não acessados nos últimos 7 dias
-$ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
-```
-
----
-
-## 2. Criação e Gestão de Arquivos e Diretórios
+## Criação e Gestão de Arquivos e Diretórios
 
 * **mkdir**: Cria um novo diretório.
 
@@ -74,17 +40,251 @@ $ cat > novo_arquivo.txt         # Cria um arquivo e escreve conteúdo
 $ chmod 755 script.sh            # Permissão para leitura, gravação e execução pelo dono, leitura/execução para grupo e outros
 ```
 
+Tabela de permissões do `chmod`
+
+| Permissão | Número | Significado para o Dono/Grupo/Outros |
+| --------- | ------ | ------------------------------------ |
+| `---`     | 0      | Nenhuma permissão                    |
+| `--x`     | 1      | Execução somente                     |
+| `-w-`     | 2      | Escrita somente                      |
+| `-wx`     | 3      | Escrita e execução                   |
+| `r--`     | 4      | Leitura somente                      |
+| `r-x`     | 5      | Leitura e execução                   |
+| `rw-`     | 6      | Leitura e escrita                    |
+| `rwx`     | 7      | Leitura, escrita e execução          |
+
+Esses números são combinados em três grupos (dono, grupo e outros) para formar o número final que você usa com o `chmod`. Por exemplo:
+
+* `chmod 755 arquivo`:
+
+  * Dono: 7 (rwx)
+  * Grupo: 5 (r-x)
+  * Outros: 5 (r-x)
+
+* `chmod 644 arquivo`:
+
+  * Dono: 6 (rw-)
+  * Grupo: 4 (r--)
+  * Outros: 4 (r--)
+
+
 * **chown**: Altera o dono e grupo de um arquivo.
 
 ```bash
 $ chown usuario:grupo arquivo.txt
 ```
 
----
-
-Perfeito! Aqui está o texto formatado no mesmo modelo, já integrado ao final do bloco:
 
 ---
+
+
+## Navegação entre Diretórios
+
+- **pwd**: Exibe o diretório atual.
+
+```bash
+$ pwd
+/home/usuario
+````
+
+* **ls**: Lista arquivos e pastas do diretório atual.
+
+```bash
+$ ls
+documento.txt  imagens/  projeto/
+```
+
+* **cd**: Change Directory, Acessa um diretório.
+
+```bash
+$ cd Downloads  
+$ cd ..         # Retorna ao diretório anterior
+```
+
+* **find**: Busca arquivos e diretórios.
+
+```bash
+$ find /caminho -name "arquivo.txt"  # Busca por nome
+$ find /caminho -type f -size +1M     # Busca arquivos maiores que 1MB
+$ find /caminho -type f -atime +7     # Arquivos não acessados nos últimos 7 dias
+$ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
+```
+
+
+---
+
+## Movendo Arquivos e Diretórios
+
+Para organizar melhor os arquivos, podemos criar subdiretórios e mover arquivos entre eles. Por exemplo:
+
+* Criação de um subdiretório:
+
+```bash
+mkdir ideias
+```
+
+* Listagem do conteúdo:
+
+```bash
+ls
+```
+
+Retorno esperado: `ideias  projeto_ideas.txt`
+
+* Movendo o arquivo `projeto_ideas.txt` para o subdiretório `ideias`:
+
+```bash
+mv projeto_ideas.txt ideias/
+```
+
+* Verificação da movimentação:
+
+```bash
+ls
+ls ideias/
+```
+
+* Criação de um novo diretório chamado `rascunho`:
+
+```bash
+mkdir rascunho
+```
+
+* Movendo o diretório `rascunho` para dentro de `ideias`:
+
+```bash
+mv rascunho ideias/
+```
+
+* Verificação final:
+
+```bash
+ls ideias/
+```
+
+As permissões são exibidas com:
+
+```bash
+ls -al
+```
+
+No formato:
+
+```
+drwxr-xr-x
+```
+
+Sendo:
+
+* `d`: diretório
+* `rwx`: proprietário (leitura, escrita, execução)
+* `r-x`: grupo e outros (leitura, execução)
+
+Isso facilita a gestão e organização dos arquivos e diretórios no Linux.
+
+---
+
+
+## Copiando Arquivos
+
+* Para duplicar um arquivo:
+
+```bash
+cp arquivo_original arquivo_copia
+```
+
+Exemplo:
+
+```bash
+cp projeto_ideias.txt projeto_ideias_v1.txt
+```
+
+Isso cria uma cópia chamada `projeto_ideias_v1.txt`.
+
+---
+
+## Renomeando Arquivos e Diretórios
+
+* Para renomear:
+
+```bash
+mv nome_antigo nome_novo
+```
+
+Exemplo:
+
+```bash
+mv rascunho modelo
+```
+
+Isso renomeia o diretório `rascunho` para `modelo`.
+
+---
+
+## Movendo Arquivos entre Diretórios
+
+* Para mover arquivos para outro diretório:
+
+```bash
+mv arquivo_a_mover diretorio_destino
+```
+
+Exemplo:
+
+```bash
+mv projeto_ideias_v1.txt modelo/
+```
+
+Isso move o arquivo para dentro do diretório `modelo`.
+
+---
+
+## Combinando os Comandos
+
+Exemplo de sequência para organização:
+
+```bash
+cp arquivo_original.txt arquivo_copia.txt
+mv arquivo_copia.txt novo_nome.txt
+mv novo_nome.txt diretorio_destino/
+```
+
+
+### Exercícios Práticos
+
+1. Crie um arquivo:
+
+```bash
+nano lista_de_tarefas.txt
+```
+
+2. Copie o arquivo:
+
+```bash
+cp lista_de_tarefas.txt lista_de_tarefas_backup.txt
+```
+
+3. Renomeie:
+
+```bash
+mv lista_de_tarefas_backup.txt lista_de_tarefas_seguranca.txt
+```
+
+4. Crie um diretório:
+
+```bash
+mkdir arquivos_antigos
+```
+
+5. Mova o arquivo para o novo diretório:
+
+```bash
+mv lista_de_tarefas_seguranca.txt arquivos_antigos/
+```
+
+---
+
+
 
 ## 3. Controle e Acesso ao Sistema
 
