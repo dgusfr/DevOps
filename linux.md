@@ -370,7 +370,74 @@ Isso retorna à navegação como usuário normal, sem permissões administrativa
 > **Aviso:** Use o modo de superusuário apenas quando necessário para evitar erros que possam impactar o sistema.
 
 
+
 ---
+
+## Redirecionando Saídas
+
+O redirecionamento de saída é uma funcionalidade útil no Linux, permitindo que a saída de um comando seja salva em um arquivo.
+
+---
+
+### Redirecionando Saída com `>`
+
+Para redirecionar a saída de um comando para um arquivo, usamos o símbolo de maior que (`>`). Isso sobrescreve o conteúdo do arquivo, caso ele já exista.
+
+**Exemplo:**
+
+```bash
+ls > lista_projeto.txt
+```
+
+Após executar esse comando, o arquivo `lista_projeto.txt` será criado (ou sobrescrito) com a lista de arquivos do diretório atual.
+
+---
+
+### Adicionando Informações com `>>`
+
+Se quisermos adicionar informações ao final de um arquivo sem sobrescrever seu conteúdo, usamos dois símbolos de maior que (`>>`).
+
+**Exemplo:**
+
+```bash
+ls >> lista_projeto.txt
+```
+
+Isso adicionará a nova saída do comando `ls` ao final do arquivo `lista_projeto.txt`.
+
+
+## Exibindo Informações
+
+O comando `echo` é utilizado para exibir informações no terminal. Ele pode ser usado para interagir com o usuário ou para registrar informações em arquivos.
+
+**Exemplo:**
+
+```bash
+echo hello world
+```
+
+**Saída:**
+
+```
+hello world
+```
+
+
+### Redirecionando a Saída do `echo`
+
+Podemos redirecionar a saída do comando `echo` para um arquivo da mesma forma que fizemos com o `ls`.
+
+**Exemplo:**
+
+```bash
+echo teste_funcionalidade >> lista_projeto.txt
+```
+
+Isso adicionará a string `"teste_funcionalidade"` ao final do arquivo `lista_projeto.txt`.
+
+---
+
+
 
 ## 4. Controle de Processos
 
