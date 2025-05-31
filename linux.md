@@ -585,7 +585,114 @@ Para consultar informações de um processo específico, podemos usar a flag `-C
 ps -C bash
 ```
 
+
 ---
+
+## Interrompendo um Processo
+
+Vamos abrir um novo terminal Ubuntu na nossa linha de comando, deixando a aba atual aberta. Clique no "+" do menu superior e depois em "Ubuntu" para inicializá-lo.
+
+Vamos inicializar um processo simples, por exemplo, o editor de texto, que já conhecemos:
+
+```bash
+nano
+```
+
+Feito isso, estaremos com o processo do `nano` em execução.
+
+---
+
+## Verificando o PID do Processo
+
+Na aba anterior do terminal, vamos rodar o Process Status:
+
+```bash
+ps aux
+```
+
+Com isso, veremos o `nano` em execução ao final da lista e poderemos coletar o número do PID dele — no caso do instrutor, é `24605`. Se quisermos enviar um sinal para esse processo, teremos que usar esse número.
+
+Por exemplo, vamos rodar o seguinte comando para interromper o processo do `nano` (usando o PID do processo na sua máquina):
+
+```bash
+kill 24605
+```
+
+---
+
+## Retorno e Encerramento
+
+Ao fazer isso, não recebemos nenhum retorno de sucesso ou erro. Isso significa que o comando foi reconhecido.
+
+Voltando para a outra aba, onde abrimos o editor de texto `nano`, veremos a seguinte mensagem:
+
+```
+Received SIGHUP or SIGTERM
+```
+
+Esse retorno indica que o tipo de sinal recebido foi o **SIGTERM**, que é o sinal padrão quando não especificamos qual ação queremos para o processo.
+
+---
+
+## Interrompendo um Processo Abruptamente
+
+Esse sinal de interrupção faz com que o processo seja encerrado de forma suave, dando um tempo para que o editor de texto seja fechado, por exemplo. Se quisermos interromper de maneira **abrupta** um processo, podemos usar o sinal **9**. Vamos testar:
+
+1. Reabra o editor de texto na segunda aba:
+
+```bash
+nano
+```
+
+2. Na outra aba, rode novamente o comando `ps`:
+
+```bash
+ps aux
+```
+
+3. Desça a lista até encontrar o `nano` em execução. O número do processo será diferente do anterior.
+
+4. Copie o PID e envie um sinal de interrupção abrupta:
+
+```bash
+kill -9 25035
+```
+
+
+
+## Observação
+
+Retornando à aba do terminal onde abrimos o editor de texto `nano`, note que o processo foi encerrado de maneira tão abrupta que o `nano` nem teve a oportunidade de ser encerrado adequadamente. Nesse caso, a mensagem exibida é apenas:
+
+```
+Killed
+```
+
+Em geral, como **boa prática**, preferimos o encerramento suave para que as aplicações e processos em execução tenham tempo de salvar dados e finalizar corretamente. O sinal de interrupção abrupta deve ser usado apenas em casos de processos muito indesejados ou travados.
+
+
+
+## Pausando um Processo
+
+No terminal principal, também podemos usar o `kill` para pausar um processo, utilizando o sinal **-STOP**, com o PID do processo:
+
+```bash
+kill -STOP <PID>
+```
+
+
+## Controlando um Processo pelo Nome
+
+Podemos usar o `kill` de uma forma diferente: ao invés do PID, podemos identificar o processo pelo seu nome com o comando **pkill**:
+
+```bash
+pkill nome_processo
+```
+
+Uma variação desse comando é o **killall**, que envia um sinal para todos os processos com nomes similares. **Use com cuidado** para não encerrar aplicações importantes em execução.
+
+---
+
 
 ## 7. Filtrando por Quantidade de Processos e Tipo de Recurso
 
