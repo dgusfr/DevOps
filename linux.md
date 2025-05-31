@@ -438,7 +438,6 @@ Isso adicionará a string `"teste_funcionalidade"` ao final do arquivo `lista_pr
 ---
 
 
-
 ## 4. Controle de Processos
 
 * **top**: Monitora processos em tempo real (Ctrl + C para sair).
