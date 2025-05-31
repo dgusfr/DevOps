@@ -286,7 +286,7 @@ mv lista_de_tarefas_seguranca.txt arquivos_antigos/
 
 
 
-## 3. Controle e Acesso ao Sistema
+## Controle e Acesso ao Sistema
 
 * **exit**: Termina a sessão no terminal.
 
