@@ -438,25 +438,12 @@ Isso adicionará a string `"teste_funcionalidade"` ao final do arquivo `lista_pr
 ---
 
 
-## 4. Controle de Processos
-
-* **top**: Monitora processos em tempo real (Ctrl + C para sair).
-
-```bash
-$ top
-```
-
-Segue o texto formatado no modelo e estilo dos exemplos anteriores, pronto para integrar com o restante do seu material:
-
----
-
 ## Analisando Processos em Execução
 
 Assim como no Windows, onde usamos o atalho "Ctrl + Alt + Del" para verificar quais aplicações estão utilizando a CPU, no Linux temos um comando específico para isso.
 
----
 
-### 2.1 Comando `top`
+### Comando `top`
 
 O comando `top` (table of processes) é utilizado para visualizar os processos em execução em tempo real. Para utilizá-lo, basta abrir o terminal e digitar:
 
