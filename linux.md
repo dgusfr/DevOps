@@ -511,37 +511,94 @@ Na parte superior da tabela, você encontrará várias siglas e abreviações. V
 * Pressione `M` para ver os processos ordenados pelo uso da memória.
 
 ---
+Segue o conteúdo formatado no modelo do seu material:
 
-* **ps**: Lista processos em execução.
+---
+
+## Comando `ps`
+
+O comando `ps` (**Process Status**) é a base para a análise de processos. Ao executá-lo sem opções, você obtém uma visão limitada dos processos ativos no momento:
 
 ```bash
-$ ps aux
+ps
 ```
 
-* **kill**: Envia um sinal para terminar um processo.
+---
+
+## Comando `ps aux`
+
+Para obter uma visão mais ampla dos processos, utilizamos o comando `ps aux`:
 
 ```bash
-$ kill 1234        # Finaliza o processo com PID 1234
-$ kill -9 1234     # Força a finalização do processo
+ps aux
 ```
 
-* **jobs**: Lista processos em segundo plano.
+Esse comando apresenta uma tabela com informações detalhadas sobre todos os processos em execução. Os principais campos são:
+
+* **USER**: Usuário do processo
+* **PID**: Número de identificação do processo
+* **%CPU**: Percentual de CPU utilizado
+* **%MEM**: Percentual de memória utilizado
+* **VSZ**: Memória virtual utilizada
+* **RSS**: Memória RAM alocada
+* **TTY**: Tipo de terminal utilizado
+* **STAT**: Status do processo
+* **START**: Momento em que o processo foi iniciado
+* **TIME**: Tempo de execução
+* **COMMAND**: Comando vinculado ao processo
+
+---
+
+## Filtrando Processos por Usuário
+
+Podemos filtrar os processos por usuário utilizando a flag `-u`. Por exemplo, para ver os processos do usuário `root`, usamos:
 
 ```bash
-$ jobs
+ps -u root
 ```
 
-* **bg** e **fg**: Gerenciam processos em segundo e primeiro plano.
+Para visualizar os processos do seu usuário pessoal, substitua `root` pelo seu nome de usuário:
 
 ```bash
-$ bg %1           # Coloca o trabalho 1 em segundo plano
-$ fg %1           # Traz o trabalho 1 para o primeiro plano
+ps -u lcs
 ```
 
-* **pstree**: Exibe a árvore de processos.
+---
+
+## Visualização em Árvore
+
+Para visualizar a hierarquia dos processos, podemos usar o comando `pstree`:
 
 ```bash
-$ pstree
+pstree
+```
+
+Esse comando apresenta os processos em uma estrutura de árvore, mostrando quais processos estão subordinados a outros.
+
+---
+
+## Filtrando Processos Específicos
+
+Para consultar informações de um processo específico, podemos usar a flag `-C` seguida do nome do processo. Por exemplo, para o processo `bash`:
+
+```bash
+ps -C bash
+```
+
+---
+
+## 7. Filtrando por Quantidade de Processos e Tipo de Recurso
+
+Se quisermos listar os processos que estão fazendo o maior uso de memória, utilizamos:
+
+```bash
+ps aux --sort=-%mem
+```
+
+Para exibir apenas os 10 processos que mais consomem memória, combinamos com o comando `head`:
+
+```bash
+ps aux --sort=-%mem | head -n 11
 ```
 
 ---
