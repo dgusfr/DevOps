@@ -466,6 +466,52 @@ Ao executar o comando, você verá uma tabela dinâmica com informações sobre 
 
 ---
 
+Segue o texto formatado no modelo e estilo dos exemplos anteriores, pronto para integrar com o restante do seu material:
+
+---
+
+## Analisando Processos em Execução
+
+Assim como no Windows, onde usamos o atalho "Ctrl + Alt + Del" para verificar quais aplicações estão utilizando a CPU, no Linux temos um comando específico para isso.
+
+---
+
+### 2.1 Comando `top`
+
+O comando `top` (table of processes) é utilizado para visualizar os processos em execução em tempo real. Para utilizá-lo, basta abrir o terminal e digitar:
+
+```bash
+top
+```
+
+Ao executar o comando, você verá uma tabela dinâmica com informações sobre os processos em execução.
+
+---
+
+### 2.2 Estrutura da Mesa de Processos
+
+Na parte superior da tabela, você encontrará várias siglas e abreviações. Vamos entender cada uma delas:
+
+* **%CPU**: Percentual de utilização da CPU pelo processo.
+* **%MEM**: Percentual de utilização da memória pelo processo.
+* **PID**: Número de identificação do processo (process id).
+* **USER**: Usuário que está utilizando o processo.
+* **PR**: Prioridade geral do processo.
+* **NI**: Nice value (valor agradável) do processo, que influencia na prioridade.
+* **VIRT**: Memória virtual usada pelo processo.
+* **RES**: Memória residente usada (realmente alocada como RAM).
+* **SHR**: Memória compartilhada usada pelo processo.
+* **S**: Estado do processo (S = sleeping, R = running, T = stopped).
+
+
+### Exemplo de Ordenação
+
+* Execute o comando `top`.
+* Pressione `P` para ver os processos ordenados pelo uso da CPU.
+* Pressione `M` para ver os processos ordenados pelo uso da memória.
+
+---
+
 * **ps**: Lista processos em execução.
 
 ```bash
