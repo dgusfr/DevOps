@@ -97,6 +97,14 @@ Esses números são combinados em três grupos (dono, grupo e outros) para forma
 $ chown usuario:grupo arquivo.txt
 ```
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
 ---
 
 ### 2. Navegação entre Diretórios
@@ -130,6 +138,14 @@ $ find /caminho -type f -size +1M     # Busca arquivos maiores que 1MB
 $ find /caminho -type f -atime +7     # Arquivos não acessados nos últimos 7 dias
 $ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
 ```
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
@@ -202,6 +218,14 @@ Sendo:
 
 Isso facilita a gestão e organização dos arquivos e diretórios no Linux.
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
 ---
 
 ### 4. Copiando e Renomeando Arquivos
@@ -254,6 +278,14 @@ mv projeto_ideias_v1.txt modelo/
 
 Isso move o arquivo para dentro do diretório `modelo`.
 
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
@@ -343,6 +375,14 @@ Isso retorna à navegação como usuário normal, sem permissões administrativa
 > **Aviso:** Use o modo de superusuário apenas quando necessário para evitar erros que possam impactar o sistema.
 
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
 ---
 
 ### 6. Redirecionando Saídas
@@ -362,6 +402,14 @@ pgrep nginx &> /dev/null
 
 Redireciona tanto as saídas padrão quanto os erros para o descarte.
 
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
@@ -428,6 +476,14 @@ Esse comando apresenta uma tabela com informações detalhadas sobre todos os pr
 * **TIME**: Tempo de execução
 * **COMMAND**: Comando vinculado ao processo
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
 ---
 
 ### 8. Trabalhando com Textos
@@ -465,6 +521,14 @@ $ grep "padrão" arquivo.txt        # Encontra linhas que contêm "padrão"
 $ grep -r "padrão" diretorio/     # Pesquisa recursivamente em um diretório
 ```
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
 ---
 
 ### 9. Manipulação de Compactação
@@ -489,6 +553,14 @@ $ bzip2 arquivo.txt      # Compacta o arquivo para arquivo.txt.bz2
 $ zip arquivos.zip arquivo1 arquivo2
 $ unzip arquivos.zip
 ```
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
@@ -531,9 +603,17 @@ $ locate arquivo.txt
 $ which ls
 ```
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
 ---
 
-### 12. Gerenciamento de Usuários e Permissões
+<br>
+<br>
+<br>
+
+---
+
+### 11. Gerenciamento de Usuários e Permissões
 
 * **adduser**: Adiciona um novo usuário.
 
@@ -559,9 +639,17 @@ $ sudo chown usuario:grupo arquivo.txt
 $ chmod 755 arquivo.txt
 ```
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
 ---
 
-### 13. Protocolos de Rede e Memória
+<br>
+<br>
+<br>
+
+---
+
+### 12. Protocolos de Rede e Memória
 
 
 
@@ -584,9 +672,17 @@ $ ip route
 ```
 
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
 ---
 
-### 14. Gerenciamento de Pacotes e Serviços
+<br>
+<br>
+<br>
+
+---
+
+### 13. Gerenciamento de Pacotes e Serviços
 
 * **apt-get**: Instala e gerencia pacotes no sistema.
 
@@ -602,9 +698,17 @@ $ sudo service apache2 start    # Inicia um serviço
 $ sudo systemctl restart apache2
 ```
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
 ---
 
-### 15. GNU Nano
+<br>
+<br>
+<br>
+
+---
+
+### 14. GNU Nano
 
 
 
@@ -675,6 +779,13 @@ Save modified buffer? (Answering "No" will DISCARD changes)
 * Digite `Y` para salvar.
 * Digite `N` para sair sem salvar.
 
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
@@ -765,6 +876,14 @@ O último processo listado pode ser o próprio comando de busca (`grep`). Para e
 ```bash
 ps aux | grep -v grep | grep nginx
 ```
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
 
 ---
 
