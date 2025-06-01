@@ -97,7 +97,7 @@ Esses números são combinados em três grupos (dono, grupo e outros) para forma
 $ chown usuario:grupo arquivo.txt
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -139,7 +139,7 @@ $ find /caminho -type f -atime +7     # Arquivos não acessados nos últimos 7 d
 $ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -218,7 +218,7 @@ Sendo:
 
 Isso facilita a gestão e organização dos arquivos e diretórios no Linux.
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -279,7 +279,7 @@ mv projeto_ideias_v1.txt modelo/
 Isso move o arquivo para dentro do diretório `modelo`.
 
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -375,7 +375,7 @@ Isso retorna à navegação como usuário normal, sem permissões administrativa
 > **Aviso:** Use o modo de superusuário apenas quando necessário para evitar erros que possam impactar o sistema.
 
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -403,7 +403,7 @@ pgrep nginx &> /dev/null
 Redireciona tanto as saídas padrão quanto os erros para o descarte.
 
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -476,7 +476,7 @@ Esse comando apresenta uma tabela com informações detalhadas sobre todos os pr
 * **TIME**: Tempo de execução
 * **COMMAND**: Comando vinculado ao processo
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -521,7 +521,7 @@ $ grep "padrão" arquivo.txt        # Encontra linhas que contêm "padrão"
 $ grep -r "padrão" diretorio/     # Pesquisa recursivamente em um diretório
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -554,7 +554,7 @@ $ zip arquivos.zip arquivo1 arquivo2
 $ unzip arquivos.zip
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -603,7 +603,7 @@ $ locate arquivo.txt
 $ which ls
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -639,7 +639,7 @@ $ sudo chown usuario:grupo arquivo.txt
 $ chmod 755 arquivo.txt
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -672,7 +672,7 @@ $ ip route
 ```
 
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -698,7 +698,7 @@ $ sudo service apache2 start    # Inicia um serviço
 $ sudo systemctl restart apache2
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -708,13 +708,11 @@ $ sudo systemctl restart apache2
 
 ---
 
-### 14. GNU Nano
-
-
+## 14. GNU Nano
 
 O **GNU Nano** é um editor de texto simples e poderoso que vem pré-instalado em muitas distribuições Linux. Ele é usado diretamente no terminal e foi projetado para ser fácil de usar, mesmo para iniciantes. Nano é particularmente útil para editar arquivos de configuração ou criar scripts rapidamente, sem a necessidade de interfaces gráficas.
 
-## Principais Características do GNU Nano
+### Principais Características do GNU Nano
 
 - **Simplicidade**: Ele é amigável, com comandos básicos exibidos na parte inferior da tela.
 - **Baseado em Terminal**: Você pode usá-lo em servidores remotos ou sistemas sem interface gráfica.
@@ -722,9 +720,8 @@ O **GNU Nano** é um editor de texto simples e poderoso que vem pré-instalado e
 - **Pesquisa e Substituição**: Inclui ferramentas de busca e substituição simples.
 - **Open Source**: Faz parte do projeto GNU, ou seja, é gratuito e de código aberto.
 
----
 
-## Como Usar o GNU Nano
+### Como Usar o GNU Nano
 
 No terminal, digite o comando abaixo seguido do nome do arquivo que você deseja editar:
 
@@ -779,7 +776,7 @@ Save modified buffer? (Answering "No" will DISCARD changes)
 * Digite `Y` para salvar.
 * Digite `N` para sair sem salvar.
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -789,7 +786,7 @@ Save modified buffer? (Answering "No" will DISCARD changes)
 
 ---
 
-### 15. Monitoramento
+## 15. Monitoramento
 
 Monitorando Processos com o Comando top
 
@@ -818,19 +815,17 @@ Mostra o consumo de recursos (CPU, memória) e o estado dos processos.
 
 Durante o uso do top, digite `u` e insira o nome do usuário para visualizar processos apenas daquele usuário.
 
----
-
-## Listando Processos com ps
+#### Listando Processos com ps
 
 **Comando:**
 
 ```bash
 ps aux
-````
+```
 
 Exibe uma lista detalhada de processos no sistema.
 
-### Exemplo de Saída:
+Exemplo de Saída:
 
 | USER     | PID | %CPU | %MEM | VSZ    | RSS   | TTY | STAT | START | TIME  | COMMAND               |
 | -------- | --- | ---- | ---- | ------ | ----- | --- | ---- | ----- | ----- | --------------------- |
@@ -838,7 +833,7 @@ Exibe uma lista detalhada de processos no sistema.
 | root     | 2   | 0.0  | 0.0  | 0      | 0     | ?   | S    | 08:12 | 00:00 | \[kthreadd]           |
 | www-data | 225 | 0.0  | 0.1  | 5585   | 5796  | ?   | S    | 12:27 | 00:00 | nginx: worker process |
 
-### Como Interpretar:
+Como Interpretar:
 
 * **USER**: Usuário dono do processo.
 * **%CPU**: Percentual de uso da CPU.
@@ -848,9 +843,7 @@ Exibe uma lista detalhada de processos no sistema.
 * **STAT**: Estado do processo (S para sleeping, R para running, etc.).
 * **COMMAND**: Comando que iniciou o processo.
 
----
-
-## Filtrando Processos com Pipe e Grep
+#### Filtrando Processos com Pipe e Grep
 
 **Comando:**
 
@@ -860,7 +853,7 @@ ps aux | grep nginx
 
 Filtra os processos listados pelo comando `ps aux` para mostrar apenas os relacionados ao Nginx.
 
-### Exemplo de Saída:
+Exemplo de Saída:
 
 | USER     | PID  | %CPU | %MEM | VSZ   | RSS   | TTY | STAT | START | TIME  | COMMAND                               |
 | -------- | ---- | ---- | ---- | ----- | ----- | --- | ---- | ----- | ----- | ------------------------------------- |
@@ -868,7 +861,7 @@ Filtra os processos listados pelo comando `ps aux` para mostrar apenas os relaci
 | www-data | 2258 | 0.0  | 0.1  | 55852 | 5796  | ?   | S    | 12:27 | 00:00 | nginx: worker process                 |
 | www-data | 2259 | 0.0  | 0.1  | 55852 | 5796  | ?   | S    | 12:27 | 00:00 | nginx: worker process                 |
 
-### Explicação:
+Explicação:
 
 Lista os processos relacionados ao Nginx.
 O último processo listado pode ser o próprio comando de busca (`grep`). Para evitar isso, usamos:
@@ -877,7 +870,7 @@ O último processo listado pode ser o próprio comando de busca (`grep`). Para e
 ps aux | grep -v grep | grep nginx
 ```
 
-[🔝 Voltar ao topo](#sumário-interativo)
+[🔝 Voltar ao topo](#sumário)
 
 ---
 
@@ -887,9 +880,664 @@ ps aux | grep -v grep | grep nginx
 
 ---
 
-### 16. Scripts de Automação 
+## 16. Scripts de Automação 
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+Um **script** é um arquivo de texto que contém um conjunto de instruções que podem ser executadas por um interpretador, como o Bash no Linux. Ele automatiza tarefas rotineiras e repetitivas, permitindo maior eficiência e consistência nos processos.
+
+Os scripts de automação servem para **automatizar processos**, como:
+
+* Processar arquivos de logs.
+* Realizar backups.
+* Monitorar sistemas.
+* Executar tarefas administrativas.
+* Configurar ambientes de desenvolvimento ou produção.
+
+
+### Preparando o Ambiente do Projeto
+
+#### 1️⃣ Criação do Diretório
+
+Abra o seu terminal e crie um diretório chamado `myapp/logs`:
+
+```bash
+mkdir -p myapp/logs
+```
+
+Em seguida, entre no diretório:
+
+```bash
+cd myapp/logs
+```
+
+
+#### 2️⃣ Criação e Edição dos Arquivos de Logs
+
+No diretório `myapp/logs`, crie um arquivo chamado **myapp-backend.log** e adicione o seguinte conteúdo:
+
+```plaintext
+2024-09-01 10:05:21 ERROR: Database connection failed.
+2024-09-01 10:06:10 INFO: Retrying database connection...
+2024-09-01 10:07:35 ERROR: Database connection failed.
+2024-09-01 10:09:55 INFO: Database connection established.
+2024-09-01 11:00:00 INFO: SENSITIVE_DATA: User password is 12345.
+2024-09-01 11:10:00 INFO: User logged in with username: admin.
+2024-09-01 12:30:45 ERROR: SENSITIVE_DATA: Unauthorized access attempt from IP 192.168.1.10.
+2024-09-01 13:00:00 ERROR: SENSITIVE_DATA: Credit card information exposed.
+2024-09-01 13:05:00 INFO: Backup completed successfully.
+2024-09-01 14:15:30 INFO: Application running smoothly.
+2024-09-01 14:20:10 ERROR: Disk space low on /var.
+2024-09-01 15:00:00 INFO: Application shut down for maintenance.
+2024-09-01 16:30:00 ERROR: Database connection failed.
+2024-09-01 16:30:00 ERROR: Database connection failed.
+2024-09-01 16:35:00 ERROR: Disk space low on /var.
+2024-09-01 16:40:00 ERROR: Disk space low on /var.
+2024-09-01 17:00:00 INFO: Maintenance completed.
+2024-09-01 17:15:45 ERROR: Application crash due to memory leak.
+2024-09-01 18:05:21 INFO: Application restarted.
+2024-09-01 19:30:00 INFO: User admin logged out.
+2024-09-02 09:15:22 ERROR: SENSITIVE_DATA: User password reset request with token 98765.
+2024-09-02 10:00:30 INFO: SENSITIVE_DATA: User email: user@example.com accessed sensitive data.
+2024-09-02 11:20:11 ERROR: SENSITIVE_DATA: Failed login attempt with username: guest.
+2024-09-02 12:45:00 INFO: SENSITIVE_DATA: API key leaked: ABCD1234EFGH5678.
+2024-09-02 13:30:00 INFO: Scheduled maintenance started.
+2024-09-02 14:15:00 ERROR: Database connection failed during maintenance.
+2024-09-02 15:00:00 INFO: Maintenance completed.
+2024-09-03 08:00:00 INFO: SENSITIVE_DATA: User credit card last four digits: 1234.
+2024-09-03 09:45:00 ERROR: Unauthorized access attempt from IP 192.168.1.15.
+2024-09-03 10:30:00 INFO: User admin logged in from IP 10.0.0.2.
+2024-09-03 11:00:00 INFO: Application settings updated by user: admin.
+2024-09-03 12:00:00 ERROR: SENSITIVE_DATA: Database backup contains sensitive information.
+```
+
+#### 3️⃣ Criação do Arquivo de Log do Frontend
+
+Ainda em `myapp/logs`, crie outro arquivo chamado **myapp-frontend.log** com o conteúdo abaixo:
+
+```plaintext
+2024-09-01 10:05:21 INFO: Frontend initialized successfully.
+2024-09-01 10:15:00 ERROR: Failed to load user profile for user ID 12345.
+2024-09-01 10:20:10 INFO: SENSITIVE_DATA: User email: user@example.com fetched profile data.
+2024-09-01 10:30:45 INFO: User admin navigated to dashboard.
+2024-09-01 11:05:00 INFO: SENSITIVE_DATA: Session token for user admin is active.
+2024-09-01 11:30:00 ERROR: SENSITIVE_DATA: Failed login attempt for username: admin.
+2024-09-01 12:00:00 INFO: User admin logged out successfully.
+2024-09-01 13:00:00 INFO: Frontend rendering completed for page: /adoption.
+2024-09-01 14:15:30 ERROR: SENSITIVE_DATA: Credit card information exposed in logs.
+2024-09-01 15:00:00 INFO: Application theme switched to dark mode by user admin.
+2024-09-02 09:30:00 INFO: SENSITIVE_DATA: User password changed for user ID 67890.
+2024-09-02 10:00:00 ERROR: Unable to fetch data from the API: 500 Internal Server Error.
+2024-09-02 11:45:00 INFO: User logged in with username: guest.
+2024-09-02 12:30:00 INFO: SENSITIVE_DATA: User session initiated with token: TOKEN1234.
+2024-09-02 13:00:00 ERROR: Invalid token used for API request.
+2024-09-03 08:15:00 INFO: User admin updated account settings.
+2024-09-03 09:00:00 ERROR: SENSITIVE_DATA: User IP 10.0.0.3 accessed sensitive endpoint.
+2024-09-03 10:30:00 INFO: SENSITIVE_DATA: API key for external service accessed.
+2024-09-03 11:00:00 INFO: User admin logged out successfully.
+2024-09-03 12:00:00 INFO: Frontend performance metrics collected.
+```
+
+
+#### 4️⃣ Criação de Arquivos Vazios
+
+Para finalizar a preparação do ambiente, crie dois arquivos vazios para configuração e relatórios:
+
+```bash
+touch app.config
+touch relatorio.txt
+```
+
+Pronto! Agora temos o ambiente configurado e os arquivos de logs preparados. A partir daqui, vamos construir scripts para processar e analisar esses arquivos de forma automatizada.
+
+
+Segue o texto reescrito e adaptado para usar o editor de texto **Nano** em vez do Vim, mantendo o formato claro, didático e completo:
+
+---
+
+### Processamento de logs
+
+Como os arquivos de log contêm informações relevantes sobre o estado e a saúde da aplicação, é interessante monitorá-los. No Linux, existem comandos úteis para processar esses logs, extraindo informações como erros e dados sensíveis que possam ter vazado, permitindo solucionar problemas na aplicação.
+
+Esse processamento de logs segue uma série de instruções e comandos repetitivos. Em vez de digitar esses comandos manualmente no terminal toda vez que quisermos processar um arquivo de log, podemos consumir essas instruções de forma automática.
+
+Vamos criar um script para monitorar nossos logs.
+
+#### Criando um script
+
+Com o terminal aberto, primeiramente, criaremos uma pasta para armazenar nosso script. Execute o seguinte comando:
+
+```bash
+mkdir scripts-linux
+```
+
+Em seguida, vamos entrar na pasta, com o seguinte comando:
+
+```bash
+cd scripts-linux
+```
+
+Precisamos de um editor de texto para criar o script.
+
+No curso anterior, aprendemos a usar o Nano no Linux, mas ele não é a única opção disponível. É interessante conhecer diversos editores de texto, pois cada um possui recursos diferentes, pontos positivos e negativos dependendo da situação.
+
+Caso não haja um motivo específico para usar determinado editor, podemos escolher de acordo com nossas preferências. Neste curso, utilizaremos o **Nano** como editor de texto.
+
+Para criar um arquivo e nosso script com o Nano, digitamos no terminal o comando `nano` seguido do nome do arquivo, que será nosso script. A extensão **.sh** indica que se trata de um script Bash (um script de Shell do Linux):
+
+```bash
+nano monitoramento-logs.sh
+```
+
+Ao pressionar **Enter**, o editor Nano abrirá um arquivo vazio pronto para edição.
+
+Um script é um tipo de código. Utilizaremos o script do tipo Bash, que oferece funcionalidades básicas de programação e suporte a comandos Linux executados no terminal.
+
+Um script Bash possui uma estrutura. Além da extensão **.sh**, precisamos especificar algumas informações para indicar que se trata de um script.
+
+A primeira linha que adicionamos é chamada de **shebang**, começando com `#!`, seguido do caminho para o interpretador que executará o código. Como é um script Bash, utilizaremos o Bash como interpretador, logo:
+
+```bash
+#!/bin/bash
+```
+
+Os scripts podem ser escritos em diversas linguagens, como Python. Dependendo da linguagem escolhida, muda-se o caminho para o interpretador utilizado.
+
+Agora que configuramos o necessário, podemos pular uma linha e começar a escrever nosso script e adicionar funcionalidades para processar e monitorar os arquivos de log.
+
+### Escrevendo o script
+
+A primeira ação no script é criar uma variável que armazenará o diretório onde estão nossos logs. Uma variável é um recurso no código para armazenar informações. Neste caso, o diretório de logs.
+
+A variável será chamada **LOG\_DIR**. Para atribuir um valor, usamos o sinal de igual. O valor deve ser escrito entre aspas duplas:
+
+```bash
+LOG_DIR=" "
+```
+
+Começamos o caminho com `..`, que indica que vamos sair da pasta atual. Em seguida, `/myapp/logs`, que é a pasta criada na atividade de preparação do ambiente:
+
+```bash
+LOG_DIR="../myapp/logs"
+```
+
+As aspas duplas são opcionais ao atribuir valores a uma variável, mas é uma boa prática usá-las para evitar problemas com caracteres especiais.
+
+Outra funcionalidade do script é exibir uma mensagem na tela. Para isso, usamos o comando **echo** do Linux, que nos permite escrever uma mensagem entre aspas duplas.
+
+Vamos escrever "Verificando logs no diretório" e, em seguida, queremos indicar qual é esse diretório. Como já temos o diretório salvo na variável **LOG\_DIR**, utilizaremos o valor armazenado nela. No script Bash, chamamos a variável usando o sinal de cifrão `$` seguido do nome da variável, portanto:
+
+```bash
+echo "Verificando logs no diretorio $LOG_DIR"
+```
+
+Assim, essa mensagem será exibida na tela quando o script for executado.
+
+#### Salvando o arquivo no Nano
+
+Para salvar as alterações no arquivo usando o **Nano**, siga estes passos:
+
+1. Pressione as teclas **Ctrl + O** (a letra "O" vem de "output", que significa "salvar").
+2. O Nano pedirá o nome do arquivo — pressione **Enter** para manter o nome atual.
+3. Em seguida, pressione **Ctrl + X** para sair do editor e retornar ao terminal.
+
+Pronto! Já entendemos o que é um script e criamos as primeiras linhas de código. Na sequência, aprenderemos como **executar nosso script**.
+
+---
+
+### Caso deseje usar o editor Vim
+
+Se quiser utilizar o editor Vim para criar e editar seu script, siga este passo a passo:
+
+#### 1. Iniciando o Vim
+
+Para abrir um arquivo:
+
+```bash
+vim nome_do_arquivo
+```
+
+#### 2. Modos do Vim
+
+O Vim possui diferentes modos, sendo os principais:
+
+* **Modo Normal**: Usado para navegação e comandos (o modo padrão ao abrir o Vim).
+* **Modo de Inserção**: Usado para inserir texto.
+* **Modo de Comando**: Usado para executar comandos do Vim.
+
+#### 3. Mudando de modos
+
+* Para entrar no modo de inserção: pressione **i** (inserir antes do cursor) ou **a** (inserir após o cursor).
+* Para voltar ao modo normal: pressione **Esc**.
+
+#### 4. Navegação
+
+É possível usar as teclas de seta para navegar pelo arquivo no Vim:
+
+* **Seta para cima**: move o cursor uma linha para cima.
+* **Seta para baixo**: move o cursor uma linha para baixo.
+* **Seta para esquerda**: move o cursor um caractere para a esquerda.
+* **Seta para direita**: move o cursor um caractere para a direita.
+
+Embora usar as teclas de seta seja conveniente, muitos usuários preferem os comandos de navegação do Vim, que proporcionam mais eficiência:
+
+* **h**: move o cursor para a esquerda.
+* **j**: move o cursor para baixo.
+* **k**: move o cursor para cima.
+* **l**: move o cursor para a direita.
+
+Outros comandos de navegação úteis:
+
+* **gg**: ir para o início do arquivo.
+* **G**: ir para o final do arquivo.
+* **0**: ir para o início da linha.
+* **\$**: ir para o final da linha.
+
+#### 5. Salvar e sair
+
+* Para salvar as alterações: no modo normal, digite `:w` e pressione **Enter**.
+* Para sair do Vim:
+
+  * `:q`: sai se não houver alterações.
+  * `:q!`: sai sem salvar as alterações.
+  * `:wq`: salva e sai.
+
+---
+---
+
+### Gerenciando Permissões
+
+Com o terminal aberto na pasta onde está o script, vamos rodar o seguinte comando para dar permissão de execução ao arquivo:
+
+```bash
+chmod 755 monitoramento-logs.sh
+```
+
+Após pressionar **Enter**, já teremos aplicado a permissão de execução.
+
+O comando **chmod** no Linux é utilizado para gerenciar permissões, adicionando ou removendo permissões em arquivos e diretórios. Mas o que significam os números que utilizamos? Como sabemos quais números usar para adicionar e remover essas permissões? Vamos entender em detalhes como funciona essa gestão de permissões no Linux.
+
+
+### Tipos de permissões
+
+É importante compreender esses detalhes de gerenciamento de permissões, pois são fundamentais para a segurança e administração do sistema. Existem diferentes tipos de permissões que podemos conceder ou retirar de arquivos e diretórios:
+
+* **Leitura** (**r** - *read*): permite acessar o conteúdo de um arquivo ou listar arquivos de um diretório.
+* **Escrita** (**w** - *write*): permite modificar arquivos ou o conteúdo de um diretório.
+* **Execução** (**x** - *execute*): permite executar códigos, scripts e acessar diretórios.
+
+
+### Classes de usuário
+
+Além das permissões, existem classes de usuários no Linux:
+
+* **u** (*user*): proprietário, que é o dono do arquivo.
+* **g** (*group*): grupo de usuários que não são os donos do arquivo, mas podem ter acesso a ele.
+* **o** (*others*): outros usuários que não são nem o proprietário, nem parte de um grupo.
+* **a** (*all*): representa todos os usuários (proprietário, grupo e outros).
+
+
+### Notação Octal
+
+Quando escrevemos o comando `chmod 755`, utilizamos uma notação octal para representar as permissões. Essa notação usa números para indicar o tipo de permissão que estamos aplicando ou removendo:
+
+* **Leitura (r)** tem o valor **4**.
+* **Gravação (w)** tem o valor **2**.
+* **Execução (x)** tem o valor **1**.
+
+O número **755** significa:
+
+* **7** (4+2+1): proprietário com permissões de leitura, gravação e execução.
+* **5** (4+1): grupo com permissões de leitura e execução.
+* **5** (4+1): outros com permissões de leitura e execução.
+
+
+### Notação Simbólica
+
+Além da notação octal, podemos usar a notação simbólica no `chmod`, que utiliza letras e símbolos para representar operações e usuários:
+
+* **+**: adiciona permissões.
+* **-**: remove permissões.
+* **=**: define permissões exatas.
+
+Exemplos:
+
+* `chmod u+x arquivo.sh`: atribui permissão de execução ao proprietário.
+* `chmod g-w arquivo.sh`: remove a permissão de gravação do grupo.
+
+Para o caso do `chmod 755`, poderíamos usar:
+
+```bash
+chmod +x monitoramento-logs.sh
+```
+
+Como estamos atribuindo a permissão de execução para todas as classes, podemos simplesmente usar o operador `+x`.
+
+---
+
+### Verificando Permissões
+
+Para limpar a tela do terminal:
+
+```bash
+Ctrl + L
+```
+
+Para verificar as permissões de um arquivo, usamos o comando:
+
+```bash
+ls -l
+```
+
+Exemplo de saída:
+
+```
+-rwxr-xr-x
+```
+
+* O primeiro traço indica um arquivo regular (ou "d" para diretórios).
+* Os três primeiros caracteres são as permissões do proprietário (rwx).
+* Os três seguintes, do grupo (r-x).
+* Os últimos, de outros usuários (r-x).
+
+Em seguida, temos o nome do proprietário e o grupo atribuído ao arquivo.
+
+---
+
+### Executando o Script
+
+Agora que entendemos a gestão de permissões, podemos executar nosso script com o seguinte comando:
+
+```bash
+./monitoramento-logs.sh
+```
+
+A saída na tela, gerada pelo comando **echo**, será:
+
+```
+Verificando logs no diretorio ../myapp/logs
+```
+
+A mensagem confirma que o script está verificando logs no diretório especificado.
+
+---
+
+Segue o texto formatado de forma profissional, didática e estruturada:
+
+---
+
+### Gerenciamento de Grupos
+
+Quando trabalhamos em um projeto de software, é comum haver um time envolvido. Nossa aplicação geralmente será executada em um servidor, em uma máquina onde todos terão acesso. Queremos que as pessoas possam acessar nosso script de processamento de logs.
+
+No Linux, a gestão das classes de usuários e dos grupos nos ajuda com isso, pois podemos criar um grupo e adicionar diversos usuários, facilitando o gerenciamento de acesso. Em vez de dar permissões individualmente para cada pessoa envolvida no time, podemos utilizar um grupo para centralizar as permissões.
+
+---
+---
+
+### Criando Usuários
+
+Meu usuário atual é "diego", como aparece na tela do terminal. Podemos criar um novo usuário para o time usando o comando **sudo adduser** seguido do nome. Por exemplo, para criar a usuária gustavo:
+
+```bash
+sudo adduser gustavo
+```
+
+Em seguida, precisamos informar a senha do usuário atual e responder a algumas perguntas para criar o novo usuário. A primeira é a senha do novo usuário, que deve ser confirmada. As demais perguntas podem ser deixadas em branco pressionando **Enter**. No final, confirmamos as informações digitando **Y** e pressionando **Enter**.
+
+O novo usuário chmado **gustavo** foi criado. Para verificar se a criação foi bem-sucedida, podemos rodar o seguinte comando para listar os usuários:
+
+```bash
+cat /etc/passwd
+```
+
+Ao final da lista, veremos **gustavo** com seu diretório home.
+
+---
+
+### Criando um Grupo
+
+Queremos que o gustavo trabalhe conosco e ajude no script de processamento de logs. Portanto, criaremos um grupo para adicionar ele e outras futuras colaboradoras do projeto.
+
+Para criar um grupo, usamos o comando:
+
+```bash
+sudo addgroup devs
+```
+
+Para verificar se o grupo foi criado com sucesso:
+
+```bash
+getent group devs
+```
+
+Agora, vamos adicionar o **gustavo** ao grupo **devs** com o comando:
+
+```bash
+sudo usermod -aG devs gustavo
+```
+
+Para checar se ele foi adicionado corretamente:
+
+```bash
+getent group devs
+```
+
+---
+
+### Gerenciando Acessos
+
+O próximo passo é conceder acesso ao grupo para que possam executar o script. Vamos entrar na pasta onde o script foi criado com:
+
+```bash
+cd scripts-linux
+```
+
+E rodar o comando para conferir as permissões:
+
+```bash
+ls -ld
+```
+
+Exemplo de saída:
+
+```
+drwxr-xr-x diego diego
+```
+
+Notamos que o grupo tem permissão de leitura e execução, mas não de escrita. Quando atribuímos permissões, é necessário que todos os diretórios-pais também tenham as permissões adequadas.
+
+No momento, o grupo ainda não é **devs**, mas **diego**. Se formos para o diretório-pai com:
+
+```bash
+cd ..
+```
+
+E rodarmos:
+
+```bash
+ls -ld
+```
+
+Veremos algo como:
+
+```
+drwxr-x--- diego diego
+```
+
+O grupo do diretório-pai deve ser o mesmo do diretório-filho que queremos acessar.
+
+Para alterar o grupo do diretório-pai e seus subdiretórios, usamos:
+
+```bash
+sudo chown -R :devs /home/diego
+```
+
+A opção **-R** aplica a modificação recursivamente. Esse processo pode demorar um pouco, dependendo da quantidade de diretórios no computador.
+
+Após a execução, rodamos novamente:
+
+```bash
+ls -ld
+```
+
+Verificaremos que o grupo foi alterado para **devs**:
+
+```
+drwxr-x--- diego devs
+```
+
+---
+
+### Verificando o Acesso de um Usuário
+
+Vamos verificar se **gustavo** consegue executar o script. Para isso, trocamos o usuário com:
+
+```bash
+su - gustavo
+```
+
+Após informar a senha, o nome do host mudará. Acessamos a pasta dos scripts:
+
+```bash
+cd /home/diego/scripts-linux
+```
+
+(Altere "diego" para o nome do seu usuário!)
+
+Agora, rodamos o script:
+
+```bash
+./monitoramento-logs.sh
+```
+
+Confirmamos que o **gustavo** consegue executar o script!
+
+---
+
+### Considerações Finais
+
+Quando gerenciamos uma máquina ou servidor, é importante decidir se todos os usuários do grupo devem ter acesso a todas as pastas dentro do diretório. Podemos conceder acesso apenas a pastas específicas, sem usar a opção **-R**.
+
+Para voltar ao usuário original, usamos:
+
+```bash
+su - diego
+```
+
+E informamos a senha novamente.
+
+---
+---
+
+### Encontrando e Filtrando Arquivos
+
+No terminal, acesse a pasta:
+
+```bash
+cd /myapp/logs
+```
+
+Use o comando **ls** para listar os itens da pasta. Perceba que temos arquivos com extensão **.log** e outros que não queremos processar. Para filtrar apenas os arquivos de log, usamos:
+
+```bash
+find . -name "*.log"
+```
+
+O retorno será:
+
+```
+./myapp-frontend.log
+./myapp-backend.log
+```
+
+### Incrementando o Script de Monitoramento
+
+Acesse a pasta onde está o script:
+
+```bash
+cd scripts-linux
+```
+
+Abra o script para edição com o **nano**:
+
+```bash
+nano monitoramento-logs.sh
+```
+
+No arquivo, edite para ficar assim:
+
+```bash
+#!/bin/bash
+
+LOG_DIR="../myapp/logs"
+
+echo "Verificando logs no diretorio $LOG_DIR"
+
+find $LOG_DIR -name "*.log"
+```
+
+Pressione **Ctrl + O** para salvar, depois **Enter** para confirmar. Para sair, use **Ctrl + X**.
+
+---
+
+### Adicionando Laço de Repetição
+
+Queremos processar cada arquivo encontrado. Para isso, vamos usar o **while** em conjunto com o **find** e o operador **|** (pipe). Reabra o script com:
+
+```bash
+nano monitoramento-logs.sh
+```
+
+Adicione o laço de repetição no final do script:
+
+```bash
+find $LOG_DIR -name "*.log" -print0 | while IFS= read -r -d '' arquivo; do
+    echo "Arquivo encontrado $arquivo"
+done
+```
+
+A explicação de cada parte:
+
+* **-print0**: faz o **find** usar delimitador nulo.
+* **IFS=**: evita problemas com espaços em nomes.
+* **read -r -d '' arquivo**: lê o nome do arquivo sem interpretar caracteres especiais.
+* **echo**: exibe o nome do arquivo encontrado.
+
+Salve com **Ctrl + O**, pressione **Enter** e saia com **Ctrl + X**.
+
+---
+
+### Executando o Script
+
+Para rodar o script:
+
+```bash
+./monitoramento-logs.sh
+```
+
+A saída será:
+
+```
+Verificando logs no diretorio ../myapp/logs
+Arquivo encontrado ../myapp/logs/myapp-frontend.log
+Arquivo encontrado ../myapp/logs/myapp-backend.log
+```
+
+O laço e o comando **find** estão funcionando! Estamos prontos para avançar no processamento dos logs.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
