@@ -1,11 +1,5 @@
 # Comandos Linux
 
-# Comandos Linux
-
-> Este documento apresenta uma lista abrangente de comandos e conceitos fundamentais do Linux, organizados por categorias para facilitar a navegação e a consulta.
-
----
-
 ## Sumário
 
 - [1. Criação e Gestão de Arquivos e Diretórios](#1-criação-e-gestão-de-arquivos-e-diretórios)
@@ -29,7 +23,79 @@
 
 ### 1. Criação e Gestão de Arquivos e Diretórios
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+
+
+* **mkdir**: Cria um novo diretório.
+
+```bash
+$ mkdir nova_pasta
+```
+
+* **rmdir**: Remove diretórios vazios.
+
+```bash
+$ rmdir pasta_vazia
+```
+
+* **rm**: Remove arquivos ou diretórios (use com cuidado).
+
+```bash
+$ rm arquivo.txt                 # Remove um arquivo
+$ rm -r pasta_com_conteudo       # Remove um diretório com conteúdo
+```
+
+* **touch**: Cria arquivos vazios.
+
+```bash
+$ touch arquivo1.txt arquivo2.txt
+```
+
+* **cat**: Exibe ou cria arquivos.
+
+```bash
+$ cat arquivo.txt                # Exibe o conteúdo de um arquivo
+$ cat > novo_arquivo.txt         # Cria um arquivo e escreve conteúdo
+```
+
+* **chmod**: Altera permissões de arquivos.
+
+```bash
+$ chmod 755 script.sh            # Permissão para leitura, gravação e execução pelo dono, leitura/execução para grupo e outros
+```
+
+Tabela de permissões do `chmod`
+
+| Permissão | Número | Significado para o Dono/Grupo/Outros |
+| --------- | ------ | ------------------------------------ |
+| `---`     | 0      | Nenhuma permissão                    |
+| `--x`     | 1      | Execução somente                     |
+| `-w-`     | 2      | Escrita somente                      |
+| `-wx`     | 3      | Escrita e execução                   |
+| `r--`     | 4      | Leitura somente                      |
+| `r-x`     | 5      | Leitura e execução                   |
+| `rw-`     | 6      | Leitura e escrita                    |
+| `rwx`     | 7      | Leitura, escrita e execução          |
+
+Esses números são combinados em três grupos (dono, grupo e outros) para formar o número final que você usa com o `chmod`. Por exemplo:
+
+* `chmod 755 arquivo`:
+
+  * Dono: 7 (rwx)
+  * Grupo: 5 (r-x)
+  * Outros: 5 (r-x)
+
+* `chmod 644 arquivo`:
+
+  * Dono: 6 (rw-)
+  * Grupo: 4 (r--)
+  * Outros: 4 (r--)
+
+
+* **chown**: Altera o dono e grupo de um arquivo.
+
+```bash
+$ chown usuario:grupo arquivo.txt
+```
 
 ---
 
