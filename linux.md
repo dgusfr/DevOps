@@ -347,13 +347,86 @@ Isso retorna à navegação como usuário normal, sem permissões administrativa
 
 ### 6. Redirecionando Saídas
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+
+```bash
+pgrep nginx > /dev/null
+```
+
+Redireciona a saída do comando para o dispositivo `/dev/null` (uma "lixeira" do sistema), evitando exibir qualquer informação no terminal.
+
+**Comando com Redireção de Erros:**
+
+```bash
+pgrep nginx &> /dev/null
+```
+
+Redireciona tanto as saídas padrão quanto os erros para o descarte.
+
 
 ---
 
 ### 7. Analisando Processos em Execução
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+#### Comando `top`
+
+O comando `top` (table of processes) é utilizado para visualizar os processos em execução em tempo real. Para utilizá-lo, basta abrir o terminal e digitar:
+
+```bash
+top
+```
+
+Ao executar o comando, você verá uma tabela dinâmica com informações sobre os processos em execução.
+Na parte superior da tabela, você encontrará várias siglas e abreviações. Vamos entender cada uma delas:
+
+* **%CPU**: Percentual de utilização da CPU pelo processo.
+* **%MEM**: Percentual de utilização da memória pelo processo.
+* **PID**: Número de identificação do processo (process id).
+* **USER**: Usuário que está utilizando o processo.
+* **PR**: Prioridade geral do processo.
+* **NI**: Nice value (valor agradável) do processo, que influencia na prioridade.
+* **VIRT**: Memória virtual usada pelo processo.
+* **RES**: Memória residente usada (realmente alocada como RAM).
+* **SHR**: Memória compartilhada usada pelo processo.
+* **S**: Estado do processo (S = sleeping, R = running, T = stopped).
+
+
+#### Exemplo de Ordenação
+
+* Execute o comando `top`.
+* Pressione `P` para ver os processos ordenados pelo uso da CPU.
+* Pressione `M` para ver os processos ordenados pelo uso da memória.
+
+
+#### Comando `ps`
+
+O comando `ps` (**Process Status**) é a base para a análise de processos. Ao executá-lo sem opções, você obtém uma visão limitada dos processos ativos no momento:
+
+```bash
+ps
+```
+
+
+#### Comando `ps aux`
+
+Para obter uma visão mais ampla dos processos, utilizamos o comando `ps aux`:
+
+```bash
+ps aux
+```
+
+Esse comando apresenta uma tabela com informações detalhadas sobre todos os processos em execução. Os principais campos são:
+
+* **USER**: Usuário do processo
+* **PID**: Número de identificação do processo
+* **%CPU**: Percentual de CPU utilizado
+* **%MEM**: Percentual de memória utilizado
+* **VSZ**: Memória virtual utilizada
+* **RSS**: Memória RAM alocada
+* **TTY**: Tipo de terminal utilizado
+* **STAT**: Status do processo
+* **START**: Momento em que o processo foi iniciado
+* **TIME**: Tempo de execução
+* **COMMAND**: Comando vinculado ao processo
 
 ---
 
@@ -466,24 +539,6 @@ mv lista_de_tarefas_seguranca.txt arquivos_antigos/
 
 ---
 
-## Redirecionando Saídas
-
-O redirecionamento de saída é uma funcionalidade útil no Linux, permitindo que a saída de um comando seja salva em um arquivo.
-
----
-
-### Redirecionando Saída com `>`
-
-Para redirecionar a saída de um comando para um arquivo, usamos o símbolo de maior que (`>`). Isso sobrescreve o conteúdo do arquivo, caso ele já exista.
-
-**Exemplo:**
-
-```bash
-ls > lista_projeto.txt
-```
-
-Após executar esse comando, o arquivo `lista_projeto.txt` será criado (ou sobrescrito) com a lista de arquivos do diretório atual.
-
 ---
 
 ### Adicionando Informações com `>>`
@@ -531,114 +586,8 @@ Isso adicionará a string `"teste_funcionalidade"` ao final do arquivo `lista_pr
 ---
 
 
-## Analisando Processos em Execução
-
-Assim como no Windows, onde usamos o atalho "Ctrl + Alt + Del" para verificar quais aplicações estão utilizando a CPU, no Linux temos um comando específico para isso.
 
 
-### Comando `top`
-
-O comando `top` (table of processes) é utilizado para visualizar os processos em execução em tempo real. Para utilizá-lo, basta abrir o terminal e digitar:
-
-```bash
-top
-```
-
-Ao executar o comando, você verá uma tabela dinâmica com informações sobre os processos em execução. Vamos entender cada uma delas:
-
-* **%CPU**: Percentual de utilização da CPU pelo processo.
-* **%MEM**: Percentual de utilização da memória pelo processo.
-* **PID**: Número de identificação do processo (process id).
-* **USER**: Usuário que está utilizando o processo.
-* **PR**: Prioridade geral do processo.
-* **NI**: Nice value (valor agradável) do processo, que influencia na prioridade.
-* **VIRT**: Memória virtual usada pelo processo.
-* **RES**: Memória residente usada (realmente alocada como RAM).
-* **SHR**: Memória compartilhada usada pelo processo.
-* **S**: Estado do processo (S = sleeping, R = running, T = stopped).
-
----
-
-Segue o texto formatado no modelo e estilo dos exemplos anteriores, pronto para integrar com o restante do seu material:
-
----
-
-## Analisando Processos em Execução
-
-Assim como no Windows, onde usamos o atalho "Ctrl + Alt + Del" para verificar quais aplicações estão utilizando a CPU, no Linux temos um comando específico para isso.
-
----
-
-### 2.1 Comando `top`
-
-O comando `top` (table of processes) é utilizado para visualizar os processos em execução em tempo real. Para utilizá-lo, basta abrir o terminal e digitar:
-
-```bash
-top
-```
-
-Ao executar o comando, você verá uma tabela dinâmica com informações sobre os processos em execução.
-
----
-
-### 2.2 Estrutura da Mesa de Processos
-
-Na parte superior da tabela, você encontrará várias siglas e abreviações. Vamos entender cada uma delas:
-
-* **%CPU**: Percentual de utilização da CPU pelo processo.
-* **%MEM**: Percentual de utilização da memória pelo processo.
-* **PID**: Número de identificação do processo (process id).
-* **USER**: Usuário que está utilizando o processo.
-* **PR**: Prioridade geral do processo.
-* **NI**: Nice value (valor agradável) do processo, que influencia na prioridade.
-* **VIRT**: Memória virtual usada pelo processo.
-* **RES**: Memória residente usada (realmente alocada como RAM).
-* **SHR**: Memória compartilhada usada pelo processo.
-* **S**: Estado do processo (S = sleeping, R = running, T = stopped).
-
-
-### Exemplo de Ordenação
-
-* Execute o comando `top`.
-* Pressione `P` para ver os processos ordenados pelo uso da CPU.
-* Pressione `M` para ver os processos ordenados pelo uso da memória.
-
----
-Segue o conteúdo formatado no modelo do seu material:
-
----
-
-## Comando `ps`
-
-O comando `ps` (**Process Status**) é a base para a análise de processos. Ao executá-lo sem opções, você obtém uma visão limitada dos processos ativos no momento:
-
-```bash
-ps
-```
-
----
-
-## Comando `ps aux`
-
-Para obter uma visão mais ampla dos processos, utilizamos o comando `ps aux`:
-
-```bash
-ps aux
-```
-
-Esse comando apresenta uma tabela com informações detalhadas sobre todos os processos em execução. Os principais campos são:
-
-* **USER**: Usuário do processo
-* **PID**: Número de identificação do processo
-* **%CPU**: Percentual de CPU utilizado
-* **%MEM**: Percentual de memória utilizado
-* **VSZ**: Memória virtual utilizada
-* **RSS**: Memória RAM alocada
-* **TTY**: Tipo de terminal utilizado
-* **STAT**: Status do processo
-* **START**: Momento em que o processo foi iniciado
-* **TIME**: Tempo de execução
-* **COMMAND**: Comando vinculado ao processo
 
 ---
 
@@ -1448,23 +1397,7 @@ Exibe os PID dos processos relacionados ao Nginx de forma direta.
 2259
 ```
 
-### Redirecionando Saídas para Descarte
 
-```bash
-pgrep nginx > /dev/null
-```
-
-Redireciona a saída do comando para o dispositivo `/dev/null` (uma "lixeira" do sistema), evitando exibir qualquer informação no terminal.
-
-**Comando com Redireção de Erros:**
-
-```bash
-pgrep nginx &> /dev/null
-```
-
-Redireciona tanto as saídas padrão quanto os erros para o descarte.
-
----
 
 ## Script de Monitoramento
 
