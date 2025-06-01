@@ -432,25 +432,140 @@ Esse comando apresenta uma tabela com informações detalhadas sobre todos os pr
 
 ### 8. Trabalhando com Textos
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+* **cat**: Exibe o conteúdo de um arquivo.
+
+```bash
+$ cat arquivo.txt
+```
+
+* **cut**: Extrai campos de um arquivo.
+
+```bash
+$ cut -d "," -f 1 arquivo.csv  # Extrai a primeira coluna de um CSV
+```
+
+* **head** e **tail**: Exibem linhas do início ou fim de um arquivo.
+
+```bash
+$ head -n 5 arquivo.txt   # Exibe as 5 primeiras linhas
+$ tail -n 10 arquivo.txt  # Exibe as 10 últimas linhas
+```
+
+* **more** e **less**: Exibem o conteúdo de arquivos de forma paginada.
+
+```bash
+$ more arquivo.txt
+$ less arquivo.txt
+```
+
+* **grep**: Pesquisa por padrões em arquivos.
+
+```bash
+$ grep "padrão" arquivo.txt        # Encontra linhas que contêm "padrão"
+$ grep -r "padrão" diretorio/     # Pesquisa recursivamente em um diretório
+```
 
 ---
 
 ### 9. Manipulação de Compactação
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+* **tar**: Cria ou extrai arquivos compactados.
+
+```bash
+$ tar -czvf arquivo.tar.gz pasta/    # Compacta com gzip
+$ tar -xzvf arquivo.tar.gz           # Extrai arquivo compactado
+```
+
+* **gzip/bzip2**: Compacta arquivos individualmente.
+
+```bash
+$ gzip arquivo.txt       # Compacta o arquivo para arquivo.txt.gz
+$ bzip2 arquivo.txt      # Compacta o arquivo para arquivo.txt.bz2
+```
+
+* **zip/unzip**: Compacta e descompacta arquivos ZIP.
+
+```bash
+$ zip arquivos.zip arquivo1 arquivo2
+$ unzip arquivos.zip
+```
 
 ---
 
 ### 10. Scripts e Automação
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+#### Criação de Script Bash
+
+```bash
+echo "Olá, mundo!"
+```
+
+Para executar, torne o script executável e rode:
+
+```bash
+$ chmod +x script.sh
+$ ./script.sh
+```
+
+#### Backup com Script
+
+Exemplo de script para backup:
+
+```bash
+#!/bin/bash
+DATA=$(date +"%Y-%m-%d")
+DESTINO="/backup/$DATA"
+mkdir -p $DESTINO
+cp -r /pasta/origem/* $DESTINO
+echo "Backup concluído com sucesso!"
+```
+
+#### Permissões de Execução
+
+```bash
+$ chmod +x script.sh
+```
 
 ---
 
 ### 11. Comandos Úteis Adicionais
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+* **clear**: Limpa o terminal.
+
+```bash
+$ clear
+```
+
+* **df -h**: Exibe o uso do sistema de arquivos.
+
+```bash
+$ df -h
+```
+
+* **free -h**: Exibe informações sobre o uso de memória.
+
+```bash
+$ free -h
+```
+
+* **sudo apt-get update && sudo apt-get upgrade**: Atualiza o sistema.
+
+```bash
+$ sudo apt-get update && sudo apt-get upgrade
+```
+
+* **updatedb/locate**: Atualiza o banco de dados e busca arquivos.
+
+```bash
+$ sudo updatedb
+$ locate arquivo.txt
+```
+
+* **which**: Localiza o caminho de um executável.
+
+```bash
+$ which ls
+```
 
 ---
 
@@ -752,144 +867,9 @@ ps aux --sort=-%mem | head -n 11
 
 ---
 
-## 5. Trabalhando com Textos
 
-* **cat**: Exibe o conteúdo de um arquivo.
 
-```bash
-$ cat arquivo.txt
-```
 
-* **cut**: Extrai campos de um arquivo.
-
-```bash
-$ cut -d "," -f 1 arquivo.csv  # Extrai a primeira coluna de um CSV
-```
-
-* **head** e **tail**: Exibem linhas do início ou fim de um arquivo.
-
-```bash
-$ head -n 5 arquivo.txt   # Exibe as 5 primeiras linhas
-$ tail -n 10 arquivo.txt  # Exibe as 10 últimas linhas
-```
-
-* **more** e **less**: Exibem o conteúdo de arquivos de forma paginada.
-
-```bash
-$ more arquivo.txt
-$ less arquivo.txt
-```
-
-* **grep**: Pesquisa por padrões em arquivos.
-
-```bash
-$ grep "padrão" arquivo.txt        # Encontra linhas que contêm "padrão"
-$ grep -r "padrão" diretorio/     # Pesquisa recursivamente em um diretório
-```
-
----
-
-## 6. Manipulação de Compactação
-
-* **tar**: Cria ou extrai arquivos compactados.
-
-```bash
-$ tar -czvf arquivo.tar.gz pasta/    # Compacta com gzip
-$ tar -xzvf arquivo.tar.gz           # Extrai arquivo compactado
-```
-
-* **gzip/bzip2**: Compacta arquivos individualmente.
-
-```bash
-$ gzip arquivo.txt       # Compacta o arquivo para arquivo.txt.gz
-$ bzip2 arquivo.txt      # Compacta o arquivo para arquivo.txt.bz2
-```
-
-* **zip/unzip**: Compacta e descompacta arquivos ZIP.
-
-```bash
-$ zip arquivos.zip arquivo1 arquivo2
-$ unzip arquivos.zip
-```
-
----
-
-## 7. Scripts e Automação
-
-### Criação de Script Bash
-
-```bash
-echo "Olá, mundo!"
-```
-
-Para executar, torne o script executável e rode:
-
-```bash
-$ chmod +x script.sh
-$ ./script.sh
-```
-
-### Backup com Script
-
-Exemplo de script para backup:
-
-```bash
-#!/bin/bash
-DATA=$(date +"%Y-%m-%d")
-DESTINO="/backup/$DATA"
-mkdir -p $DESTINO
-cp -r /pasta/origem/* $DESTINO
-echo "Backup concluído com sucesso!"
-```
-
-### Permissões de Execução
-
-```bash
-$ chmod +x script.sh
-```
-
----
-
-## 8. Comandos Úteis Adicionais
-
-* **clear**: Limpa o terminal.
-
-```bash
-$ clear
-```
-
-* **df -h**: Exibe o uso do sistema de arquivos.
-
-```bash
-$ df -h
-```
-
-* **free -h**: Exibe informações sobre o uso de memória.
-
-```bash
-$ free -h
-```
-
-* **sudo apt-get update && sudo apt-get upgrade**: Atualiza o sistema.
-
-```bash
-$ sudo apt-get update && sudo apt-get upgrade
-```
-
-* **updatedb/locate**: Atualiza o banco de dados e busca arquivos.
-
-```bash
-$ sudo updatedb
-$ locate arquivo.txt
-```
-
-* **which**: Localiza o caminho de um executável.
-
-```bash
-$ which ls
-```
-
----
 
 ## 9. Gerenciamento de Usuários e Permissões
 
