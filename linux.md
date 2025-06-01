@@ -101,7 +101,35 @@ $ chown usuario:grupo arquivo.txt
 
 ### 2. Navegação entre Diretórios
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+- **pwd**: Exibe o diretório atual.
+
+```bash
+$ pwd
+/home/usuario
+````
+
+* **ls**: Lista arquivos e pastas do diretório atual.
+
+```bash
+$ ls
+documento.txt  imagens/  projeto/
+```
+
+* **cd**: Change Directory, Acessa um diretório.
+
+```bash
+$ cd Downloads  
+$ cd ..         # Retorna ao diretório anterior
+```
+
+* **find**: Busca arquivos e diretórios.
+
+```bash
+$ find /caminho -name "arquivo.txt"  # Busca por nome
+$ find /caminho -type f -size +1M     # Busca arquivos maiores que 1MB
+$ find /caminho -type f -atime +7     # Arquivos não acessados nos últimos 7 dias
+$ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
+```
 
 ---
 
@@ -193,40 +221,6 @@ $ chown usuario:grupo arquivo.txt
 
 
 
----
-
-
-## Navegação entre Diretórios
-
-- **pwd**: Exibe o diretório atual.
-
-```bash
-$ pwd
-/home/usuario
-````
-
-* **ls**: Lista arquivos e pastas do diretório atual.
-
-```bash
-$ ls
-documento.txt  imagens/  projeto/
-```
-
-* **cd**: Change Directory, Acessa um diretório.
-
-```bash
-$ cd Downloads  
-$ cd ..         # Retorna ao diretório anterior
-```
-
-* **find**: Busca arquivos e diretórios.
-
-```bash
-$ find /caminho -name "arquivo.txt"  # Busca por nome
-$ find /caminho -type f -size +1M     # Busca arquivos maiores que 1MB
-$ find /caminho -type f -atime +7     # Arquivos não acessados nos últimos 7 dias
-$ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
-```
 
 
 ---
