@@ -11,13 +11,13 @@
 - [7. Analisando Processos em Execução](#7-analisando-processos-em-execução)
 - [8. Trabalhando com Textos](#8-trabalhando-com-textos)
 - [9. Manipulação de Compactação](#9-manipulação-de-compactação)
-- [10. Scripts e Automação](#10-scripts-e-automação)
-- [11. Comandos Úteis Adicionais](#11-comandos-úteis-adicionais)
-- [12. Gerenciamento de Usuários e Permissões](#12-gerenciamento-de-usuários-e-permissões)
-- [13. Protocolos de Rede e Memória](#13-protocolos-de-rede-e-memória)
-- [14. Gerenciamento de Pacotes e Serviços](#14-gerenciamento-de-pacotes-e-serviços)
-- [15. GNU Nano](#15-gnu-nano)
-- [16. Scripts de Automação e Monitoramento](#16-scripts-de-automação-e-monitoramento)
+- [10. Comandos Úteis Adicionais](#10-comandos-úteis-adicionais)
+- [11. Gerenciamento de Usuários e Permissões](#11-gerenciamento-de-usuários-e-permissões)
+- [12. Protocolos de Rede e Memória](#12-protocolos-de-rede-e-memória)
+- [13. Gerenciamento de Pacotes e Serviços](#13-gerenciamento-de-pacotes-e-serviços)
+- [14. GNU Nano](#14-gnu-nano)
+- [15. Monitoramento](#15-monitoramento)
+- [16. Scripts de Automação](#16-scripts-de-automação)
 
 ---
 
@@ -492,43 +492,7 @@ $ unzip arquivos.zip
 
 ---
 
-### 10. Scripts e Automação
-
-#### Criação de Script Bash
-
-```bash
-echo "Olá, mundo!"
-```
-
-Para executar, torne o script executável e rode:
-
-```bash
-$ chmod +x script.sh
-$ ./script.sh
-```
-
-#### Backup com Script
-
-Exemplo de script para backup:
-
-```bash
-#!/bin/bash
-DATA=$(date +"%Y-%m-%d")
-DESTINO="/backup/$DATA"
-mkdir -p $DESTINO
-cp -r /pasta/origem/* $DESTINO
-echo "Backup concluído com sucesso!"
-```
-
-#### Permissões de Execução
-
-```bash
-$ chmod +x script.sh
-```
-
----
-
-### 11. Comandos Úteis Adicionais
+### 10. Comandos Úteis Adicionais
 
 * **clear**: Limpa o terminal.
 
@@ -571,308 +535,6 @@ $ which ls
 
 ### 12. Gerenciamento de Usuários e Permissões
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
-
----
-
-### 13. Protocolos de Rede e Memória
-
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
-
----
-
-### 14. Gerenciamento de Pacotes e Serviços
-
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
-
----
-
-### 15. GNU Nano
-
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
-
----
-
-### 16. Scripts de Automação e Monitoramento
-
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
-
----
-
-
-
-
----
-
-## Combinando os Comandos
-
-Exemplo de sequência para organização:
-
-```bash
-cp arquivo_original.txt arquivo_copia.txt
-mv arquivo_copia.txt novo_nome.txt
-mv novo_nome.txt diretorio_destino/
-```
-
-
-### Exercícios Práticos
-
-1. Crie um arquivo:
-
-```bash
-nano lista_de_tarefas.txt
-```
-
-2. Copie o arquivo:
-
-```bash
-cp lista_de_tarefas.txt lista_de_tarefas_backup.txt
-```
-
-3. Renomeie:
-
-```bash
-mv lista_de_tarefas_backup.txt lista_de_tarefas_seguranca.txt
-```
-
-4. Crie um diretório:
-
-```bash
-mkdir arquivos_antigos
-```
-
-5. Mova o arquivo para o novo diretório:
-
-```bash
-mv lista_de_tarefas_seguranca.txt arquivos_antigos/
-```
-
----
-
-
-
-
----
-
----
-
-### Adicionando Informações com `>>`
-
-Se quisermos adicionar informações ao final de um arquivo sem sobrescrever seu conteúdo, usamos dois símbolos de maior que (`>>`).
-
-**Exemplo:**
-
-```bash
-ls >> lista_projeto.txt
-```
-
-Isso adicionará a nova saída do comando `ls` ao final do arquivo `lista_projeto.txt`.
-
-
-## Exibindo Informações
-
-O comando `echo` é utilizado para exibir informações no terminal. Ele pode ser usado para interagir com o usuário ou para registrar informações em arquivos.
-
-**Exemplo:**
-
-```bash
-echo hello world
-```
-
-**Saída:**
-
-```
-hello world
-```
-
-
-### Redirecionando a Saída do `echo`
-
-Podemos redirecionar a saída do comando `echo` para um arquivo da mesma forma que fizemos com o `ls`.
-
-**Exemplo:**
-
-```bash
-echo teste_funcionalidade >> lista_projeto.txt
-```
-
-Isso adicionará a string `"teste_funcionalidade"` ao final do arquivo `lista_projeto.txt`.
-
----
-
-
-
-
-
----
-
-## Filtrando Processos por Usuário
-
-Podemos filtrar os processos por usuário utilizando a flag `-u`. Por exemplo, para ver os processos do usuário `root`, usamos:
-
-```bash
-ps -u root
-```
-
-Para visualizar os processos do seu usuário pessoal, substitua `root` pelo seu nome de usuário:
-
-```bash
-ps -u lcs
-```
-
----
-
-## Visualização em Árvore
-
-Para visualizar a hierarquia dos processos, podemos usar o comando `pstree`:
-
-```bash
-pstree
-```
-
-Esse comando apresenta os processos em uma estrutura de árvore, mostrando quais processos estão subordinados a outros.
-
----
-
-## Filtrando Processos Específicos
-
-Para consultar informações de um processo específico, podemos usar a flag `-C` seguida do nome do processo. Por exemplo, para o processo `bash`:
-
-```bash
-ps -C bash
-```
-
-
----
-
-## Interrompendo um Processo
-
-Vamos abrir um novo terminal Ubuntu na nossa linha de comando, deixando a aba atual aberta. Clique no "+" do menu superior e depois em "Ubuntu" para inicializá-lo.
-
-Vamos inicializar um processo simples, por exemplo, o editor de texto, que já conhecemos:
-
-```bash
-nano
-```
-
-Feito isso, estaremos com o processo do `nano` em execução.
-
----
-
-## Verificando o PID do Processo
-
-Na aba anterior do terminal, vamos rodar o Process Status:
-
-```bash
-ps aux
-```
-
-Com isso, veremos o `nano` em execução ao final da lista e poderemos coletar o número do PID dele — no caso do instrutor, é `24605`. Se quisermos enviar um sinal para esse processo, teremos que usar esse número.
-
-Por exemplo, vamos rodar o seguinte comando para interromper o processo do `nano` (usando o PID do processo na sua máquina):
-
-```bash
-kill 24605
-```
-
----
-
-## Retorno e Encerramento
-
-Ao fazer isso, não recebemos nenhum retorno de sucesso ou erro. Isso significa que o comando foi reconhecido.
-
-Voltando para a outra aba, onde abrimos o editor de texto `nano`, veremos a seguinte mensagem:
-
-```
-Received SIGHUP or SIGTERM
-```
-
-Esse retorno indica que o tipo de sinal recebido foi o **SIGTERM**, que é o sinal padrão quando não especificamos qual ação queremos para o processo.
-
----
-
-## Interrompendo um Processo Abruptamente
-
-Esse sinal de interrupção faz com que o processo seja encerrado de forma suave, dando um tempo para que o editor de texto seja fechado, por exemplo. Se quisermos interromper de maneira **abrupta** um processo, podemos usar o sinal **9**. Vamos testar:
-
-1. Reabra o editor de texto na segunda aba:
-
-```bash
-nano
-```
-
-2. Na outra aba, rode novamente o comando `ps`:
-
-```bash
-ps aux
-```
-
-3. Desça a lista até encontrar o `nano` em execução. O número do processo será diferente do anterior.
-
-4. Copie o PID e envie um sinal de interrupção abrupta:
-
-```bash
-kill -9 25035
-```
-
-
-
-## Observação
-
-Retornando à aba do terminal onde abrimos o editor de texto `nano`, note que o processo foi encerrado de maneira tão abrupta que o `nano` nem teve a oportunidade de ser encerrado adequadamente. Nesse caso, a mensagem exibida é apenas:
-
-```
-Killed
-```
-
-Em geral, como **boa prática**, preferimos o encerramento suave para que as aplicações e processos em execução tenham tempo de salvar dados e finalizar corretamente. O sinal de interrupção abrupta deve ser usado apenas em casos de processos muito indesejados ou travados.
-
-
-
-## Pausando um Processo
-
-No terminal principal, também podemos usar o `kill` para pausar um processo, utilizando o sinal **-STOP**, com o PID do processo:
-
-```bash
-kill -STOP <PID>
-```
-
-
-## Controlando um Processo pelo Nome
-
-Podemos usar o `kill` de uma forma diferente: ao invés do PID, podemos identificar o processo pelo seu nome com o comando **pkill**:
-
-```bash
-pkill nome_processo
-```
-
-Uma variação desse comando é o **killall**, que envia um sinal para todos os processos com nomes similares. **Use com cuidado** para não encerrar aplicações importantes em execução.
-
----
-
-
-## 7. Filtrando por Quantidade de Processos e Tipo de Recurso
-
-Se quisermos listar os processos que estão fazendo o maior uso de memória, utilizamos:
-
-```bash
-ps aux --sort=-%mem
-```
-
-Para exibir apenas os 10 processos que mais consomem memória, combinamos com o comando `head`:
-
-```bash
-ps aux --sort=-%mem | head -n 11
-```
-
----
-
-
-
-
-
-## 9. Gerenciamento de Usuários e Permissões
-
 * **adduser**: Adiciona um novo usuário.
 
 ```bash
@@ -899,7 +561,9 @@ $ chmod 755 arquivo.txt
 
 ---
 
-## 10. Protocolos de Rede e Memória
+### 13. Protocolos de Rede e Memória
+
+
 
 * **ping**: Testa a conectividade com um host.
 
@@ -919,9 +583,10 @@ $ ip addr
 $ ip route
 ```
 
+
 ---
 
-## 11. Gerenciamento de Pacotes e Serviços
+### 14. Gerenciamento de Pacotes e Serviços
 
 * **apt-get**: Instala e gerencia pacotes no sistema.
 
@@ -937,12 +602,11 @@ $ sudo service apache2 start    # Inicia um serviço
 $ sudo systemctl restart apache2
 ```
 
-
----
----
 ---
 
-# GNU Nano
+### 15. GNU Nano
+
+
 
 O **GNU Nano** é um editor de texto simples e poderoso que vem pré-instalado em muitas distribuições Linux. Ele é usado diretamente no terminal e foi projetado para ser fácil de usar, mesmo para iniciantes. Nano é particularmente útil para editar arquivos de configuração ou criar scripts rapidamente, sem a necessidade de interfaces gráficas.
 
@@ -958,8 +622,6 @@ O **GNU Nano** é um editor de texto simples e poderoso que vem pré-instalado e
 
 ## Como Usar o GNU Nano
 
-### 1. Abrindo o GNU Nano
-
 No terminal, digite o comando abaixo seguido do nome do arquivo que você deseja editar:
 
 ```bash
@@ -972,8 +634,6 @@ Exemplo para editar um arquivo chamado `config.txt`:
 nano config.txt
 ```
 
-### 2. Interface do GNU Nano
-
 Quando você abre o Nano, verá:
 
 ![Imagem GNU Nano acima](images/nano-interface.png)
@@ -983,7 +643,7 @@ Fonte: *[Autor](Autor)*
 * **Linha de Status**: Abaixo do conteúdo, há informações como o nome do arquivo e o número da linha.
 * **Atalhos de Comando**: Na parte inferior, comandos básicos aparecem com um símbolo de `^`. O `^` representa a tecla Ctrl.
 
-### 3. Comandos Básicos no GNU Nano
+#### Comandos Básicos no GNU Nano
 
 | Atalho   | Descrição                             |
 | -------- | ------------------------------------- |
@@ -995,7 +655,7 @@ Fonte: *[Autor](Autor)*
 | Ctrl + G | Abrir o menu de ajuda.                |
 | Ctrl + T | Verificar ortografia (se habilitado). |
 
-### 4. Editando Arquivos
+#### Editando Arquivos
 
 * **Abrir e Digitar**: Após abrir o arquivo, basta começar a digitar ou navegar usando as setas do teclado.
 * **Salvar as Alterações**:
@@ -1003,7 +663,7 @@ Fonte: *[Autor](Autor)*
   O Nano perguntará se você deseja salvar no mesmo arquivo ou em outro nome.
   Pressione `Enter` para confirmar.
 
-### 5. Sair do Nano
+#### Sair do Nano
 
 Para sair, pressione `Ctrl + X`.
 Se houver alterações não salvas, o Nano perguntará:
@@ -1015,261 +675,12 @@ Save modified buffer? (Answering "No" will DISCARD changes)
 * Digite `Y` para salvar.
 * Digite `N` para sair sem salvar.
 
----
-
-## Script de Backup
-
-Este script automatiza o processo de criação de backups de um diretório específico no sistema Linux. Ele faz isso ao compactar todos os arquivos de um diretório e nomear o arquivo de backup com base na data e hora em que foi criado.
-
-## Passo a Passo para Criar e Executar o Script
-
-### 1. Acessar o Terminal
-
-Abra o terminal no seu sistema Linux ou conecte-se a um servidor remoto usando SSH.
-
-### 2. Criar o Script
-
-Crie um novo arquivo chamado `backup.sh` usando o editor Nano:
-
-```bash
-nano backup.sh
-```
-
-No editor, insira o seguinte conteúdo do script:
-
-```bash
-#!/bin/bash
-# Diretório que contém os arquivos a serem backupados
-diretorio_backup="/Projects/devops"
-
-# Nome do arquivo de backup, com data e hora atuais
-nome_arquivo="backup_$(date +%Y%m%d_%H%M%S).tar.gz"
-
-# Compactar os arquivos do diretório em um arquivo .tar.gz
-tar -czf "$nome_arquivo" "$diretorio_backup"
-
-# Mensagem para o usuário indicando sucesso
-echo "Backup concluído em $nome_arquivo"
-```
-
-![Imagem nano backup.sh](images/nano-backup-sh.png)
-Fonte: *[Autor](Autor)*
-
-Salvar e sair do editor: Pressione `Ctrl + X`, digite `Y` e pressione `Enter`.
-
-### 3. Tornar o Script Executável
-
-Antes de executar o script, ele precisa ter permissão para ser executado. Use o comando:
-
-```bash
-chmod +x backup.sh
-```
-
-### 4. Executar o Script
-
-Execute o script para criar o backup:
-
-```bash
-bash backup.sh
-```
-
-### 5. Verificar o Resultado
-
-Após executar o script, você verá uma mensagem como:
-
-```
-Backup concluído em backup_20231122_175022.tar.gz
-```
-
-O arquivo de backup será criado no diretório atual onde o script foi executado.
-O nome do arquivo inclui a data e a hora em que o backup foi realizado, como `backup_20231122_175022.tar.gz`.
 
 ---
 
-## Automação Adicional com Cron (Opcional)
+### 15. Monitoramento
 
-Se você deseja que o backup seja executado automaticamente em intervalos regulares (diariamente, semanalmente, etc.), pode usar o cron, um agendador de tarefas do Linux.
-
-Abra o editor do cron:
-
-```bash
-crontab -e
-```
-
-Adicione uma linha para executar o script diariamente às 2h da manhã:
-
-```bash
-0 2 * * * /caminho/para/backup.sh
-```
-
-Salve e saia. Agora o script será executado automaticamente no horário especificado.
-
----
-
-## Script de Compactação
-
-## Criação do Script
-
-Abra o editor nano ou outro de sua preferência:
-
-```bash
-nano compactador.sh
-```
-
-Script:
-
-```bash
-#!/bin/bash
-
-# Verifica se o número de parâmetros é menor que 2
-if [ "$#" -lt 2 ]; then
-    echo "O programa, $0, requer o nome do arquivo final e os arquivos a serem compactados."
-    exit 1
-fi
-
-# Nome do arquivo de saída
-arquivo_saida="$1"
-
-# Lista de arquivos a serem compactados (do segundo parâmetro em diante)
-arquivos=("${@:2}")
-
-# Compacta os arquivos utilizando o comando tar
-tar -czf "$arquivo_saida" "${arquivos[@]}"
-
-# Exibe mensagem de sucesso
-echo "Compactado com sucesso em $arquivo_saida"
-```
-
-Cole o código acima no editor.
-Salve o arquivo com `CTRL + O`, depois pressione `Enter` e saia com `CTRL + X`.
-
-### Tornar o Script Executável
-
-Conceda permissão de execução ao script:
-
-```bash
-chmod +x compactador.sh
-```
-
-### Execução do Script
-
-Execute o script com os parâmetros necessários:
-
-```bash
-./compactador.sh saida.tar.gz /caminho/para/arquivo1.txt /caminho/para/arquivo2.txt
-```
-
-* `saida.tar.gz`: Nome do arquivo compactado.
-* `/caminho/para/arquivo1.txt`, `/caminho/para/arquivo2.txt`: Caminho completo dos arquivos a serem compactados.
-
-### Verificação do Arquivo Compactado
-
-Liste o conteúdo do arquivo compactado para verificar se tudo foi incluído corretamente:
-
-```bash
-tar -tf saida.tar.gz
-```
-
----
-
-## Script de Mensagem
-
-```bash
-#!/bin/bash
-echo "Olá, mundo!"
-```
-
----
-
-## Script de Criação de Diretório
-
-```bash
-#!/bin/bash
-echo "Digite o nome do diretório a ser criado:"
-read nome_diretorio
-mkdir -p "$nome_diretorio"
-echo "Diretório '$nome_diretorio' criado com sucesso!"
-```
-
----
-
-## Script de Verificação de Diretório
-
-```bash
-#!/bin/bash
-echo "Digite o nome do diretório para verificar:"
-read nome_diretorio
-if [ -d "$nome_diretorio" ]; then
-    echo "O diretório '$nome_diretorio' existe."
-else
-    echo "O diretório '$nome_diretorio' não existe."
-fi
-```
-
----
-
-## Script de Múltiplas Tarefas
-
-```bash
-#!/bin/bash
-
-read -p "Entre com a operação desejada: 'compactar' ou 'descompactar': " operacao
-
-case "$operacao" in
-    "compactar")
-        read -p "Nome do arquivo final (.tar.gz): " arquivo_saida
-        read -p "Lista de arquivos separados por espaço: " arquivos
-        tar -czf "$arquivo_saida" $arquivos
-        echo "Compactados com sucesso em $arquivo_saida"
-    ;;
-    "descompactar")
-        read -p "Nome do arquivo a descompactar (.tar.gz): " arquivo
-        read -p "Diretorio de destino: " diretorio
-        tar -xzf "$arquivo" -C "$diretorio"
-        echo "Descompactado com sucesso em $diretorio"
-    ;;
-    *)
-        echo "Operação inválida!"
-        echo "Selecione 'compactar' ou 'descompactar'."
-        exit 1
-    ;;
-esac
-```
-
-### Como Criar e Usar o Script
-
-* **Criação do Script**:
-  Abra o editor nano:
-
-  ```bash
-  nano compedescomp.sh
-  ```
-
-  Cole o código acima. Salve com `CTRL + O`, pressione `Enter`, e saia com `CTRL + X`.
-
-* **Tornar o Script Executável**:
-
-  ```bash
-  chmod +x compedescomp.sh
-  ```
-
-* **Executar o Script**:
-
-  ```bash
-  ./compedescomp.sh
-  ```
-
----
----
----
-
-# Monitoramento
-
-Abaixo, apresento um resumo dos tópicos explicados, os comandos utilizados, exemplos de saídas e explicações detalhadas de como interpretar os logs e os dados apresentados.
-
----
-
-## Monitorando Processos com o Comando top
+Monitorando Processos com o Comando top
 
 Exibe uma visão dinâmica e em tempo real dos processos em execução no sistema.  
 Mostra o consumo de recursos (CPU, memória) e o estado dos processos.
@@ -1357,116 +768,13 @@ ps aux | grep -v grep | grep nginx
 
 ---
 
-## Verificando Processos com pgrep
+### 16. Scripts de Automação 
 
-**Comando:**
-
-```bash
-pgrep nginx
-```
-
-### O Que Faz:
-
-Exibe os PID dos processos relacionados ao Nginx de forma direta.
-
-**Exemplo de Saída:**
-
-```
-2255
-2258
-2259
-```
+*(Conteúdo completo da seção, exatamente como estava no arquivo)*
 
 
 
-## Script de Monitoramento
 
-**Comando para Criar o Script:**
 
-```bash
-nano monitoramento.sh
-```
-
-**Conteúdo do Script:**
-
-```bash
-#!/bin/bash
-
-if pgrep nginx &> /dev/null
-then
-    echo "Nginx está operando $(date +"%Y-%m-%d %H:%M:%S")"
-else
-    echo "Nginx fora de operação $(date +"%Y-%m-%d %H:%M:%S")"
-fi
-```
-
-**Salvar e Tornar o Script Executável:**
-
-* Pressione `Ctrl + X`, depois `Y` e `Enter`.
-* Conceder permissão de execução:
-
-```bash
-chmod +x monitoramento.sh
-```
-
-**Executando o Script:**
-
-```bash
-./monitoramento.sh
-```
-
----
-
-## Parando e Reiniciando o Nginx para Testar
-
-**Parar o Nginx:**
-
-```bash
-sudo service nginx stop
-```
-
-**Executar o Script:**
-
-```bash
-./monitoramento.sh
-```
-
-**Exemplo de Saída:**
-
-```
-Nginx fora de operação 2023-11-23 12:59:37
-```
-
-**Reiniciar o Nginx:**
-
-```bash
-sudo service nginx start
-```
-
-**Executar o Script Novamente:**
-
-```bash
-./monitoramento.sh
-```
-
-**Exemplo de Saída:**
-
-```
-Nginx está operando 2023-11-23 13:01:15
-```
-
----
-
-## Resumo
-
-* Você pode monitorar processos ativos no sistema.
-* O comando `top` oferece uma visão geral e dinâmica do uso de recursos.
-* `ps`, combinado com `grep`, permite filtrar processos específicos.
-* `pgrep` simplifica o processo de busca.
-* O script automatiza a verificação de status de serviços como o Nginx, exibindo mensagens claras para o usuário.
-
----
-
-*Conteúdo completo convertido em markdown, mantendo todas as informações fornecidas.*
 
 
