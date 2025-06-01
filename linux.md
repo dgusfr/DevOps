@@ -135,7 +135,72 @@ $ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
 
 ### 3. Movendo Arquivos e Diretórios
 
-*(Conteúdo completo da seção, exatamente como estava no arquivo)*
+Para organizar melhor os arquivos, podemos criar subdiretórios e mover arquivos entre eles. Por exemplo:
+
+* Criação de um subdiretório:
+
+```bash
+mkdir ideias
+```
+
+* Listagem do conteúdo:
+
+```bash
+ls
+```
+
+Retorno esperado: `ideias  projeto_ideas.txt`
+
+* Movendo o arquivo `projeto_ideas.txt` para o subdiretório `ideias`:
+
+```bash
+mv projeto_ideas.txt ideias/
+```
+
+* Verificação da movimentação:
+
+```bash
+ls
+ls ideias/
+```
+
+* Criação de um novo diretório chamado `rascunho`:
+
+```bash
+mkdir rascunho
+```
+
+* Movendo o diretório `rascunho` para dentro de `ideias`:
+
+```bash
+mv rascunho ideias/
+```
+
+* Verificação final:
+
+```bash
+ls ideias/
+```
+
+As permissões são exibidas com:
+
+```bash
+ls -al
+```
+
+No formato:
+
+```
+drwxr-xr-x
+```
+
+Sendo:
+
+* `d`: diretório
+* `rwx`: proprietário (leitura, escrita, execução)
+* `r-x`: grupo e outros (leitura, execução)
+
+Isso facilita a gestão e organização dos arquivos e diretórios no Linux.
 
 ---
 
@@ -218,102 +283,6 @@ $ find /caminho -type f -iname "ARQUIVO.txt"  # Busca insensível a maiúsculas
 ---
 
 
-
-
-
-
-
----
-
-## Movendo Arquivos e Diretórios
-
-Para organizar melhor os arquivos, podemos criar subdiretórios e mover arquivos entre eles. Por exemplo:
-
-* Criação de um subdiretório:
-
-```bash
-mkdir ideias
-```
-
-* Listagem do conteúdo:
-
-```bash
-ls
-```
-
-Retorno esperado: `ideias  projeto_ideas.txt`
-
-* Movendo o arquivo `projeto_ideas.txt` para o subdiretório `ideias`:
-
-```bash
-mv projeto_ideas.txt ideias/
-```
-
-* Verificação da movimentação:
-
-```bash
-ls
-ls ideias/
-```
-
-* Criação de um novo diretório chamado `rascunho`:
-
-```bash
-mkdir rascunho
-```
-
-* Movendo o diretório `rascunho` para dentro de `ideias`:
-
-```bash
-mv rascunho ideias/
-```
-
-* Verificação final:
-
-```bash
-ls ideias/
-```
-
-As permissões são exibidas com:
-
-```bash
-ls -al
-```
-
-No formato:
-
-```
-drwxr-xr-x
-```
-
-Sendo:
-
-* `d`: diretório
-* `rwx`: proprietário (leitura, escrita, execução)
-* `r-x`: grupo e outros (leitura, execução)
-
-Isso facilita a gestão e organização dos arquivos e diretórios no Linux.
-
----
-
-
-## Copiando Arquivos
-
-* Para duplicar um arquivo:
-
-```bash
-cp arquivo_original arquivo_copia
-```
-
-Exemplo:
-
-```bash
-cp projeto_ideias.txt projeto_ideias_v1.txt
-```
-
-Isso cria uma cópia chamada `projeto_ideias_v1.txt`.
-
----
 
 ## Renomeando Arquivos e Diretórios
 
