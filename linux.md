@@ -1522,9 +1522,128 @@ Arquivo encontrado ../myapp/logs/myapp-frontend.log
 Arquivo encontrado ../myapp/logs/myapp-backend.log
 ```
 
-O laço e o comando **find** estão funcionando! Estamos prontos para avançar no processamento dos logs.
+---
+
+Segue o mesmo conteúdo formatado para substituição do **Vim** pelo **Nano**:
 
 ---
+
+### Encontrando e filtrando arquivos
+
+No terminal, vamos acessar a pasta "/myapp/logs" e executar o comando `ls` para listar os itens da pasta. Temos alguns arquivos com a extensão .log, mas também há outros com extensões diferentes que não queremos processar.
+
+É interessante criar um filtro para processar somente os arquivos `myapp-backend.log` e `myapp-frontend.log`, que contêm as informações de log da nossa aplicação.
+
+Para fazer esse filtro e obter somente os nomes dos arquivos que nos interessam, podemos usar o comando `find` no Linux. Vamos digitar:
+
+```bash
+find . -name "*.log"
+```
+
+O retorno será:
+
+```
+./myapp-frontend.log
+./myapp/backend.log
+```
+
+Esse comando retorna somente os nomes dos arquivos que terminam com `.log`. A seguir, vamos entender mais a fundo o que cada parte do comando faz.
+
+* O `find` realiza uma busca.
+* O ponto `.` especifica que a busca deve ser feita a partir do diretório atual.
+* A opção `-name` permite especificar o padrão de busca. Entre as aspas duplas, utilizamos o caractere especial `*`, que representa qualquer cadeia de caracteres em uma string. Assim, qualquer texto que termine com ".log" será retornado.
+
+Portanto, esse comando filtra apenas os arquivos de log e podemos utilizá-lo no nosso script de monitoramento.
+
+Vamos copiar o comando com `Ctrl + Shift + C`, sair da pasta com `cd`, entrar na pasta do script com `cd scripts-linux` e abrir o script usando o editor Nano:
+
+```bash
+nano monitoramento-logs.sh
+```
+
+---
+
+### Incrementando o script de monitoramento
+
+No script, vamos adicionar o comando `find` após o `echo`. A estrutura do script ficará assim:
+
+```bash
+#!/bin/bash
+
+LOG_DIR="../myapp/logs"
+
+echo "Verificando logs no diretorio $LOG_DIR"
+
+find $LOG_DIR -name "*.log"
+```
+
+Agora, podemos usar os nomes dos arquivos filtrados para percorrer cada um deles e fazer o devido processamento dos logs.
+
+---
+
+### Laços de repetição
+
+Para percorrer o conteúdo, utilizamos laços de repetição. Para redirecionar a saída do comando `find` para um laço de repetição, usamos o operador `|` (pipe). O laço de repetição que utilizaremos é o `while`. Antes de especificar as condições e as ações do laço, vamos entender sua estrutura:
+
+```bash
+find $LOG_DIR -name "*.log" | while [condição]; do
+    [ações]
+done
+```
+
+Na sequência, especificamos a condição e as ações a serem realizadas. Para a condição, usaremos o `IFS=` (Internal Field Separator) definido como vazio, para evitar que nomes de arquivos com espaços ou caracteres especiais sejam quebrados:
+
+```bash
+find $LOG_DIR -name "*.log" | while IFS= ; do
+    ações
+done
+```
+
+Em seguida, usamos `read` para ler os arquivos passados pelo `find`, com algumas opções extras. A opção `-r` impede a interpretação de caracteres especiais e `-d ''` indica que o delimitador é o caractere nulo:
+
+```bash
+find $LOG_DIR -name "*.log" | while IFS= read -r -d ''; do
+    ações
+done
+```
+
+Por padrão, o `find` não utiliza o delimitador nulo. Para alterar essa configuração, vamos inserir `-print0` antes do pipe:
+
+```bash
+find $LOG_DIR -name "*.log" -print0 | while IFS= read -r -d '' arquivo; do
+    echo "Arquivo encontrado: $arquivo"
+done
+```
+
+---
+
+### Finalizando a edição no Nano
+
+* Pressione `Ctrl + O` e `Enter` para salvar.
+* Pressione `Ctrl + X` para sair.
+
+---
+
+### Executando o script
+
+No terminal, execute:
+
+```bash
+./monitoramento-logs.sh
+```
+
+A saída será:
+
+```
+Verificando logs no diretorio ../myapp/logs
+Arquivo encontrado: ../myapp/logs/myapp-frontend.log
+Arquivo encontrado: ../myapp/logs/myapp-backend.log
+```
+
+---
+
+Pronto! Agora, substituímos o uso do **Vim** pelo **Nano** para editar o script. Caso queira avançar e adicionar o processamento dos logs, posso ajudar também!
+
 
 
 
