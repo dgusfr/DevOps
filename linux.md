@@ -1642,8 +1642,7 @@ Arquivo encontrado: ../myapp/logs/myapp-backend.log
 
 ---
 
-Pronto! Agora, substituímos o uso do **Vim** pelo **Nano** para editar o script. 
-
+Pronto! Agora,
 
 
 
