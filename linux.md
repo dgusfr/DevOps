@@ -1642,7 +1642,7 @@ Arquivo encontrado: ../myapp/logs/myapp-backend.log
 
 ---
 
-Pronto! Agora,
+
 
 
 
