@@ -25,7 +25,7 @@ A seguir, uma lista dos comandos mais utilizados para navegar e gerenciar arquiv
 
 -----
 
-### **Introdução aos Scripts (.bat)**
+# **Introdução aos Scripts (.bat)**
 
 #### **O que é um script?**
 
@@ -232,4 +232,108 @@ Compactando arquivos...
 Verifique o arquivo 'erros.txt' para mais detalhes.
 Pressione qualquer tecla para continuar. . .
 ```
+
+---
+---
+
+## **Trabalhando com Variáveis em Scripts**
+
+#### **Introdução às Variáveis**
+
+Em scripts, frequentemente precisamos armazenar e manipular informações temporariamente, como um nome de usuário, um caminho de pasta ou um status. Para isso, usamos **variáveis**.
+
+Uma variável é um espaço na memória do computador que recebe um nome e armazena um valor. Esse valor pode ser consultado, utilizado e modificado ao longo da execução do script. O conceito de variáveis é fundamental e utilizado em praticamente todas as linguagens de programação, como Java, Python e, claro, em scripts de shell.
+
+#### **Criando e Usando Variáveis no Prompt**
+
+Você pode criar e testar variáveis diretamente no Prompt de Comando (CMD).
+
+1.  **Abra o CMD** e navegue até um diretório de sua preferência (ex: `cd Desktop`).
+2.  **Use o comando `set`** para criar uma variável e atribuir um valor a ela com o sinal de `=`.
+      * **Importante:** Não deve haver espaços antes ou depois do sinal `=`.
+
+**Exemplo:**
+
+```batch
+C:\Users\SeuUsuario\Desktop>set saudacao=Bem-vindo ao mundo dos scripts!
+```
+
+Neste exemplo, criamos a variável `saudacao` e atribuímos o texto "Bem-vindo ao mundo dos scripts\!" a ela.
+
+3.  **Acesse o conteúdo da variável** com o comando `echo`, colocando o nome da variável entre sinais de porcentagem (`%`).
+
+**Exemplo:**
+
+```batch
+C:\Users\SeuUsuario\Desktop>echo %saudacao%
+```
+
+**Resultado:**
+
+```
+Bem-vindo ao mundo dos scripts!
+```
+
+> **Observação:** O Windows não diferencia maiúsculas de minúsculas nos nomes das variáveis. Usar `%saudacao%` ou `%SAUDACAO%` produzirá o mesmo resultado.
+
+-----
+
+### **Criando um Script Interativo com Entrada do Usuário**
+
+A verdadeira força das variáveis em scripts aparece quando as usamos para capturar informações do usuário em tempo real.
+
+Vamos criar um script que coleta o nome e o e-mail do usuário e, em seguida, exibe essas informações na tela.
+
+1.  **Abra o Bloco de Notas** (digite `notepad` no CMD e pressione Enter).
+2.  **Escreva o script abaixo** no Bloco de Notas.
+
+**Script `coleta_dados.bat`:**
+
+```batch
+@echo off
+rem Limpa a tela para uma exibicao limpa.
+cls
+
+echo Por favor, forneca as seguintes informacoes:
+echo.
+
+rem Pede ao usuario para digitar o nome e armazena na variavel 'nome'.
+set /p nome=Digite seu nome completo: 
+
+rem Pede ao usuario para digitar o e-mail e armazena na variavel 'email'.
+set /p email=Digite seu e-mail principal: 
+
+echo.
+echo ..................................................................................
+echo OBRIGADO! DADOS COLETADOS:
+echo Nome: %nome%
+echo E-mail: %email%
+echo ..................................................................................
+
+pause
+```
+
+#### **Explicação do Script**
+
+| Comando | Função |
+| :--- | :--- |
+| **`@echo off`** | Desativa a exibição dos comandos. A tela fica mais limpa, mostrando apenas os resultados. |
+| **`rem`** | Adiciona um **rem**arque (comentário). O Windows ignora qualquer texto nesta linha, servindo apenas para explicar o código. |
+| **`cls`** | Limpa a tela do terminal. |
+| **`set /p nome=...`** | O comando `set` com a opção `/p` (de *prompt*) faz duas coisas: 1. Exibe a mensagem à direita do `=`. 2. Pausa o script e aguarda o usuário digitar algo e pressionar Enter. O texto digitado é então armazenado na variável `nome`. |
+| **`echo.`** | O comando `echo` seguido de um ponto cria uma linha em branco, útil para organizar visualmente a saída. |
+| **`echo Seu nome é %nome%`**| Exibe o texto e substitui `%nome%` pelo valor que o usuário digitou e que foi armazenado na variável. |
+| **`pause`** | Pausa a execução e exibe "Pressione qualquer tecla para continuar...", dando tempo para o usuário ler a saída antes que a janela feche. |
+
+#### **Salvar e Executar o Script**
+
+1.  No Bloco de Notas, clique em **Arquivo \> Salvar como...**.
+2.  Em "Tipo", selecione "Todos os arquivos (\*.\*)".
+3.  Nomeie o arquivo como **`coleta_dados.bat`** e clique em "Salvar".
+4.  No Prompt de Comando, certifique-se de que você está na pasta onde salvou o arquivo.
+5.  Execute o script digitando `.\coleta_dados.bat` e pressionando Enter.
+
+O script irá rodar, solicitar seu nome e e-mail, e ao final exibirá os dados que você forneceu, demonstrando um uso prático e poderoso de variáveis.
+
+---
 
