@@ -337,3 +337,102 @@ O script irá rodar, solicitar seu nome e e-mail, e ao final exibirá os dados q
 
 ---
 
+## **Configurando o `Path` no Windows para Acessar Scripts de Qualquer Lugar**
+
+#### **Introdução**
+
+Até agora, para executar um script, precisávamos navegar até a pasta onde ele estava salvo. Nesta seção, aprenderemos como configurar o Windows para que nossos scripts se tornem "comandos globais", ou seja, executáveis de qualquer local do terminal, assim como os comandos nativos `cd`, `cls` e `dir`.
+
+Para isso, vamos entender e modificar uma das mais importantes **Variáveis de Ambiente** do sistema: a variável `Path`.
+
+#### **O que são Variáveis de Ambiente e a Variável `Path`?**
+
+**Variáveis de Ambiente** são configurações globais que o sistema operacional e outros programas utilizam. Elas armazenam informações essenciais, como a localização da pasta de perfil do usuário (`%USERPROFILE%`) ou o número de processadores (`%NUMBER_OF_PROCESSORS%`).
+
+A variável **`Path`** é uma das mais importantes. Ela contém uma lista de caminhos de pastas, separados por ponto e vírgula (`;`). Quando você digita um comando no terminal, o Windows procura por um arquivo executável com aquele nome em todas as pastas listadas na variável `Path`, na ordem em que aparecem.
+
+**Visualizando o Conteúdo do `Path`**
+
+Para ver a lista de pastas que o seu sistema já consulta, use o comando `echo %path%`.
+
+```batch
+C:\>echo %path%
+C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Program Files\nodejs\;...
+```
+
+O resultado mostra todos os diretórios onde o Windows busca por comandos. É por isso que `notepad.exe` pode ser executado de qualquer lugar, pois `C:\Windows\system32` está no `Path`.
+
+-----
+
+### **Adicionando seu Script ao `Path` (Passo a Passo)**
+
+Para que o Windows encontre nossos scripts, precisamos adicionar a pasta que os contém à variável `Path`.
+
+#### **Passo 1: Criar uma Pasta Dedicada para Scripts**
+
+É uma boa prática manter todos os seus scripts personalizados em um único local. Vamos criar uma estrutura de pastas para isso.
+
+```batch
+C:\Users\SeuUsuario>cd Desktop
+C:\Users\SeuUsuario\Desktop>mkdir MeusScripts\bin
+```
+
+  * `mkdir MeusScripts\bin`: Cria a pasta `MeusScripts` na Área de Trabalho e, dentro dela, uma subpasta `bin` (abreviação comum para "binários" ou executáveis).
+
+#### **Passo 2: Mover o Script para a Nova Pasta**
+
+Mova o script que você deseja tornar global (ex: `coleta_dados.bat`) para a pasta `bin` recém-criada.
+
+```batch
+C:\Users\SeuUsuario\Desktop>move coleta_dados.bat .\MeusScripts\bin
+```
+
+#### **Passo 3: Adicionar a Pasta ao `Path` com `setx`**
+
+Usamos o comando `setx` para modificar uma variável de ambiente de forma **persistente** (a alteração sobrevive ao reinício do computador).
+
+```batch
+C:\>setx path "%path%;C:\Users\SeuUsuario\Desktop\MeusScripts\bin"
+```
+
+**Analisando o comando:**
+
+  * `setx path`: Define que queremos alterar permanentemente a variável `path`.
+  * `"%path%;..."`: Esta é a parte crucial.
+      * `%path%`: Pega todo o conteúdo atual da variável `Path`.
+      * `;`: Adiciona um ponto e vírgula para separar o caminho antigo do novo.
+      * `C:\Users\SeuUsuario\Desktop\MeusScripts\bin`: Adiciona o caminho completo da nossa pasta de scripts ao final da lista.
+      * As aspas duplas (`"`) garantem que o comando funcione mesmo que os caminhos contenham espaços.
+
+> **Importante:** Para que a alteração tenha efeito, **você deve fechar e abrir novamente o Prompt de Comando.**
+
+#### **Resolvendo Problemas de Permissão (Erro de Acesso Negado)**
+
+Ao tentar alterar o `Path`, você pode usar o parâmetro `/M` para aplicar a mudança a todos os usuários do sistema (`setx path "..." /M`). No entanto, isso pode gerar um erro de "Acesso ao caminho do Registro negado".
+
+  * **Causa:** Você está tentando modificar uma configuração de nível de sistema com permissões de um usuário comum.
+  * **Solução:** Abra o Prompt de Comando **como administrador**. Para fazer isso, pesquise por `cmd` no Menu Iniciar, clique com o botão direito sobre ele e selecione "Executar como administrador". Em seguida, execute o comando `setx` novamente.
+
+#### **Passo 4: Testando o Script Global**
+
+Após adicionar o caminho ao `Path` e reiniciar o terminal, você pode executar seu script de qualquer lugar, digitando apenas o nome dele.
+
+```batch
+C:\>coleta_dados.bat
+Por favor, forneca as seguintes informacoes:
+...
+```
+
+Funcionou\! Agora seu script é tão acessível quanto qualquer outro comando do Windows.
+
+-----
+
+### **Resumo dos Comandos Utilizados**
+
+| Comando | Descrição |
+| :--- | :--- |
+| **`echo %path%`** | Exibe o conteúdo atual da variável de ambiente `Path`. |
+| **`mkdir`** | Cria um novo diretório (pasta). |
+| **`move`** | Move arquivos ou diretórios de um local para outro. |
+| **`setx`** | Cria ou modifica variáveis de ambiente de forma permanente para o usuário ou para o sistema. |
+
