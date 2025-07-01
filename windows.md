@@ -116,4 +116,120 @@ pause
 3.  `tar -cf notas.zip *.xml`: O `*` é um curinga que representa "todos". Assim, o comando `tar` cria um arquivo `notas.zip` contendo **todos os arquivos** que terminam com a extensão `.xml` na pasta atual.
 4.  `pause`: Aguarda o usuário pressionar uma tecla antes de fechar a janela, permitindo a leitura da mensagem final.
 
-A criação de scripts como este agiliza o trabalho, automatiza rotinas e facilita a manutenção de sistemas, tornando-se uma habilidade fundamental para qualquer usuário avançado ou profissional de TI.
+
+#### **Tratamento de Erros em Scripts no Windows Prompt (CMD)**
+
+#### **Introdução**
+
+Durante a criação e execução de scripts no Prompt do Windows (CMD), é comum encontrarmos erros. Um script pode falhar se um arquivo não for encontrado, se uma pasta de destino não existir ou por diversos outros motivos. Saber como identificar e tratar esses erros é fundamental para garantir que nossos scripts sejam robustos, confiáveis e que informem o usuário sobre o que está acontecendo.
+
+#### **Cenário Prático: O Script Falha**
+
+Imagine um script `compactador.bat` que deveria compactar todos os arquivos `.xml` de uma pasta. Se não houver nenhum arquivo `.xml` no diretório, o comando `tar` falhará e exibirá uma mensagem de erro no terminal.
+
+**Script `compactador.bat` (Versão Inicial):**
+
+```batch
+@echo off
+echo Compactando arquivos...
+tar -cf notas.zip *.xml
+```
+
+**Execução com Falha:**
+
+Se executarmos `.\compactador.bat` em uma pasta sem arquivos `.xml`, o resultado será:
+
+```
+Compactando arquivos...
+tar: Couldn't visit directory: No such file or directory
+tar: Error exit delayed from previous errors.
+```
+
+O script termina com uma mensagem de erro que pode não ser clara para o usuário final.
+
+-----
+
+### **Técnicas para Tratamento de Erros**
+
+#### **1. Redirecionando a Saída de Erro**
+
+Uma forma simples de gerenciar erros é evitar que eles poluam a tela. Podemos redirecionar todas as mensagens de erro para um arquivo de log, que pode ser analisado posteriormente. Para isso, usamos o operador `2>`.
+
+**Entendendo os Redirecionadores (Handles)**
+
+No CMD, existem canais de comunicação padrão para os comandos:
+
+  * **`0` (stdin)**: Entrada padrão, geralmente o teclado.
+  * **`1` (stdout)**: Saída padrão, as mensagens de sucesso que aparecem no terminal.
+  * **`2` (stderr)**: Saída de erro, as mensagens de erro que também aparecem no terminal.
+
+Portanto, `2> erros.txt` significa: "pegue tudo o que for enviado para o canal de erro (`2`) e grave (`>`) no arquivo `erros.txt`".
+
+**Modificando o Script:**
+
+```batch
+@echo off
+echo Compactando arquivos...
+tar -cf notas.zip *.xml 2> erros.txt
+```
+
+**Resultado da Execução:**
+
+Agora, ao executar o script, o terminal exibirá apenas:
+
+```
+Compactando arquivos...
+```
+
+A mensagem de erro não aparece mais na tela. Em vez disso, um arquivo chamado `erros.txt` é criado na mesma pasta. Para ver o erro, usamos o comando `type`:
+
+```
+C:\> type erros.txt
+tar: Couldn't visit directory: No such file or directory
+tar: Error exit delayed from previous errors.
+```
+
+#### **2. Verificando o Código de Saída com `%ERRORLEVEL%`**
+
+Redirecionar o erro é útil, mas o script ainda falha silenciosamente. O ideal é que o script **saiba** que um erro ocorreu e **informe** o usuário. Para isso, usamos a variável de sistema `%ERRORLEVEL%`.
+
+  * **`%ERRORLEVEL%`**: Armazena o código de retorno do último comando executado.
+      * **`0`**: Sucesso. O comando foi executado sem problemas.
+      * **Diferente de `0`**: Falha. Ocorreu algum erro durante a execução.
+
+Podemos usar uma estrutura `IF` para verificar o valor de `%ERRORLEVEL%` imediatamente após o comando crítico. O comparador `NEQ` significa "Não é igual a" (Not Equal).
+
+**Modificando o Script (Versão Final e Robusta):**
+
+```batch
+@echo off
+echo Compactando arquivos...
+
+REM Tenta executar a compactacao e redireciona a saida de erro
+tar -cf notas.zip *.xml 2> erros.txt
+
+REM Verifica se o comando anterior retornou um erro
+IF %ERRORLEVEL% NEQ 0 (
+  echo.
+  echo [AVISO] Ocorreu um erro durante a execucao.
+  echo Verifique o arquivo 'erros.txt' para mais detalhes.
+) ELSE (
+  echo.
+  echo Arquivos compactados com sucesso!
+)
+
+pause
+```
+
+**Resultado da Execução com Falha:**
+
+Agora, quando o script é executado e falha, o usuário recebe um feedback claro e direto:
+
+```
+Compactando arquivos...
+
+[AVISO] Ocorreu um erro durante a execucao.
+Verifique o arquivo 'erros.txt' para mais detalhes.
+Pressione qualquer tecla para continuar. . .
+```
+
