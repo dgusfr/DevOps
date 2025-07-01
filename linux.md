@@ -1736,6 +1736,8 @@ Para que o `sed` modifique o arquivo **diretamente**, e não apenas imprima a sa
 sed -i 's/User password is .*/User password is REDACTED/g' myapp-backend.log
 ```
 
+![alt text](images/sed.png)
+
 #### Integrando `sed` ao Script
 
 Agora, vamos adicionar os comandos `sed` ao nosso script, dentro do laço `while`. Cada comando `sed` será responsável por um tipo específico de dado sensível, garantindo que o valor seja substituído por "REDACTED" no arquivo `.filtrado`.
