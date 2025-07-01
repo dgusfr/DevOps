@@ -1642,6 +1642,175 @@ Arquivo encontrado: ../myapp/logs/myapp-backend.log
 
 ---
 
+-----
+
+### Fazendo Busca e Usando Filtros: Protegendo Dados Sensíveis
+
+-----
+
+Nosso objetivo agora é aprimorar o script para não só filtrar os logs, mas também para proteger informações sensíveis, substituindo-as por "REDACTED". Isso é crucial para a segurança das nossas aplicações.
+
+### Conceitos Chave
+
+  * **Dados Sensíveis em Logs**: São informações confidenciais, como senhas, tokens de autenticação, chaves de API e números de cartão de crédito. Se expostas, podem comprometer gravemente a segurança da aplicação e dos usuários.
+  * **`sed` (Stream Editor)**: Uma ferramenta de linha de comando extremamente poderosa para realizar substituições e edições de texto de forma automatizada em arquivos ou fluxos de entrada.
+  * **Redirecionamento de Saída**: No Bash, podemos controlar para onde a saída de um comando é enviada:
+      * `>`: **Sobrescreve** o conteúdo de um arquivo. Se o arquivo não existir, ele é criado.
+      * `>>`: **Adiciona** o conteúdo ao final de um arquivo, preservando o que já existe. Se o arquivo não existir, ele é criado.
+
+### Identificação de Dados Sensíveis
+
+Antes de tudo, precisamos analisar os arquivos de log para identificar padrões de informações sensíveis que precisam ser ocultadas. Nos nossos logs de exemplo, podemos encontrar linhas como:
+
+```
+2024-09-01 11:00:00 INFO: SENSITIVE_DATA: User password is 12345.
+2024-09-02 09:15:22 ERROR: SENSITIVE_DATA: User password reset request with token 98765.
+2024-09-02 12:45:00 INFO: SENSITIVE_DATA: API key leaked: ABCD1234EFGH5678.
+2024-09-03 08:00:00 INFO: SENSITIVE_DATA: User credit card last four digits: 1234.
+2024-09-02 12:30:00 INFO: SENSITIVE_DATA: User session initiated with token: TOKEN1234.
+```
+
+![alt text](images/sensitive.png)
+
+Percebemos que o prefixo "SENSITIVE\_DATA" é um bom indicador, mas precisamos ir além e ocultar o valor real após a descrição do dado.
+
+### Modificando o Script `monitoramento-logs.sh`
+
+Vamos aprimorar nosso script `monitoramento-logs.sh` para incluir a filtragem e a ocultação de dados sensíveis.
+
+1.  **Acesse o diretório do script:**
+
+    ```bash
+    cd scripts-linux
+    ```
+
+2.  **Abra o script com o Nano:**
+
+    ```bash
+    nano monitoramento-logs.sh
+    ```
+
+#### Adicionando `grep` para Dados Sensíveis
+
+Atualmente, nosso script já usa o `grep` para filtrar por "ERROR". Agora, vamos duplicar esse comando e adaptá-lo para buscar por "SENSITIVE\_DATA". É crucial usar `>>` (redirecionamento de adição) para que as linhas com dados sensíveis sejam adicionadas ao arquivo `.filtrado` sem sobrescrever as linhas de erro que já foram capturadas.
+
+```bash
+#!/bin/bash
+
+LOG_DIR="../myapp/logs"
+
+echo "Verificando logs no diretorio $LOG_DIR"
+
+find $LOG_DIR -name "*.log" -print0 | while IFS= read -r -d '' arquivo; do
+    grep "ERROR" "$arquivo" > "${arquivo}.filtrado"
+    grep "SENSITIVE_DATA" "$arquivo" >> "${arquivo}.filtrado"
+    # As linhas do sed virão aqui
+done
+```
+
+#### Ocultando Dados com `sed`
+
+O `sed` é a ferramenta perfeita para a tarefa de ocultar dados. A sintaxe básica de substituição do `sed` é:
+
+```bash
+sed 's/termo_a_ser_procurado/termo_para_substituir/g' arquivo
+```
+
+  * `s`: Indica que queremos realizar uma **substituição**.
+  * `termo_a_ser_procurado`: É o padrão que o `sed` buscará. Para dados sensíveis, usaremos expressões regulares.
+      * `.*`: Corresponde a **qualquer caractere** (`.`) **repetido zero ou mais vezes** (`*`). Isso nos permite capturar o restante da linha após o identificador do dado sensível.
+  * `termo_para_substituir`: É o texto que substituirá o padrão encontrado. Usaremos **"REDACTED"**.
+  * `g`: Indica uma substituição **global** na linha. Sem ele, o `sed` substitui apenas a primeira ocorrência na linha.
+
+**Exemplo Prático:**
+
+Para ocultar uma senha no log, usaríamos:
+
+```bash
+sed 's/User password is .*/User password is REDACTED/g' myapp-backend.log
+```
+
+Para que o `sed` modifique o arquivo **diretamente**, e não apenas imprima a saída no terminal, usamos a opção `-i`:
+
+```bash
+sed -i 's/User password is .*/User password is REDACTED/g' myapp-backend.log
+```
+
+#### Integrando `sed` ao Script
+
+Agora, vamos adicionar os comandos `sed` ao nosso script, dentro do laço `while`. Cada comando `sed` será responsável por um tipo específico de dado sensível, garantindo que o valor seja substituído por "REDACTED" no arquivo `.filtrado`.
+
+```bash
+#!/bin/bash
+
+LOG_DIR="../myapp/logs"
+
+echo "Verificando logs no diretorio $LOG_DIR"
+
+find "$LOG_DIR" -name "*.log" -print0 | while IFS= read -r -d '' arquivo; do
+    echo "Processando arquivo: $arquivo" # Adicionado para melhor feedback
+
+    # Filtra linhas com "ERROR" e inicia o arquivo .filtrado
+    grep "ERROR" "$arquivo" > "${arquivo}.filtrado"
+
+    # Adiciona linhas com "SENSITIVE_DATA" ao mesmo arquivo .filtrado
+    grep "SENSITIVE_DATA" "$arquivo" >> "${arquivo}.filtrado"
+
+    # Agora, redação dos dados sensíveis no arquivo .filtrado
+    sed -i 's/User password is .*/User password is REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/User password reset request with token .*/User password reset request with token REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/API key leaked: .*/API key leaked: REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/User credit card last four digits: .*/User credit card last four digits: REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/User session initiated with token: .*/User session initiated with token: REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/User email: .* accessed sensitive data./User email: REDACTED accessed sensitive data./g' "${arquivo}.filtrado"
+    sed -i 's/User IP .* accessed sensitive endpoint./User IP REDACTED accessed sensitive endpoint./g' "${arquivo}.filtrado"
+    sed -i 's/Session token for user admin is active.*/Session token for user admin is active REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/Credit card information exposed.*/Credit card information exposed REDACTED/g' "${arquivo}.filtrado"
+    sed -i 's/Database backup contains sensitive information./Database backup contains sensitive information REDACTED/g' "${arquivo}.filtrado"
+
+done
+```
+
+**Observações:**
+
+  * Adicionei um `echo` dentro do laço `while` para que você possa ver qual arquivo está sendo processado em tempo real, o que ajuda na depuração.
+  * Incluí mais algumas linhas `sed` para cobrir todos os padrões de dados sensíveis presentes nos seus arquivos de log de exemplo, garantindo uma redação mais completa.
+
+-----
+
+### Salvando e Executando o Script
+
+1.  **Salve as alterações no Nano:**
+
+      * Pressione `Ctrl + O`.
+      * Pressione `Enter` para confirmar o nome do arquivo.
+
+2.  **Saia do Nano:**
+
+      * Pressione `Ctrl + X`.
+
+3.  **Execute o script:**
+
+    ```bash
+    ./monitoramento-logs.sh
+    ```
+
+**Verificando os Resultados:**
+
+Após a execução, você notará a criação de novos arquivos na pasta `myapp/logs` com a extensão `.filtrado` (por exemplo, `myapp-backend.log.filtrado` e `myapp-frontend.log.filtrado`).
+
+Você pode usar o comando `cat` para inspecionar o conteúdo desses novos arquivos e verificar se os dados sensíveis foram corretamente substituídos por "REDACTED":
+
+```bash
+cat ../myapp/logs/myapp-backend.log.filtrado
+cat ../myapp/logs/myapp-frontend.log.filtrado
+```
+
+Você verá que as linhas com informações sensíveis agora aparecerão com a palavra "REDACTED", protegendo a privacidade e segurança dos dados.
+
+-----
+
+
 
 
 
