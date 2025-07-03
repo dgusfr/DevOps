@@ -1148,7 +1148,7 @@ mkdir volume-docker
 **Criar um Container com Bind Mount**
 
 ```bash
-docker run -it --mount type=bind,source=/home/alura/volume-docker,target=/app ubuntu bash
+docker run -it --mount type=bind,source=home/diego-franco/volume-docker,target=/app ubuntu bash
 ```
 
 * `type=bind`: Define o tipo de montagem como bind mount.
@@ -1179,7 +1179,7 @@ O arquivo `teste_arquivo` estará disponível no diretório `volume-docker` no h
 **Recriar o Container**
 
 ```bash
-docker run -it --mount type=bind,source=/home/alura/volume-docker,target=/app ubuntu bash
+docker run -it --mount type=bind,source=/home/diego-franco/volume-docker,target=/app ubuntu bash
 ```
 
 O arquivo `teste_arquivo` continuará acessível dentro do diretório `/app`.
@@ -1196,6 +1196,8 @@ Embora o bind mount seja simples e eficiente, ele apresenta um ponto fraco: o Do
 ## Volumes
 
 Volumes são o mecanismo de persistência de dados mais recomendado pelo Docker, especialmente para ambientes de produção. Ao contrário dos bind mounts, onde a persistência depende de um diretório do sistema de arquivos do host, os volumes utilizam uma área especial dentro do Docker, proporcionando maior segurança e controle.
+
+![alt text](images/volume.png)
 
 ### Por que usar volumes?
 
