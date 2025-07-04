@@ -83,7 +83,7 @@ networks:
     ```
 3.  **Verificar a instalação:**
     ```bash
-    docker-compose --version
+    docker compose --version
     ```
 
 ##### **5. Comandos Essenciais**
@@ -245,3 +245,144 @@ networks:
     docker compose down
     ```
 
+---
+
+
+## **Gerenciando a Ordem de Inicialização com `depends_on`**
+
+A instrução `depends_on` é usada para definir uma ordem de inicialização entre os serviços. O Docker Compose garantirá que os serviços dependentes só iniciem após suas dependências já terem sido iniciadas.
+
+**Exemplo:**
+No nosso `docker-compose.yml`, garantimos que o `alurabooks` só inicie depois do `mongodb`.
+
+```yaml
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:4.4.6
+    networks:
+      - compose-bridge
+
+  alurabooks:
+    image: aluradocker/alura-books:1.0
+    networks:
+      - compose-bridge
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+
+networks:
+  compose-bridge:
+    driver: bridge
+```
+
+**Atenção: Limitação Importante**
+O `depends_on` aguarda apenas que o **contêiner** do `mongodb` esteja no estado "iniciado". Ele **não espera** que o processo do banco de dados dentro do contêiner esteja pronto para aceitar conexões. Para cenários de produção, são necessárias estratégias mais robustas, como scripts de "wait-for-it" ou "healthchecks".
+
+-----
+
+#### **2. Comandos de Gerenciamento**
+
+Vamos revisitar os comandos essenciais para gerenciar o ciclo de vida da nossa aplicação via Compose.
+
+  * **Iniciar em segundo plano (`detached mode`):**
+    Para iniciar todos os serviços sem prender seu terminal, use a flag `-d`.
+
+    ```bash
+    docker compose up -d
+    ```
+
+  * **Listar os serviços em execução:**
+    Para verificar o status dos contêineres gerenciados pelo Compose no projeto atual.
+
+    ```bash
+    docker compose ps
+    ```
+
+  * **Parar e remover tudo:**
+    Este é o comando correto para encerrar e remover os contêineres, redes e volumes (anônimos) criados pelo Compose.
+
+    ```bash
+    docker compose down
+    ```
+
+-----
+
+#### **3. Persistindo Dados com `volumes`**
+
+Quando executamos `docker-compose down`, os dados dentro do contêiner do MongoDB são perdidos. Para persistir os dados de forma definitiva, usamos **volumes nomeados**.
+
+1.  **Declaramos um volume** no nível raiz do arquivo.
+2.  **Montamos esse volume** no diretório onde o serviço armazena seus dados.
+
+**Exemplo:**
+Vamos modificar nosso `docker compose.yml` para que os dados do MongoDB sobrevivam.
+
+```yaml
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:4.4.6
+    networks:
+      - compose-bridge
+    volumes:
+      # Monta o volume 'dados-mongo' no diretório padrão de dados do MongoDB
+      - dados-mongo:/data/db
+  
+  alurabooks:
+    # ... (restante da configuração do alurabooks) ...
+    image: aluradocker/alura-books:1.0
+    networks:
+      - compose-bridge
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+
+networks:
+  compose-bridge:
+    driver: bridge
+
+# Declara o volume nomeado que será gerenciado pelo Docker
+volumes:
+  dados-mongo:
+```
+
+Agora, mesmo após um `docker compose down` e `docker compose up`, os livros que você inseriu através do endpoint `/seed` continuarão lá.
+
+-----
+
+#### **4. Preparando para Produção: A Seção `deploy`**
+
+O Docker Compose possui uma seção `deploy` que permite definir configurações relacionadas a ambientes de produção, como o número de réplicas de um serviço e políticas de atualização e reinicialização.
+
+**Importante:** Esta seção é ignorada por um simples `docker compose up`. Ela só é utilizada em um ambiente de cluster **Docker Swarm**, através do comando `docker stack deploy`.
+
+**Exemplo de uso em um contexto Swarm:**
+
+```yaml
+version: "3.9"
+
+services:
+  meu-servico-api:
+    image: minha-api:latest
+    deploy:
+      # Garante que sempre haverá 3 instâncias (réplicas) deste serviço rodando
+      replicas: 3
+      # Configura como as atualizações de imagem serão feitas
+      update_config:
+        # Atualiza uma réplica de cada vez
+        parallelism: 1
+        # Espera 10 segundos antes de atualizar a próxima
+        delay: 10s
+      # Política para reiniciar o serviço em caso de falha
+      restart_policy:
+        condition: on-failure
+
+# ... (outras configurações) ...
+```
+
+Este é um tópico avançado que introduz o conceito de **orquestração de contêineres em produção**, que vai além do Docker Compose e entra no território de ferramentas como Docker Swarm e Kubernetes.
