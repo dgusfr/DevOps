@@ -1210,27 +1210,95 @@ O Docker controla todo o ciclo de vida dos volumes, garantindo que os dados seja
 **Recomendado para Produção:**
 Em ambientes onde a integridade dos dados é crítica, volumes são a escolha ideal.
 
+-----
+
 ### Criando e Usando Volumes
 
 **1. Listando Volumes Existentes**
+
+Para ver os volumes que você já tem no Docker, use este comando:
 
 ```bash
 docker volume ls
 ```
 
-Se nenhum volume foi criado, a lista estará vazia.
+Se você nunca criou um volume antes, a lista estará vazia.
+
+-----
 
 **2. Criando um Volume**
+
+Vamos criar um novo volume chamado `novo-volume`:
 
 ```bash
 docker volume create novo-volume
 ```
 
-Verifique novamente com:
+Para confirmar que ele foi criado, liste os volumes novamente:
 
 ```bash
 docker volume ls
 ```
+
+-----
+
+### Onde os arquivos do volume são armazenados?
+
+Os volumes Docker são gerenciados pelo próprio Docker e, por padrão, ficam em um local específico no seu sistema de arquivos.
+
+Primeiro, saia de qualquer contêiner que você esteja usando (se aplicável) com `exit`.
+
+Em seguida, entre como superusuário, pois os diretórios do Docker geralmente exigem permissões de root:
+
+```bash
+sudo su
+```
+
+(Insira sua senha se for solicitado.)
+
+O diretório onde o Docker armazena suas informações, incluindo volumes, é `/var/lib/docker`. Vamos até ele:
+
+```bash
+cd /var/lib/docker/
+```
+
+Se você listar o conteúdo dessa pasta (`ls`), verá vários diretórios como `plugins`, `buildkit`, `image`, `overlay`, e, o que nos interessa, `volumes`. Acesse-o:
+
+```bash
+cd volumes
+```
+
+Dentro de `volumes`, você pode listar o conteúdo (`ls`) e notará o seu `novo-volume` (ou `meu-volume` se você usou esse nome no seu exemplo anterior) lá dentro\! Acesse-o:
+
+```bash
+cd novo-volume
+```
+
+Agora, dê um `ls` novamente. Você provavelmente verá uma pasta chamada `_data`. Essa é a pasta onde os dados reais do seu volume são armazenados. Acesse-a:
+
+```bash
+cd _data
+```
+
+Qualquer arquivo que você colocar neste volume dentro de um contêiner aparecerá aqui. Por exemplo, se você tivesse um `um-arquivo-qualquer` dentro do seu volume, ele estaria aqui.
+
+Então, o caminho completo para os seus arquivos de volume é: `/var/lib/docker/volumes/novo-volume/_data`. É importante notar que este local é **totalmente gerenciado pelo Docker**.
+
+-----
+
+### Gerenciamento de Volumes
+
+O Docker oferece uma interface de linha de comando robusta para gerenciar seus volumes. Se você sair do modo superusuário (com `exit`) e digitar `docker volume` sem nenhum outro argumento, você verá uma lista dos comandos disponíveis para gerenciamento de volumes:
+
+  * `create`: Para criar novos volumes.
+  * `inspect`: Para visualizar detalhes sobre um volume específico.
+  * `ls`: Para listar todos os volumes.
+  * `prune`: Para remover volumes que não estão sendo usados por nenhum contêiner.
+  * `rm`: Para remover um volume específico, mesmo que esteja em uso (use com cautela).
+
+Isso significa que você pode gerenciar seus volumes de forma eficiente através dos comandos do Docker, sem precisar navegar diretamente pelo sistema de arquivos do seu sistema operacional. 
+
+O Docker abstrai e gerencia essa parte para você, garantindo que os volumes estejam sempre nesse diretório dedicado, independentemente de detalhes específicos da sua estrutura de pastas.
 
 **3. Criando um Container com Volume**
 
@@ -1359,205 +1427,116 @@ O TMPFS complementa os volumes e bind mounts como uma opção leve e segura para
 <br>
 
 ---
+---
 
-# Cloud
 
-Para que a aplicação AllBooks funcione de maneira eficiente, segura e escalável, é fundamental compreender a infraestrutura necessária. Isso inclui componentes essenciais como:
+# Docker e Comunicação em Rede
 
-- Hospedagem para o front-end, back-end e banco de dados.
-- Estratégias de rede para garantir o acesso, como DNS.
-- Segurança com firewalls, monitoramento e backups.
-- Práticas de DevOps, como integração contínua e gerenciamento da infraestrutura como código.
+## O Desafio da Comunicação
 
-## Cloud Computing e a AWS
+Aplicações modernas são distribuídas. Um front-end precisa consumir uma API, que por sua vez consulta um banco de dados. Por padrão, contêineres Docker são ambientes isolados. Como garantir que eles se comuniquem de forma segura e eficiente? A resposta está nas redes Docker.
 
-A computação em nuvem, ou cloud computing, é uma solução amplamente adotada para projetos que exigem flexibilidade, escalabilidade e monitoramento. Entre os principais provedores de serviços de nuvem estão:
+## A Rede Padrão: `bridge`
 
-- AWS (Amazon Web Services)
-- Google Cloud
-- Microsoft Azure
+Quando o Docker é instalado, ele cria automaticamente uma rede virtual do tipo `bridge`. Todo contêiner, por padrão, é conectado a essa rede. Pense nela como uma rede local (LAN) privada para seus contêineres, permitindo que eles se comuniquem entre si, ao mesmo tempo que os mantém isolados da rede do host.
 
-No caso do AllBooks, utilizaremos o ambiente da AWS para demonstrar como implementar uma aplicação containerizada na nuvem. O serviço específico que será usado é o **Elastic Beanstalk**, que simplifica o processo de implantação e gerenciamento de aplicações na AWS.
-
-## Criando e Configurando uma Conta AWS
-
-**Criar Conta:**
-
-- Acesse o site da AWS e clique em "Crie uma conta AWS".
-- Forneça informações como e-mail e cartão de crédito (necessário para acesso à cota gratuita e recursos básicos).
-
-**Acesso ao Console:**
-
-- Após o login, acesse o console AWS, onde os serviços estarão listados.
-
-## Usando o Elastic Beanstalk para Implantação
-
-**Acessar o Elastic Beanstalk:**
-
-- No menu "Serviços", busque por Elastic Beanstalk.
-- Clique em "Criar aplicação" para iniciar o processo.
-
-### Etapas de Configuração
-
-**Etapa 1: Configurar o Ambiente**
-
-- Nível do Ambiente: Selecione *Ambiente de Serviço Web* para permitir acesso via web.
-- Informações da Aplicação: Nomeie como `"allbooks"`.
-- Plataforma: Escolha *Docker*, usando a versão recomendada.
-- Mantenha a opção *instância única* para cota gratuita.
-
-**Etapa 2: Configurar o Acesso ao Serviço**
-
-- Escolha um perfil de serviço existente, como `Permission_elastic_beanstalk`.
-- Verifique as permissões de criação de instâncias e outras configurações associadas ao IAM.
-
-**Etapa 3: Definir Redes e Sub-redes**
-
-- Configure a VPC (Virtual Private Cloud) padrão e habilite endereços IP públicos.
-- Escolha as sub-redes: `us-east-2a`, `us-east-2b`, `us-east-2c`.
-
-**Etapa 4: Configurar Tráfego e Escalabilidade**
-
-- Defina os grupos de segurança do EC2. Por exemplo, crie um grupo `devops4` com:
-  - Regras de entrada: Permita tráfego TCP de `0.0.0.0/0`.
-  - Regras de saída: Permita todo o tráfego.
-- Escolha uma instância compatível com a cota gratuita, como `t3.micro`.
-
-**Etapa 5: Configurar Monitoramento e Logs**
-
-- Mantenha as configurações padrão de monitoramento e relatórios de integridade.
-- Escolha o Nginx como servidor de proxy.
-
-**Etapa 6: Revisão Final**
-
-- Revise todas as configurações, como nome da aplicação, perfis de serviço, sub-redes e IP público.
-- Clique em **Enviar** para criar o ambiente.
-
-## Ajustando a Imagem Docker e Subindo na AWS
-
-### Expondo a Porta do Contêiner
-
-Navegue até o diretório do projeto:
+Para listar as redes Docker disponíveis em sua máquina, use:
 
 ```bash
-cd ./curso-react-alurabooks/
-````
-
-Abra o arquivo `Dockerfile`:
-
-```bash
-nano Dockerfile
+docker network ls
 ```
 
-Insira a linha abaixo entre o `RUN npm install` e o `COPY`:
+Você verá as redes padrão: `bridge`, `host` e `none`. Focaremos na `bridge`.
 
-```dockerfile
-EXPOSE 3000
-```
+-----
 
-Salve e feche o arquivo (`Ctrl + X`, depois `Y` e `Enter`).
+## Experimento Prático: Comunicação via IP
 
-### Gerando um Novo Build da Imagem
+Vamos provar que dois contêineres na mesma rede `bridge` podem se comunicar usando seus endereços IP.
 
-```bash
-docker build -t lcsrm/allbooks:1.2 .
-```
+### 3.1. Preparando o Ambiente
 
-* `-t`: Nomeia e versiona a imagem.
-* `lcsrm/allbooks:1.2`: Nome da imagem e versão.
-* O ponto (`.`) indica o diretório atual.
+1.  **Inicie o primeiro contêiner (C1):**
 
-### Atualizando a Imagem no Docker Hub
+    ```bash
+    docker run -it -d --name c1 ubuntu bash
+    ```
 
-```bash
-docker push lcsrm/allbooks:1.2
-```
+      * `-d`: Executa o contêiner em modo "detached" (em segundo plano).
+      * `--name c1`: Nomeia o contêiner como `c1` para facilitar a referência.
 
-O Docker enviará as camadas da imagem para o repositório.
+2.  **Inicie o segundo contêiner (C2):**
 
-## Criando o Arquivo Dockerrun.aws.json
+    ```bash
+    docker run -it -d --name c2 ubuntu bash
+    ```
 
-O arquivo `Dockerrun.aws.json` informa ao Elastic Beanstalk qual imagem usar.
+### 3.2. Obtendo os Endereços IP
 
-Crie o arquivo:
+Cada contêiner na rede `bridge` recebe um endereço IP único. Use o comando `docker inspect` para descobri-los.
 
-```bash
-nano Dockerrun.aws.json
-```
+1.  **Obtenha o IP do C1:**
 
-Conteúdo:
+    ```bash
+    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c1
+    ```
 
-```json
-{
-  "AWSEBDockerrunVersion": "1",
-  "Image": {
-    "Name": "lcsrm/allbooks:1.2",
-    "Update": "true"
-  },
-  "Ports": [
-    {
-      "ContainerPort": 3000
-    }
-  ]
-}
-```
+2.  **Obtenha o IP do C2:**
 
-Salve e feche o arquivo.
+    ```bash
+    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c2
+    ```
 
-## Verificando no Docker Hub
+Anote os endereços IP retornados.
 
-* Acesse o [Docker Hub](https://hub.docker.com).
-* Pesquise por `lcsrm/allbooks` e verifique a presença da tag `1.2`.
+### 3.3. Testando a Conexão com `ping`
 
-## Próximo Passo
+Agora, vamos acessar o primeiro contêiner (`c1`) e tentar "pingar" o segundo (`c2`) usando seu endereço IP.
 
-Com o `Dockerrun.aws.json` criado e a imagem publicada, o ambiente está pronto para ser implantado no Elastic Beanstalk.
+1.  **Acesse o terminal do `c1`:**
 
-## Subindo a Aplicação na Nuvem
+    ```bash
+    docker exec -it c1 bash
+    ```
 
-### Passo 1: Fazer Upload e Implantar
+2.  Dentro do contêiner, **instale as ferramentas de rede** (o `ping` não vem por padrão na imagem mínima do Ubuntu):
 
-* Acesse o Elastic Beanstalk na AWS.
-* Clique no botão **Fazer Upload e Implantar**.
-* Escolha o arquivo `Dockerrun.aws.json`.
-* Confirme o nome da versão (ex: `allbooks-version-1`).
-* Clique em **Implantar**.
+    ```bash
+    apt-get update && apt-get install -y iputils-ping
+    ```
 
-### Passo 2: Acompanhar o Processo de Implantação
+3.  **Execute o `ping`** para o endereço IP do `c2` (substitua `<IP_DO_CONTAINER_2>` pelo IP que você anotou):
 
-* Acompanhe os logs e eventos para verificar o progresso.
-* Se necessário, clique em **Ações** para:
+    ```bash
+    ping <IP_DO_CONTAINER_2>
+    ```
 
-  * Reconstruir o ambiente.
-  * Encerrar o ambiente (para evitar custos).
+Você verá pacotes sendo enviados e recebidos, confirmando a comunicação. Para sair do `ping`, pressione `Ctrl+C`. Para sair do contêiner, digite `exit`.
 
-### Passo 3: Testar a Aplicação
+-----
 
-Após a implantação, será exibido um link de acesso como:
+### 4. Limitações da Comunicação via IP
 
-```
-http://teste-env.eba-5whbwxbp.us-east-2.elasticbeanstalk.com
-```
+Embora funcional, usar o endereço IP diretamente é uma má prática em ambientes dinâmicos por duas razões principais:
 
-* Acesse o link no navegador.
-* Verifique se a aplicação AllBooks está funcionando e exibindo os livros corretamente.
+  * **Instabilidade:** O endereço IP de um contêiner **não é garantido**. Se você reiniciar ou recriar um contêiner, ele provavelmente receberá um novo IP, quebrando a comunicação.
+  * **Manutenção Difícil:** Configurar aplicações para apontar para IPs fixos torna o sistema frágil e difícil de manter. Qualquer mudança na infraestrutura exige reconfiguração manual.
 
-## Reflexão e Próximos Passos
+**Conclusão:** A comunicação via IP na rede `bridge` padrão serve para demonstrar a conectividade, mas não é uma solução para produção. No próximo capítulo, veremos a forma correta de gerenciar a comunicação: **redes customizadas e a descoberta de serviços (service discovery) baseada em nomes**.
 
-A aplicação AllBooks agora está containerizada e funcionando na nuvem, acessível via web.
-
-### Conceitos Avançados a Explorar
-
-* **Docker Compose**:
-  Facilita o gerenciamento de múltiplos containers (front-end, back-end, banco de dados), evitando comandos manuais.
-
-* **Kubernetes**:
-  Plataforma para orquestração de containers em larga escala, oferecendo alta disponibilidade e escalabilidade.
 
 
 [🔝 Voltar ao topo](#sumário-interativo)
 
 ---
+
+<br>
+<br>
+<br>
+
+---
+
+
 
 
 
