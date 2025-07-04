@@ -39,6 +39,15 @@
     - [5.3. Associando Contêineres à Rede Personalizada](#53-associando-contêineres-à-rede-personalizada)
   - [Exemplo Prático: Comunicação via Nome](#6-exemplo-prático-comunicação-via-nome)
   - [Resolução Automática de DNS](#7-resolução-automática-de-dns)
+- [Conectando uma Aplicação a um Banco de Dados](#conectando-uma-aplicação-a-um-banco-de-dados)
+  - [Cenário e Preparação do Ambiente](#cenário-e-preparação-do-ambiente)
+  - [Configurando a Rede e os Contêineres](#configurando-a-rede-e-os-contêineres)
+    - [2.1. Criando a Rede Bridge](#21-criando-a-rede-bridge)
+    - [2.2. Executando o Contêiner do Banco de Dados (MongoDB)](#22-executando-o-contêiner-do-banco-de-dados-mongodb)
+    - [2.3. Executando o Contêiner da Aplicação (alura-books)](#23-executando-o-contêiner-da-aplicação-alura-books)
+  - [Testando a Comunicação](#3-testando-a-comunicação)
+  - [Simulação de Falha e Recuperação](#4-simulação-de-falha-e-recuperação)
+  - [Limitações da Abordagem Manual e Próximos Passos](#5-limitações-da-abordagem-manual-e-próximos-passos)
 
 
 ---
@@ -1794,6 +1803,8 @@ Com ambos os contêineres em execução, a aplicação `alurabooks` consegue enc
 2.  **Povoando o banco de dados:** Para inserir dados iniciais, acesse o endpoint `/seed` no navegador:
     `http://localhost:3000/seed`
 3.  **Verifique os dados:** Volte para `http://localhost:3000` e atualize a página. Os livros agora devem aparecer, confirmando que a aplicação se comunicou com o banco, gravou e leu os dados.
+
+![alt text](images/test_comun.png)
 
 -----
 
