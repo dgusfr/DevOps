@@ -25,13 +25,14 @@
   - [Bind Mount](#bind-mount)
   - [Volumes](#volumes)
   - [TMPFS](#tmpfs)
-- [Cloud](#cloud)
-  - [Cloud Computing e a AWS](#cloud-computing-e-a-aws)
-  - [Usando o Elastic Beanstalk para Implantação](#usando-o-elastic-beanstalk-para-implantação)
-  - [Ajustando a Imagem Docker e Subindo na AWS](#ajustando-a-imagem-docker-e-subindo-na-aws)
-  - [Subindo a Aplicação na Nuvem](#subindo-a-aplicação-na-nuvem)
-
-
+- [Docker e Comunicação em Rede](#docker-e-comunicação-em-rede)
+  - [O Desafio da Comunicação](#o-desafio-da-comunicação)
+  - [A Rede Padrão: `bridge`](#a-rede-padrão-bridge)
+  - [Experimento Prático: Comunicação via IP](#experimento-prático-comunicação-via-ip)
+    - [Preparando o Ambiente](#31-preparando-o-ambiente)
+    - [Obtendo os Endereços IP](#32-obtendo-os-endereços-ip)
+    - [Testando a Conexão com `ping`](#33-testando-a-conexão-com-ping)
+  - [Limitações da Comunicação via IP](#limitações-da-comunicação-via-ip)
 
 
 ---
@@ -1522,7 +1523,7 @@ Embora funcional, usar o endereço IP diretamente é uma má prática em ambient
   * **Instabilidade:** O endereço IP de um contêiner **não é garantido**. Se você reiniciar ou recriar um contêiner, ele provavelmente receberá um novo IP, quebrando a comunicação.
   * **Manutenção Difícil:** Configurar aplicações para apontar para IPs fixos torna o sistema frágil e difícil de manter. Qualquer mudança na infraestrutura exige reconfiguração manual.
 
-**Conclusão:** A comunicação via IP na rede `bridge` padrão serve para demonstrar a conectividade, mas não é uma solução para produção. No próximo capítulo, veremos a forma correta de gerenciar a comunicação: **redes customizadas e a descoberta de serviços (service discovery) baseada em nomes**.
+**Conclusão:** A comunicação via IP na rede `bridge` padrão serve para demonstrar a conectividade, mas não é uma solução para produção. 
 
 
 
