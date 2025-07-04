@@ -29,10 +29,16 @@
   - [O Desafio da Comunicação](#o-desafio-da-comunicação)
   - [A Rede Padrão: `bridge`](#a-rede-padrão-bridge)
   - [Experimento Prático: Comunicação via IP](#experimento-prático-comunicação-via-ip)
-    - [Preparando o Ambiente](#31-preparando-o-ambiente)
-    - [Obtendo os Endereços IP](#32-obtendo-os-endereços-ip)
-    - [Testando a Conexão com `ping`](#33-testando-a-conexão-com-ping)
+    - [3.1. Preparando o Ambiente](#31-preparando-o-ambiente)
+    - [3.2. Obtendo os Endereços IP](#32-obtendo-os-endereços-ip)
+    - [3.3. Testando a Conexão com `ping`](#33-testando-a-conexão-com-ping)
   - [Limitações da Comunicação via IP](#limitações-da-comunicação-via-ip)
+  - [A Solução: Redes Definidas pelo Usuário e DNS](#5-a-solução-redes-definidas-pelo-usuário-e-dns)
+    - [5.1. Definindo o Nome de um Contêiner](#51-definindo-o-nome-de-um-contêiner)
+    - [5.2. Criando uma Rede `bridge` Personalizada](#52-criando-uma-rede-bridge-personalizada)
+    - [5.3. Associando Contêineres à Rede Personalizada](#53-associando-contêineres-à-rede-personalizada)
+  - [Exemplo Prático: Comunicação via Nome](#6-exemplo-prático-comunicação-via-nome)
+  - [Resolução Automática de DNS](#7-resolução-automática-de-dns)
 
 
 ---
@@ -1525,7 +1531,191 @@ Embora funcional, usar o endereço IP diretamente é uma má prática em ambient
 
 **Conclusão:** A comunicação via IP na rede `bridge` padrão serve para demonstrar a conectividade, mas não é uma solução para produção. 
 
+Entendido. Dando continuidade ao capítulo anterior, aqui está o restante do conteúdo, com a numeração e formatação ajustadas para o estilo direto da apostila.
 
+-----
+
+### 5. A Solução: Redes Definidas pelo Usuário e DNS
+
+Vimos que usar IPs para a comunicação entre contêineres é frágil. A solução robusta do Docker é usar **redes personalizadas**, que habilitam um sistema de DNS interno. Isso permite que os contêineres se encontrem usando seus **nomes**, um identificador estável e previsível.
+
+#### **5.1. Definindo o Nome de um Contêiner**
+
+O primeiro passo é dar um nome fixo a um contêiner no momento de sua criação usando a flag `--name`.
+
+**Exemplo:**
+
+```bash
+docker run -it --name ubuntu1 ubuntu bash
+```
+
+Neste caso, o contêiner recebe o nome `ubuntu1`, que servirá como seu "hostname" dentro de uma rede personalizada.
+
+#### **5.2. Criando uma Rede `bridge` Personalizada**
+
+A rede `bridge` padrão do Docker não possui o DNS interno habilitado. Para isso, precisamos criar nossa própria rede.
+
+**Comando:**
+
+```bash
+docker network create --driver bridge minha-bridge
+```
+
+Este comando cria uma nova rede chamada `minha-bridge`. Contêineres conectados a esta rede poderão se comunicar pelo nome.
+
+#### **5.3. Associando Contêineres à Rede Personalizada**
+
+Ao iniciar um contêiner, utilize a flag `--network` para conectá-lo à rede que você criou.
+
+**Exemplo:**
+
+```bash
+docker run -it -d --name ubuntu1 --network minha-bridge ubuntu bash
+```
+
+  * O contêiner `ubuntu1` é criado e imediatamente associado à rede `minha-bridge`.
+  * `-d`: executa o contêiner em segundo plano.
+
+Para verificar se o contêiner está na rede correta, use o comando `inspect`:
+
+```bash
+docker inspect ubuntu1
+```
+
+Na seção "Networks" da saída JSON, você confirmará que ele está conectado à `minha-bridge`.
+
+-----
+
+### 6. Exemplo Prático: Comunicação via Nome
+
+Vamos testar o sistema de resolução de nomes na prática. Criaremos dois contêineres na mesma rede personalizada e faremos um "pingar" o outro pelo nome.
+
+1.  **Crie a rede (caso ainda não tenha criado):**
+
+    ```bash
+    docker network create minha-bridge
+    ```
+
+2.  **Crie o primeiro contêiner ("pingador"):**
+
+    ```bash
+    docker run -it -d --name ubuntu1 --network minha-bridge ubuntu bash
+    ```
+
+3.  **Crie o segundo contêiner ("alvo"):**
+
+    ```bash
+    docker run -d --name pong --network minha-bridge ubuntu sleep 1d
+    ```
+
+      * `sleep 1d`: É um comando simples para manter o contêiner `pong` em execução por 1 dia sem consumir recursos.
+
+4.  **Acesse o contêiner `ubuntu1` e instale o `ping`:**
+
+    ```bash
+    docker exec -it ubuntu1 bash
+    ```
+
+    Dentro do contêiner, execute:
+
+    ```bash
+    apt-get update && apt-get install -y iputils-ping
+    ```
+
+5.  **Teste a comunicação usando o nome do contêiner:**
+    Ainda dentro do `ubuntu1`, execute:
+
+    ```bash
+    ping pong
+    ```
+
+**Resultado:** O ping funcionará. O Docker resolveu o nome `pong` para o endereço IP interno correto do contêiner alvo, de forma automática.
+
+-----
+
+### 7. Resolução Automática de DNS
+
+Este recurso é o pilar da comunicação entre contêineres em arquiteturas de microsserviços.
+
+  * **Redes Definidas pelo Usuário (User-Defined Networks):** Qualquer rede `bridge` que você cria (`docker network create`) habilita automaticamente a resolução de DNS entre os contêineres conectados a ela.
+  * **Como funciona:** O Docker mantém um mapeamento interno do nome de cada contêiner para seu respectivo endereço IP naquela rede. Quando um contêiner tenta se conectar a outro pelo nome, o Docker intercepta a requisição e a direciona para o IP correto.
+
+
+---
+
+Com certeza. Aqui está o conteúdo organizado como um novo capítulo da apostila, mantendo o estilo direto e a formatação correta.
+
+-----
+
+### Redes Especiais: `none` e `host`
+
+Além das redes `bridge`, o Docker oferece modos de rede especiais para casos de uso específicos. Nesta seção, exploraremos os modos `none` (sem rede) e `host` (rede compartilhada com o hospedeiro).
+
+-----
+
+#### **1. A Rede `none`**
+
+  * **Driver:** `null`
+  * **Funcionamento:** Isola completamente o contêiner da rede. Ao ser associado à rede `none`, o contêiner não recebe uma interface de rede, não ganha um endereço IP e não pode se comunicar com o mundo externo, nem com outros contêineres.
+
+##### **Exemplo Prático:**
+
+1.  **Execute um contêiner na rede `none`:**
+
+    ```bash
+    docker run -d --name sem-rede --network none ubuntu sleep 1d
+    ```
+
+    Este comando cria um contêiner chamado `sem-rede`, que ficará em execução por um dia, totalmente desconectado da rede.
+
+2.  **Verificação:**
+    Inspecione o contêiner para confirmar a ausência de configurações de rede.
+
+    ```bash
+    docker inspect sem-rede
+    ```
+
+    Na seção `NetworkSettings`, você verá que ele está associado à rede `none` e não possui um endereço IP.
+
+##### **Impacto e Casos de Uso:**
+
+O contêiner fica em uma "bolha", completamente isolado. É útil para tarefas que não exigem rede, como processamento de dados em lote (onde os dados já estão dentro do contêiner) ou para testes de segurança que exigem um ambiente hermeticamente fechado.
+
+-----
+
+#### **2. A Rede `host`**
+
+  * **Driver:** `host`
+  * **Funcionamento:** Remove o isolamento de rede entre o contêiner e a máquina hospedeira (host). O contêiner passa a compartilhar a interface de rede do host diretamente. Na prática, qualquer porta que a aplicação dentro do contêiner abrir estará aberta diretamente no host.
+
+##### **Exemplo Prático:**
+
+1.  **Execute um contêiner na rede `host`:**
+    Certifique-se de que a porta `3000` não esteja em uso em sua máquina.
+
+    ```bash
+    docker run -d --name app-host --network host aluradocker/app-node:1.0
+    ```
+
+      * **Atenção:** Note que **não** usamos a flag `-p`. O mapeamento de portas é desnecessário, pois o contêiner usa a rede do host diretamente.
+
+2.  **Acesso à Aplicação:**
+    A aplicação `app-node` (versão 1.0) roda na porta `3000`. Como o contêiner está na rede do host, você pode acessá-la diretamente no seu navegador:
+    `http://localhost:3000`
+
+##### **Observações Importantes:**
+
+  * **Conflito de Portas:** O principal risco é o conflito de portas. Se outra aplicação (em contêiner ou não) já estiver usando a porta `3000` no host, o contêiner falhará ao iniciar.
+  * **Segurança:** Este modo de rede reduz o isolamento, que é uma das principais vantagens dos contêineres. O contêiner tem acesso direto à interface de rede do host, o que pode representar um risco de segurança se a aplicação no contêiner for comprometida. É recomendado para cenários onde o desempenho da rede é extremamente crítico e o risco de segurança é controlado.
+
+-----
+
+#### **3. Resumo**
+
+| Rede | Funcionamento | Caso de Uso Típico |
+| :--- | :--- | :--- |
+| **`none`** | Isola completamente o contêiner da rede. | Tarefas em lote, processamento de dados offline. |
+| **`host`** | Remove o isolamento, compartilhando a rede do host. | Aplicações que exigem altíssimo desempenho de rede, onde a latência de uma rede `bridge` é um fator limitante. |
 
 [🔝 Voltar ao topo](#sumário-interativo)
 
@@ -1537,9 +1727,119 @@ Embora funcional, usar o endereço IP diretamente é uma má prática em ambient
 
 ---
 
+# Conectando uma Aplicação a um Banco de Dados
 
+Neste capítulo, vamos aplicar os conceitos de rede para simular um cenário real: uma aplicação back-end que se comunica com um banco de dados, ambos rodando em contêineres Docker separados.
 
+-----
 
+## Cenário e Preparação do Ambiente
+
+Nosso objetivo é conectar uma aplicação Node.js (`alura-books`) a um banco de dados (`MongoDB`). A comunicação ocorrerá através de uma rede `bridge` personalizada, usando o nome do contêiner do banco como hostname.
+
+**Pré-requisitos:**
+Primeiro, baixe as imagens Docker necessárias:
+
+```bash
+docker pull mongo:4.4.6
+docker pull aluradocker/alura-books:1.0
+```
+
+*É fundamental usar a versão `4.4.6` do Mongo para garantir a compatibilidade com a aplicação.*
+
+-----
+
+## Configurando a Rede e os Contêineres
+
+### **2.1. Criando a Rede Bridge**
+
+Para que os contêineres possam se comunicar pelo nome, criaremos uma rede personalizada.
+
+```bash
+docker network create --driver bridge minha-bridge
+```
+
+Você pode verificar se a rede foi criada com `docker network ls`.
+
+### **2.2. Executando o Contêiner do Banco de Dados (MongoDB)**
+
+Vamos iniciar o contêiner do MongoDB, conectando-o à nossa rede e dando-lhe um nome específico que a aplicação espera.
+
+```bash
+docker run -d --network minha-bridge --name meu-mongo mongo:4.4.6
+```
+
+  * `-d`: Executa em modo detached (segundo plano).
+  * `--network minha-bridge`: Conecta o contêiner à nossa rede.
+  * `--name meu-mongo`: **Ponto crítico.** A aplicação `alura-books` está codificada para procurar o banco de dados no hostname `meu-mongo`.
+
+### **2.3. Executando o Contêiner da Aplicação (alura-books)**
+
+Agora, vamos executar a aplicação, conectando-a na mesma rede e expondo sua porta para que possamos acessá-la do nosso navegador.
+
+```bash
+docker run -d --network minha-bridge --name alurabooks -p 3000:3000 aluradocker/alura-books:1.0
+```
+
+  * `--network minha-bridge`: Conecta a aplicação à mesma rede do banco de dados.
+  * `-p 3000:3000`: Mapeia a porta 3000 do contêiner para a porta 3000 da nossa máquina (host), permitindo o acesso externo.
+
+-----
+
+### 3. Testando a Comunicação
+
+Com ambos os contêineres em execução, a aplicação `alurabooks` consegue encontrar e se comunicar com o `meu-mongo` através da rede `minha-bridge`.
+
+1.  **Acesse a aplicação:** Abra seu navegador e vá para `http://localhost:3000`. A página deve carregar, mas sem dados.
+2.  **Povoando o banco de dados:** Para inserir dados iniciais, acesse o endpoint `/seed` no navegador:
+    `http://localhost:3000/seed`
+3.  **Verifique os dados:** Volte para `http://localhost:3000` e atualize a página. Os livros agora devem aparecer, confirmando que a aplicação se comunicou com o banco, gravou e leu os dados.
+
+-----
+
+### 4. Simulação de Falha e Recuperação
+
+Para provar a dependência entre os serviços, vamos parar o contêiner do banco de dados.
+
+1.  **Pare o MongoDB:**
+
+    ```bash
+    docker stop meu-mongo
+    ```
+
+2.  **Teste a aplicação:** Atualize a página no navegador. A aplicação irá falhar ou exibir uma tela de erro, pois não consegue mais se conectar ao banco.
+
+3.  **Restaure o serviço:**
+
+    ```bash
+    docker start meu-mongo
+    ```
+
+4.  **Verifique novamente:** Atualize o navegador. A conexão é restaurada e os dados voltam a ser exibidos (pois os dados no volume do Mongo foram preservados).
+
+-----
+
+### 5. Limitações da Abordagem Manual e Próximos Passos
+
+Conseguimos criar um ambiente funcional, mas o processo foi inteiramente manual. Isso levanta questões críticas para um ambiente de produção:
+
+  * A inicialização manual é propensa a erros e não é escalável.
+  * Como garantir que o banco de dados inicie sempre *antes* da aplicação?
+  * Como gerenciar dezenas ou centenas de serviços interconectados?
+
+A resposta para essas perguntas está na **orquestração de contêineres**. 
+
+A abordagem manual não é viável para produção. Ferramentas como o **Docker Compose** foram criadas para resolver exatamente esses problemas, permitindo definir e gerenciar aplicações multi-contêiner de forma declarativa e automatizada. Este será o foco dos nossos próximos capítulos.
+
+[🔝 Voltar ao topo](#sumário-interativo)
+
+---
+
+<br>
+<br>
+<br>
+
+---
 
 
 
