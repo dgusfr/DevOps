@@ -86,19 +86,6 @@ Esse processo envolve transições entre diferentes ambientes (desenvolvimento, 
 
 ---
 
-## Desafios na Transição Entre Ambientes
-
-O principal desafio na transição entre ambientes é a **inconsistência causada por diferenças em**:
-
-- Versões de bibliotecas.
-- Configurações do sistema.
-- Sistemas operacionais.
-
-Um software pode funcionar no ambiente de desenvolvimento, mas falhar no de produção devido a essas diferenças.  
-É essencial garantir que o ambiente seja **reproduzível e consistente** em todas as fases do ciclo de vida do software.
-
----
-
 ## Solução com Contêineres
 
 Os contêineres encapsulam o software e suas dependências, garantindo que ele funcione da mesma forma em qualquer ambiente. Eles fornecem:
@@ -108,6 +95,53 @@ Os contêineres encapsulam o software e suas dependências, garantindo que ele f
 - **Reprodutibilidade**: Asseguram que a aplicação tenha o mesmo comportamento em desenvolvimento, teste e produção.
 
 ---
+
+
+
+## Camadas Docker: Como Sua Imagem é Feita
+
+O Docker é construído em **camadas**, que são criadas quando você executa o `docker build` da sua imagem. Pense nisso como um bolo em fatias.
+
+Cada instrução no seu **Dockerfile** (como `FROM`, `RUN`, `COPY`) gera uma nova camada. Essas camadas são como "fatias" que, juntas, formam a imagem final do seu aplicativo.
+
+A grande sacada é que, se você mudar apenas uma dessas camadas, o Docker é inteligente: ele **reaproveita as outras camadas** que não foram alteradas na hora de construir sua imagem novamente. Isso é o que chamamos de **cache**. O **cache** funciona como uma memória rápida, guardando as partes da imagem que já estão prontas. Assim, o processo de construção se torna muito mais rápido e você economiza espaço em disco, já que o Docker não precisa refazer tudo do zero.
+
+---
+
+## As Raízes Linux do Docker: cgroups e Namespaces
+
+Esse conceito de camadas e o funcionamento do Docker vêm de tecnologias fundamentais do **Linux**, mais precisamente dos **cgroups** e **namespaces**. Vamos entender de forma simples o que eles são e como funcionam:
+
+### Namespaces: As "Bolhas" de Isolamento
+
+Isolam diferentes aspectos dos contêineres:
+
+- **PID**: Isolamento dos processos.
+- **NET**: Isolamento de redes e interfaces.
+- **IPC**: Isolamento da comunicação entre processos.
+- **MNT**: Isolamento do sistema de arquivos.
+- **UTS**: Permite que o contêiner tenha seu próprio nome de host.
+
+Essa capacidade de criar ambientes isolados é o que faz os **containers Docker** parecerem mini-computadores independentes.
+
+---
+
+### cgroups: O "Gerente" de Recursos
+
+São como um "gerente de recursos" que controlam o uso de recursos (CPU, memória, I/O) de cada contêiner.
+
+Com os cgroups, você pode dizer, por exemplo:
+
+* "Este aplicativo só pode usar **50% da CPU**."
+* "Ele só pode usar **1 GB de memória RAM**."
+
+---
+
+### A Relação com o Docker
+
+O **Docker** usa os **namespaces** para criar o **isolamento** que faz cada container ser um ambiente independente. E ele usa os **cgroups** para **limitar** os recursos (CPU, memória, etc.) que cada um desses containers pode usar.
+
+Em resumo, o Docker se apoia nessas tecnologias nativas do Linux para empacotar seus aplicativos de forma eficiente e segura, garantindo que eles funcionem de maneira consistente e sem interferir uns nos outros ou no sistema operacional.
 
 ## Diferenças Entre Máquinas Virtuais e Contêineres
 
@@ -126,32 +160,6 @@ Os contêineres encapsulam o software e suas dependências, garantindo que ele f
 ### Comparação Estrutural:
 
 ![comparacao-container-vm](images/comparacao-container-vm.png)
-
----
-
-## Mecanismos de Isolamento dos Contêineres
-
-Os contêineres utilizam **namespaces** e **cgroups** para isolar processos e gerenciar recursos.
-
-### Namespaces
-
-Isolam diferentes aspectos dos contêineres:
-
-- **PID**: Isolamento dos processos.
-- **NET**: Isolamento de redes e interfaces.
-- **IPC**: Isolamento da comunicação entre processos.
-- **MNT**: Isolamento do sistema de arquivos.
-- **UTS**: Permite que o contêiner tenha seu próprio nome de host.
-
-### Cgroups
-
-Controlam o uso de recursos (CPU, memória, I/O) de cada contêiner.
-
-Esses mecanismos permitem que os contêineres funcionem como **processos isolados dentro de uma máquina**, proporcionando **segurança e eficiência**.
-
----
-
-Aqui está o conteúdo convertido para **Markdown**, seguindo o padrão da sua apostila:
 
 ---
 
