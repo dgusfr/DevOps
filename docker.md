@@ -104,7 +104,9 @@ O Docker é construído em **camadas**, que são criadas quando você executa o 
 
 Cada instrução no seu **Dockerfile** (como `FROM`, `RUN`, `COPY`) gera uma nova camada. Essas camadas são como "fatias" que, juntas, formam a imagem final do seu aplicativo.
 
-A grande sacada é que, se você mudar apenas uma dessas camadas, o Docker é inteligente: ele **reaproveita as outras camadas** que não foram alteradas na hora de construir sua imagem novamente. Isso é o que chamamos de **cache**. O **cache** funciona como uma memória rápida, guardando as partes da imagem que já estão prontas. Assim, o processo de construção se torna muito mais rápido e você economiza espaço em disco, já que o Docker não precisa refazer tudo do zero.
+A grande sacada é que, se você mudar apenas uma dessas camadas, o Docker é inteligente: ele **reaproveita as outras camadas** que não foram alteradas na hora de construir sua imagem novamente. Isso é o que chamamos de **cache**. 
+
+O **cache** funciona como uma memória rápida, guardando as partes da imagem que já estão prontas. Assim, o processo de construção se torna muito mais rápido e você economiza espaço em disco, já que o Docker não precisa refazer tudo do zero.
 
 ---
 
