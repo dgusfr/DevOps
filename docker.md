@@ -70,22 +70,6 @@ O **Docker** é uma plataforma que utiliza contêineres para facilitar o desenvo
 
 ---
 
-## O Processo de Desenvolvimento
-
-O desenvolvimento de software segue um fluxo típico:
-
-- **Identificação de Necessidades**: Definição dos requisitos funcionais e não funcionais da aplicação.
-- **Especificação Técnica**: Documentação detalhada do que será desenvolvido.
-- **Documentação e Desenvolvimento**: Implementação das funcionalidades seguindo as especificações.
-- **Testes e Revisão**: Validação das funcionalidades para garantir qualidade.
-- **Homologação e Produção**: Publicação da solução para que os usuários possam acessá-la.
-
-![fluxo-processo-desenvolvimento](images/fluxo-processo-desenvolvimento.png)
-
-Esse processo envolve transições entre diferentes ambientes (desenvolvimento, teste e produção), onde dependências e bibliotecas podem variar, gerando problemas de compatibilidade.
-
----
-
 ## Solução com Contêineres
 
 Os contêineres encapsulam o software e suas dependências, garantindo que ele funcione da mesma forma em qualquer ambiente. Eles fornecem:
@@ -189,6 +173,12 @@ Eles não criam uma máquina inteira com seu próprio sistema operacional. Em ve
 
 ---
 
+### Comparação Estrutural:
+
+![comparacao-container-vm](images/comparacao-container-vm.png)
+
+---
+
 ### **Tipos de virtualização**
 
 
@@ -203,14 +193,6 @@ Eles não criam uma máquina inteira com seu próprio sistema operacional. Em ve
 * **VMs** oferecem isolamento completo: cada uma tem seu kernel e sistema próprio.
 * **Containers** isolam o ambiente de execução (processos, rede, sistema de arquivos), mas compartilham o kernel do host.
   Isso traz eficiência e velocidade, mas o isolamento entre containers é mais limitado do que entre VMs.
-
----
-
-
-
-### Comparação Estrutural:
-
-![comparacao-container-vm](images/comparacao-container-vm.png)
 
 ---
 
