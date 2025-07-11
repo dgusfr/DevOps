@@ -66,7 +66,7 @@ Isso resolve problemas comuns de incompatibilidade entre sistemas operacionais, 
 
 O **Docker** é uma plataforma que utiliza contêineres para facilitar o desenvolvimento, implantação e execução de aplicações. Ele simplifica a criação, distribuição e gerenciamento de contêineres, proporcionando agilidade e consistência em todo o ciclo de vida do software.
 
-![ambientes-dev-test-prod](images/ambientes-dev-test-prod.png)
+![docker_flow](images/docker_flow.png)
 
 ---
 
