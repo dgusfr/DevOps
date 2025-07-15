@@ -1,5 +1,23 @@
 # Docker Compose - Orquestrando Contêineres
 
+## Sumário Interativo
+
+- [O Problema: Gestão Manual de Contêineres](#1-o-problema-gestão-manual-de-contêineres)
+- [A Solução: Docker Compose](#2-a-solução-docker-compose)
+- [O Arquivo `docker-compose.yml`](#3-o-arquivo-docker-composeyml)
+- Instalação do Docker Compose
+- Comandos Essenciais
+- Criando `docker-compose.yml`
+  - Preparando o Ambiente
+  - Construindo o `docker-compose.yml` Passo a Passo
+  - Arquivo `docker-compose.yml` Completo
+  - Executando a Aplicação com Docker Compose
+  - Verificando e Parando a Aplicação
+- Gerenciando a Ordem de Inicialização com `depends_on`
+  - Comandos de Gerenciamento
+  - Persistindo Dados com `volumes`
+  - Preparando para Produção: A Seção `deploy`
+
 ## **1. O Problema: Gestão Manual de Contêineres**
 
 Nos capítulos anteriores, subimos nossa aplicação (`Alura Books`) e seu banco de dados (`Mongo`) usando uma série de comandos `docker` manuais. Esta abordagem, embora funcional para dois serviços, torna-se rapidamente inviável e propensa a erros em cenários reais com dezenas de contêineres.
