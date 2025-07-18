@@ -170,7 +170,9 @@ winget install -e --id Kubernetes.kubectl
 ---
 
 
- 3. 
+ 3. **Baixar Config File**
+
+ Precismaos baixar o arquivo de configuração do nosso cluster Kubernets
 
 
 
