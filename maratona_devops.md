@@ -143,8 +143,9 @@ Também é possivel usar o Kubernets Local (On-premisse). Ferramentas:
 
   1. **Criar Cluster na Cloud**
 
-  2. **Instalação**
+  2. **Instalação do Kubectl**
 
+o kubectl é a principal ferramenta de linha de comando para dar ordens e controlar clusters Kubernetes.
 
 #### **No Linux via WSL**
 
@@ -167,6 +168,9 @@ winget install -e --id Kubernetes.kubectl
 ```
 
 ---
+
+
+ 3. 
 
 
 
