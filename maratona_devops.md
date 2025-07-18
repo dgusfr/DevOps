@@ -137,6 +137,7 @@ Também é possivel usar o Kubernets Local (On-premisse). Ferramentas:
   - K3D
   ...
 
+---
 
 ## Iniciando 
 
