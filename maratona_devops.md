@@ -186,10 +186,20 @@ Kubectl get nodes
 
 Anteriormente vimos os componentes do cluster kubernets como **Control Plane** e **Worker Node** agora vamos ver os componentes de deploy no Kubernets.
 
+Lembrando que é preciso entender esses componentes e que ele trabalçham em conjunto, para dar manutenção quando eles pararem.
+
 
 #### **1. Pod**
 
 É o menor objeto do cluster Kubernets, é nele que o nosso container é executado.
+
+O pod tem o seu proprio endereço de rede no seu Cluister Kubernet. Ex: 10.0.1.45
+
+Se tivermos mais de uim container dentro do Pod, podemos usar FileSystem.
+
+Quando queremos escalar nossa aplicação, nos replicamos nossos Pods, 
+
+![alt text](images/pod.png)
 
 #### **2. Replica Set**
 
