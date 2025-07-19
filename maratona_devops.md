@@ -195,7 +195,7 @@ Lembrando que é preciso entender esses componentes e que ele trabalçham em con
 
 O pod tem o seu proprio endereço de rede no seu Cluister Kubernet. Ex: 10.0.1.45
 
-Se tivermos mais de uim container dentro do Pod, podemos usar FileSystem.
+Se tivermos mais de um container dentro do Pod, podemos usar FileSystem.
 
 Quando queremos escalar nossa aplicação, nos replicamos nossos Pods, 
 
