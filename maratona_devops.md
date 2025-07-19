@@ -174,6 +174,11 @@ winget install -e --id Kubernetes.kubectl
 
  Precismaos baixar o arquivo de configuração do nosso cluster Kubernets, para podemros nos comunicar com ele pelo kubectl.
 
+ O arquivo é um **kubeconfig.yml**
+
+ 
+
+
 
 
 
