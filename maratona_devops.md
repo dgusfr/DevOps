@@ -222,6 +222,20 @@ O Controlador mais comum é o:
 
 O replicaSet cria os Podconforme a necessidade.
 
+![alt text](images/replica_set.png)
+
+Agora vamos supor que o nosso repçlica set esta rodando a V1 da nossa aplicação, se alterarmos para a V2 nada irá alterar.
+
+O replicaset **NÃO** faz gestão das versão da nossa aplicação, por isso prewcisamos do **Deployment** que faz o gerenciamento de versoes da nossa aplicção qiue o replicaset esta rodando.
+
+![alt text](deployment_version.png)
+
+Basicamente o Deplyment cria um novo replicaSet para a nova versão da Aplicação, e os Piods da versão V1 será encerrados e novos pods serão criados na versão v2
+
+
+
+
+
 
 
 
