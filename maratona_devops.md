@@ -182,8 +182,16 @@ winget install -e --id Kubernetes.kubectl
 Kubectl get nodes
 ```
 
+5. **Comonentes para Deploy da Aplicação**
+
+Anteriormente vimos os componentes do cluster kubernets como **Control Plane** e **Worker Node** agora vamos ver os componentes de deploy no Kubernets.
 
 
+#### **1. Pod**
+
+É o menor objeto do cluster Kubernets, é nele que o nosso container é executado.
+
+#### **2. Replica Set**
 
 
 
