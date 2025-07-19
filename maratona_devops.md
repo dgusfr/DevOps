@@ -195,11 +195,17 @@ Lembrando que é preciso entender esses componentes e que ele trabalçham em con
 
 O pod tem o seu proprio endereço de rede no seu Cluister Kubernet. Ex: 10.0.1.45
 
-Se tivermos mais de um container dentro do Pod, podemos usar FileSystem.
+Se tivermos mais de um container dentro do Pod, podemos usar FileSystem e o padrão **Side Car** que tem como objetivo garantir a utilização de mais de um container no Pod e execução de tarefas não essenciais em nosso Pod.
+
+![alt text](images/pod.png)
+
+Exemplo: Suponha que tenhamos uma API no nosso Pod, um side Car irá rtodar junto a essa API executando algumas funcionalidades, como coletar logs e metricas e envciando para outra ferramenta externa.
+
+![alt text](images/pod_sidecar.png)
 
 Quando queremos escalar nossa aplicação, nos replicamos nossos Pods, 
 
-![alt text](images/pod.png)
+
 
 #### **2. Replica Set**
 
