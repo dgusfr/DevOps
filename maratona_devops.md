@@ -248,13 +248,67 @@ Kubectl create
 
 Essa forma é mais complexa pois não apresenta uma automação, por isso normalmente usamos a forma declaratiova.
 
- 2. **Deplarativa**
+ 2. **Declarativa**
 
 Nesta forma declaramos ossa componetes que queremos criar e dai o kubernets ver quais são esses componentes e criar para gente.
 
 Essa forma usa um **Arquivo de Manifesto** do Kubernets, com todos os objetos que queremos cirar no Kubernetes.
 
+```yml
+# A versão da API do Kubernetes para Deployments é "apps/v1".
+apiVersion: apps/v1
 
+# O tipo de objeto que queremos criar, neste caso, um "Deployment".
+kind: Deployment
+
+# Metadados sobre o objeto, como seu nome e labels.
+metadata:
+  # O nome do nosso Deployment. Deve ser único dentro do namespace.
+  name: nginx-deployment
+  labels:
+    # Labels são pares chave-valor que podem ser usados para organizar e selecionar objetos.
+    app: nginx
+
+# A especificação (spec) descreve o estado desejado para o Deployment.
+spec:
+  # O número de Pods idênticos que queremos que estejam em execução.
+  replicas: 3
+
+  # O seletor (selector) diz ao Deployment quais Pods ele deve gerenciar.
+  # Deve corresponder às labels definidas no template do Pod (spec.template.metadata.labels).
+  selector:
+    matchLabels:
+      app: nginx
+
+  # O template (modelo) para os Pods que serão criados.
+  template:
+    metadata:
+      # As labels a serem aplicadas a cada Pod criado por este Deployment.
+      # O seletor acima (spec.selector.matchLabels) deve corresponder a estas labels.
+      labels:
+        app: nginx
+    
+    # A especificação do Pod, que descreve os contêineres e outras configurações.
+    spec:
+      containers:
+      # Uma lista de contêineres que serão executados dentro do Pod.
+      - name: nginx-container
+        # A imagem Docker que será usada para criar o contêiner.
+        image: nginx:1.25 
+        # A porta que o contêiner expõe.
+        ports:
+        - containerPort: 80
+        # Definição de recursos. É uma boa prática definir requests e limits.
+        resources:
+          requests:
+            # A quantidade mínima de recursos que o contêiner precisa.
+            memory: "64Mi"   # 64 Megabytes
+            cpu: "250m"      # 0.25 de uma CPU core
+          limits:
+            # A quantidade máxima de recursos que o contêiner pode usar.
+            memory: "128Mi"  # 128 Megabytes
+            cpu: "500m"      # 0.5 de uma CPU core
+```
 
 
 
