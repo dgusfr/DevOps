@@ -232,6 +232,34 @@ O replicaset **NÃO** faz gestão das versão da nossa aplicação, por isso pre
 
 Basicamente o Deplyment cria um novo replicaSet para a nova versão da Aplicação, e os Piods da versão V1 será encerrados e novos pods serão criados na versão v2
 
+---
+
+## Criando Deployment de uma Aplicação
+
+Temos duas formas de trabalhar com o Kubernets, de forma **Deplarativa** e a forma **Imperativa**
+
+ 1. **Imperativa**
+
+Definimos o que ele vai criar executando um comando:
+
+```bash
+Kubectl create
+```
+
+Essa forma é mais complexa pois não apresenta uma automação, por isso normalmente usamos a forma declaratiova.
+
+ 2. **Deplarativa**
+
+Nesta forma declaramos ossa componetes que queremos criar e dai o kubernets ver quais são esses componentes e criar para gente.
+
+Essa forma usa um **Arquivo de Manifesto** do Kubernets, com todos os objetos que queremos cirar no Kubernetes.
+
+
+
+
+
+
+
 
 
 
