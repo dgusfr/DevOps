@@ -258,7 +258,7 @@ Essa forma usa um **Arquivo de Manifesto** do Kubernets, com todos os objetos qu
 # A versão da API do Kubernetes para Deployments é "apps/v1".
 apiVersion: apps/v1
 
-# O tipo de objeto que queremos criar, neste caso, um "Deployment".
+# O tipo de objeto que queremos criar, um "Deployment".
 kind: Deployment
 
 # Metadados sobre o objeto, como seu nome e labels.
