@@ -228,7 +228,8 @@ Agora vamos supor que o nosso repçlica set esta rodando a V1 da nossa aplicaç�
 
 O replicaset **NÃO** faz gestão das versão da nossa aplicação, por isso prewcisamos do **Deployment** que faz o gerenciamento de versoes da nossa aplicção qiue o replicaset esta rodando.
 
-![alt text](deployment_version.png)
+![alt text](images/deployment_version.png)
+
 
 Basicamente o Deplyment cria um novo replicaSet para a nova versão da Aplicação, e os Piods da versão V1 será encerrados e novos pods serão criados na versão v2
 
@@ -310,17 +311,34 @@ spec:
             cpu: "500m"      # 0.5 de uma CPU core
 ```
 
+Para saber qual a versão da nossa aplicação que estamos podemos usar o:
+
+```bash
+kubectl api-version
+```
+
+#### **Como fazemos para nos comunicar entre dois objetos?**
+
+No nosso exemplo de Kube config a cima temos varios elementos chave : valor para cada parametro.
+
+O parametro **labels** é responsavel por 	Identifica o objeto (o Pod), enquanto a tag **selector** encontra esses objetos com base em suas labels e os gerencia.
+
+No selector nos colocamos a chave e valor dos objetos que queremos interagir.  app: nginx
 
 
+![alt text](images/deployment_selector.png)
 
+O comando kubectl apply serve para criar ou atualizar recursos no seu cluster Kubernetes a partir de um arquivo de configuração (.yml).
 
+```bash
+kubectl apply -f deployment.yaml
+```
 
+Como ele funciona na prática:
 
-
-
-
-
-
+  - Se o recurso não existe: Ele o cria.
+  - Se o recurso já existe, mas está diferente do arquivo: Ele o atualiza, aplicando apenas as mudanças necessárias.
+  - Se o recurso já existe e está igual ao arquivo: Ele não faz nada.
 
 
 
