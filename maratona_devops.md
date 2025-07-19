@@ -205,9 +205,20 @@ Exemplo: Suponha que tenhamos uma API no nosso Pod, um side Car irá rtodar junt
 
 Quando queremos escalar nossa aplicação, nos replicamos nossos Pods, 
 
+![alt text](iamges/pod_replica.png)
 
+
+Porque não trabalhamos unicamnete com Pods sendo executados no Kubernets?
+
+Porque os Pods tem como objetivo executar cotainer e não possuem escalabilidade sozinhos, eles não replicam automaticamente e nem possuem resiliencia, ou seja, se o Pod morrer um novo não vai ser criado.
+
+Para termos resiliencia nos Pods precisamos de **Controladores** que irão "dsaber" quando um pod morreu e irão tomar as medidas necessarias que a saplicação continue sendo resiliente e escalavel.
+
+O Controlador mais comum é o:
 
 #### **2. Replica Set**
+
+é um contyrolador que tem como finalidade garantir que a quantidade de replicas definidas (Pods) seja igual a quantidade de replicas em execução.
 
 
 
