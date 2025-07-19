@@ -176,7 +176,17 @@ winget install -e --id Kubernetes.kubectl
 
  O arquivo é um **kubeconfig.yml**
 
- 
+  4.  **Comandos**
+
+```bash
+Kubectl get nodes
+```
+
+
+
+
+
+
 
 
 
