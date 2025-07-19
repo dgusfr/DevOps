@@ -205,7 +205,7 @@ Exemplo: Suponha que tenhamos uma API no nosso Pod, um side Car irá rtodar junt
 
 Quando queremos escalar nossa aplicação, nos replicamos nossos Pods, 
 
-![alt text](iamges/pod_replica.png)
+![alt text](images/pod_replica.png)
 
 
 Porque não trabalhamos unicamnete com Pods sendo executados no Kubernets?
@@ -218,7 +218,9 @@ O Controlador mais comum é o:
 
 #### **2. Replica Set**
 
-é um contyrolador que tem como finalidade garantir que a quantidade de replicas definidas (Pods) seja igual a quantidade de replicas em execução.
+é um contyrolador que tem como finalidade garantir que a quantidade de replicas definidas (Pods) seja igual a quantidade de replicas em execução, garantindo a escalabilidade e resiliencia da aplicação.
+
+O replicaSet cria os Podconforme a necessidade.
 
 
 
