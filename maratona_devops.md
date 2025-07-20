@@ -340,10 +340,28 @@ Como ele funciona na prática:
   - Se o recurso já existe, mas está diferente do arquivo: Ele o atualiza, aplicando apenas as mudanças necessárias.
   - Se o recurso já existe e está igual ao arquivo: Ele não faz nada.
 
+o comando **kubectl get all** é um atalho para listar rapidamente os principais recursos que estão rodando no seu cluster Kubernetes, dentro do namespace atual.
 
+```bash
+# Exibe os Pods criados pelo ReplicaSet do seu Deployment
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/nginx-deployment-66b6c48dd5-abcde   1/1     Running   0          2m30s
+pod/nginx-deployment-66b6c48dd5-fghij   1/1     Running   0          2m30s
+pod/nginx-deployment-66b6c48dd5-klmno   1/1     Running   0          2m30s
 
+# Exibe os Services. O 'kubernetes' é um serviço padrão que sempre existe.
+# Note que seu arquivo YAML não criou um Service para o Nginx.
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   60m
 
+# Exibe o status do seu Deployment
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx-deployment   3/3     3            3           2m30s
 
+# Exibe o ReplicaSet que o seu Deployment criou para gerenciar os Pods
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-deployment-66b6c48dd5   3         3         3       2m30s
+```
 
 
 
