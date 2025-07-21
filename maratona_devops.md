@@ -387,7 +387,7 @@ Tipos principais de Service:
 
   - **LoadBalancer** : Expõe o serviço externamente usando um balanceador de carga do provedor de nuvem. Ele cria um IP público que direciona o tráfego externo para os Pods. É a forma padrão de expor uma aplicação para a internet.
 
-
+![alt text](images/kub_load_balancer.png)
 
 
 
