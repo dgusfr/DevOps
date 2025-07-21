@@ -363,6 +363,28 @@ NAME                                          DESIRED   CURRENT   READY   AGE
 replicaset.apps/nginx-deployment-66b6c48dd5   3         3         3       2m30s
 ```
 
+---
+
+<br>
+
+---
+
+## Comunicação no Cluster com Services
+
+Uma vez que os Pods são **efêmeros** (podem ser destruídos e recriados a qualquer momento), seus endereços IP mudam. Como fazer para que as aplicações se comuniquem de forma estável? A resposta é o objeto Service.
+
+Um Service define um ponto de acesso lógico e estável para um conjunto de Pods.
+
+Tipos principais de Service:
+
+  - **ClusterIP** : Expõe o serviço em um IP interno ao cluster. Esse tipo de serviço só é acessível de dentro do cluster. É ideal para a comunicação entre componentes da mesma aplicação (ex: uma aplicação web se comunicando com seu banco de dados).
+
+![alt text](image-1.png)
+
+  - **LoadBalancer** : Expõe o serviço externamente usando um balanceador de carga do provedor de nuvem. Ele cria um IP público que direciona o tráfego externo para os Pods. É a forma padrão de expor uma aplicação para a internet.
+
+
+![alt text](images/comunica_cluster.png)
 
 
 
