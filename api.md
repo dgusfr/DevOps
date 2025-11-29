@@ -127,16 +127,56 @@ Content-Type: application/json
 
 ---
 
-## GraphQL
+Existem diferentes protocolos de API, cada um com características próprias que influenciam no desempenho, segurança e facilidade de implementação. 
 
-* Criado pelo Facebook.
-* Cliente especifica exatamente quais dados precisa, evitando sobrecarga.
-* Útil para consultas dinâmicas e flexíveis.
+---
 
-## WebSocket
+### **1. REST (Representational State Transfer)** 
 
-* Comunicação bidirecional e em tempo real.
-* Usado em chats, jogos on-line e notificações instantâneas.
+* Baseado no protocolo **HTTP**, é o padrão mais popular atualmente.
+* Utiliza **recursos** identificados por **URLs** e operações baseadas em **métodos HTTP** (GET, POST, PUT, DELETE).
+* É conhecido por ser **simples**, **escalável** e amplamente suportado.
+
+---
+
+### **2. SOAP (Simple Object Access Protocol)** 
+
+* Mais antigo e formal, utiliza **XML** para troca de mensagens.
+* É orientado a **contratos (WSDL)** e conhecido pela **robustez** em ambientes corporativos.
+* Geralmente, apresenta maior **complexidade** em comparação ao REST.
+
+---
+
+### **3. GraphQL**
+
+* Criado pelo Facebook em 2015.
+* Permite ao cliente definir **exatamente quais dados deseja receber**, evitando *overfetching* (trazer dados em excesso) ou *underfetching* (trazer dados insuficientes).
+* É altamente **flexível** para aplicações modernas.
+
+---
+
+### **4. gRPC (Google Remote Procedure Call)** 
+
+* Desenvolvido pelo Google.
+* Utiliza **Protocol Buffers (Protobuf)** para serialização de **dados binários**, garantindo **alta performance** e baixo consumo de rede.
+* Muito usado em arquiteturas de **microsserviços** e comunicação interna de alta velocidade.
+
+---
+
+### **5. WebSockets** ⚡
+
+* Não é um protocolo de API no sentido clássico, mas um padrão para comunicação **bidirecional** e **em tempo real** entre cliente e servidor.
+* Ideal para **chats**, **jogos online** e sistemas de monitoramento que exigem baixa latência.
+
+---
+
+### **🔗 Referências**
+
+* Documentação oficial do **REST**: [https://restfulapi.net](https://restfulapi.net)
+* Guia da W3C sobre **SOAP**: [https://www.w3.org/TR/soap](https://www.w3.org/TR/soap)
+* **GraphQL** oficial: [https://graphql.org](https://graphql.org)
+* **gRPC** oficial: [https://grpc.io](https://grpc.io)
+* **WebSockets** MDN: [https://developer.mozilla.org/docs/Web/API/WebSockets_API](https://developer.mozilla.org/docs/Web/API/WebSockets_API)
 
 ---
 
